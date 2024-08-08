@@ -1,0 +1,130 @@
+@import "../base/mixin.scss";
+@import "../base/variable.scss";
+@import "../helper/base.scss";
+@import "../helper/reset.scss";
+
+// .contact_container {
+//     .above_container {
+//         background: linear-gradient(90deg, #7E81E7 -12.81%, #0F40B2 100%);
+//         float: left;
+//         .inner_parent {
+//             .left_container {
+//                 padding: 136px 0px;
+//                 .head {
+//                     font-family: Inter;
+//                     font-size: 24px;
+//                     font-weight: 700;
+//                     line-height: 52px;
+//                     text-align: left;
+//                     color: white;
+//                 }
+
+//                 .get_in_touch {
+//                     font-family: Inter;
+//                     font-size: 36px;
+//                     font-weight: 700;
+//                     line-height: 52px;
+//                     text-align: left;
+//                     color: white;
+//                     max-width: 507px;
+//                 }
+
+//                 .description {
+//                     font-family: Inter;
+//                     font-size: 16px;
+//                     font-weight: 400;
+//                     line-height: 25.6px;
+//                     text-align: left;
+//                     color: white;
+//                     max-width: 638px;
+//                 }
+
+//             }
+//         }
+//     }
+//     .images{
+//         max-width: 567px;
+//         max-height: 589px;
+//         img{
+//             width: 100%;
+//             height: 100%;
+//             object-fit: contain;
+//         }
+//     }
+// }
+// .contact_container{
+// .above_container{
+//     .left{
+//         background: linear-gradient(90deg, #7E81E7 -12.81%, #0F40B2 100%);
+//         float: left;
+//         max-width: 873px;
+//         .inner_parent{
+//             .header{
+//                 font-family: Inter;
+//                 font-size: 24px;
+//                 font-weight: 700;
+//                 line-height: 52px;
+//                 text-align: left;
+//                 color: white;
+
+//             }
+//             .get_in_touch{
+//                 font-family: Inter;
+//                 font-size: 36px;
+//                 font-weight: 700;
+//                 line-height: 52px;
+//                 text-align: left;
+//                 color: white;
+//                 max-width: 507px;
+
+//             }
+//             .description{
+//                 font-family: Inter;
+//                 font-size: 16px;
+//                 font-weight: 400;
+//                 line-height: 25.6px;
+//                 text-align: left;
+//                 color: white;
+//                 max-width: 638px;
+//             }
+//         }
+
+//     }
+//     .right{
+//         float: right;
+//         max-width: calc(100% - 873px) ;
+//     }
+// }
+// }
+
+.contact_container {
+    .lower_container {
+        .header {
+            .MuiTypography-h4 {
+                font-family: Inter;
+                font-size: 25px;
+                font-weight: 700;
+                // line-height: 52px;
+                text-align: center;
+                color: #1A1A1A;
+            }
+
+            .MuiTypography-h6 {
+                font-family: Inter;
+                font-size: 16px;
+                font-weight: 400;
+                // line-height: 21.78px;
+                text-align: center;
+
+            }
+        }
+
+        .main_content {
+            .images {}
+
+            .details {
+                .input_fields {}
+            }
+        }
+    }
+}
