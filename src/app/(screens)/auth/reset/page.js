@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Logo from '../../../../../public/images/logo.png';
 import { EmailOutlined, LockOutlined, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
-import background from '../../../../../public/images/background_image.png'
+import background from '../../../../../public/images/auth/background_image.png'
 
 export default function Reset(){
     const [showPassword, setshowPassword] = useState(false);
