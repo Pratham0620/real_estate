@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Logo from '../../../../../public/images/logo.png';
 import { EmailOutlined, LockOutlined, Person, Visibility, VisibilityOff } from '@mui/icons-material';
 import Link from 'next/link';
-import background from '../../../../../public/images/background_image.png'
+import background from '../../../../../public/images/auth/background_image.png'
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 

@@ -10,6 +10,14 @@ const theme = createTheme({
             xl: 1536,
         },
     },
+    components: {
+        MuiButtonBase: {
+          defaultProps: {
+            disableRipple:false,
+ // Disable ripple effect for all buttons
+          },
+        },
+      },
   });
   export default function ClientThemeProvider({ children }) {
     return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

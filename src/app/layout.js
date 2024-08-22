@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Cookie, Inter } from "next/font/google";
 import "./globals.css";
 import "../../public/sass/global.scss";
 import "../../public/sass/helper/base.scss";
@@ -13,6 +13,13 @@ import SignIn from "./(screens)/auth/signup/page";
 import Forgotpass from "./(screens)/auth/forgotpassword/page";
 import Reset from "./(screens)/auth/reset/page";
 import Homepage from "./components/homepage";
+import About from "./components/aboutUs";
+import Dummy from "./components/dummy";
+import Blog from "./components/blogs";
+import Fullblog from "./components/fullblog";
+import Term from "./components/terms";
+import Privacy from "./components/privacy";
+import Cookie_policy from "./components/cookie";
 
 const inter = Inter({ subsets: ["latin-ext"] });
 
@@ -27,7 +34,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ClientThemeProvider>
         <Navbar/>
-        {<Homepage/>}
+       {<Cookie_policy/>}
         <Footer/>
         </ClientThemeProvider>
       </body>

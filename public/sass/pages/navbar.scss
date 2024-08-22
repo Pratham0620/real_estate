@@ -11,12 +11,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        // position: fixed;
 
         .left_container {
             .appLogo {
                 width: 118px;
                 height: 32px;
-
                 img {
                     width: 100%;
                     height: 100%;
@@ -34,7 +34,8 @@
                 .list_item {
                     color: #000929;
                     font-size: 14px;
-                    transition: color 0.3s ease;
+                    position: relative;
+                    transition: color 0.3s ease, transform 0.2s ease;
                 }
 
                 :hover {
@@ -43,9 +44,8 @@
 
                 :active {
                     color: blue;
+                    transform: scaleX(1.08);
                 }
-
-
             }
         }
 
@@ -79,7 +79,7 @@
     .responsive_header {
         background-color: white;
         z-index: 99999;
-        position: absolute;
+        position: fixed;
         inset: 0px;
 
         .innerparent {

@@ -5,6 +5,7 @@ import Logo from "../../../public/images/logo.png"
 import { Button, Container, Icon, Grid, item, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { Close, Menu, MoreVert } from "@mui/icons-material";
+import Link from "next/link";
 
 export default function Navbar() {
     const [show, setShow] = useState(false);
@@ -25,12 +26,12 @@ export default function Navbar() {
                             </div>
                             <div className='middle_container'>
                                 <ul className="nav_list">
-                                    <li><a className="list_item" href='#'>Home</a></li>
-                                    <li><a className="list_item" href='#'>Buy</a></li>
-                                    <li><a className="list_item" href='#'>About us</a></li>
-                                    <li><a className="list_item" href='#'>Blogs</a></li>
-                                    <li><a className="list_item" href='#'>Contact us</a></li>
-                                    <li><a className="list_item" href='#'>Liked Properties</a></li>
+                                    <li><Link className="list_item" href='#'>Home</Link></li>
+                                    <li><Link className="list_item" href='#'>Buy</Link></li>
+                                    <li><Link className="list_item" href='#'>About us</Link></li>
+                                    <li><Link className="list_item" href='#'>Blogs</Link></li>
+                                    <li><Link className="list_item" href='#'>Contact us</Link></li>
+                                    <li><Link className="list_item" href='#'>Liked Properties</Link></li>
                                 </ul>
                             </div>
                             <div className="right_container">
@@ -70,12 +71,12 @@ export default function Navbar() {
                                         </div>
                                         <div className="navlist">
                                             <ul>
-                                                <li className="lisItem"><a href="#">Home</a></li>
-                                                <li className="lisItem"><a href="#">Buy</a></li>
-                                                <li className="lisItem"><a href="#">About us</a></li>
-                                                <li className="lisItem"><a href="#">Blogs</a></li>
-                                                <li className="lisItem"><a href="#">Contact us</a></li>
-                                                <li className="lisItem"><a href="#">Liked Properties</a></li>
+                                                <li className="lisItem"><Link href="#">Home</Link></li>
+                                                <li className="lisItem"><Link href="#">Buy</Link></li>
+                                                <li className="lisItem"><Link href="#">About us</Link></li>
+                                                <li className="lisItem"><Link href="#">Blogs</Link></li>
+                                                <li className="lisItem"><Link href="#">Contact us</Link></li>
+                                                <li className="lisItem"><Link href="#">Liked Properties</Link></li>
                                             </ul>
                                         </div>
                                     </div>
