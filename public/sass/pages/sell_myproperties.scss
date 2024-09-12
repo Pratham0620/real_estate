@@ -1,0 +1,116 @@
+@import "../base/mixin.scss";
+@import "../base/variable.scss";
+@import "../helper/base.scss";
+
+.myproperty_container{
+    margin: 40px 0px;
+    .myproperty_parent{
+        clear: both;
+        position: relative;
+        .sidebar{
+            float: left;
+            width: 330px;
+        }
+        .myproperty{
+            float: right;
+            width: calc( 100% - 330px );
+
+            .results {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 18px;
+
+                .text {
+                    display: flex;
+                    align-items: baseline;
+                    gap: 5px;
+
+                    .MuiTypography-h4 {
+                        font-size: 24px;
+                        font-weight: 500;
+                        text-align: left;
+                        color: black;
+
+                    }
+
+                    .MuiTypography-h6 {
+                        font-size: 14px;
+                        font-weight: 400;
+                        text-align: left;
+                        color: rgb(193, 188, 188);
+                    }
+
+                }
+            }
+
+            .card {
+
+                border: 1px solid rgb(225, 225, 225);
+                padding-bottom: 7px;
+                border-radius: 8px;
+
+                &:hover {
+                    box-shadow: 1px 1px 6px 0.5px rgba(24, 69, 182, 1);
+                }
+
+                .image_div {
+                    height: 160px;
+                    overflow: hidden;
+                    border-radius: 8px 8px 0px 0px;
+                    cursor: pointer;
+
+                    img {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                        transition: transform 0.3s ease;
+
+                        &:hover {
+                            transform: scale(1.2);
+                        }
+                    }
+                }
+
+                .details {
+                    padding-left: 10px;
+
+                    .title {
+                        display: flex;
+                        align-items: flex-start;
+                        justify-content: space-between;
+
+                        margin-bottom: 2px;
+
+                        .MuiTypography-root {
+                            // padding-left: 10px;
+                            cursor: pointer;
+                            background-color: transparent;
+                            outline: none;
+                            box-shadow: none;
+                            font-size: 16px;
+                            font-weight: 500;
+                            text-align: left;
+                            padding-top: 9px;
+                        }
+                    }
+
+                    .city {
+                        display: flex;
+                        align-items: center;
+                        gap: 3px;
+                        font-size: 14px;
+                        font-weight: 400;
+                        text-align: left;
+                        color: grey;
+
+                        .MuiSvgIcon-root {
+                            height: 18px;
+                            width: 18px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

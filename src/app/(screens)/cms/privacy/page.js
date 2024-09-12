@@ -1,11 +1,11 @@
-import { Container, Grid } from '@mui/material'
-import '../../../public/sass/pages/cms.scss'
+import { Container, Grid, Typography } from '@mui/material'
+import '../../../../../public/sass/pages/cms.scss'
 
 export default function Privacy() {
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <h1>Privacy Notice</h1>
+                <Typography>Privacy Notice</Typography>
             </div>
             <Container>
                 <Grid container>

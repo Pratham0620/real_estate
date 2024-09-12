@@ -1,8 +1,8 @@
 import { Container, Grid } from '@mui/material';
-import '../../../public/sass/pages/fullblog.scss';
+import '../../../../../public/sass/pages/fullblog.scss';
 import { AccountCircle } from '@mui/icons-material';
 import Image from 'next/image';
-import Blog from '../../../public/images/blog/Blog.png';
+import Blog from '../../../../../public/images/blog/Blog.png';
 
 export default function Fullblog() {
     return (
@@ -27,7 +27,7 @@ export default function Fullblog() {
                                 <Image
                                     src={Blog}
                                     alt='blog'
-                                    priority
+                                    
                                 />
                             </div>
                             <h6>

@@ -1,25 +1,25 @@
 
 import { Avatar, Button, Container, Divider, Grid } from '@mui/material';
-import '../../../public/sass/pages/aboutUs.scss';
+import '../../../../public/sass/pages/aboutUs.scss';
 import Image from 'next/image';
-import overview from '../../../public/images/about/about1.png'
-import rhombus from '../../../public/images/about/component.png'
-import vision from '../../../public/images/about/vision.png'
+import overview from '../../../../public/images/about/about1.png'
+import rhombus from '../../../../public/images/about/component.png'
+import vision from '../../../../public/images/about/vision.png'
 import { Star } from '@mui/icons-material';
-import avatar from '../../../public/images/about/avatar.png'
-import svg from '../../../public/images/about/svg.png'
-import avatar2 from '../../../public/images/about/avatar2.png'
-import avatar3 from '../../../public/images/about/avatar3.png'
-import sponser1 from '../../../public/images/about/sponser1.jpeg'
-import sponser2 from '../../../public/images/about/sponser2.png'
-import sponser3 from '../../../public/images/about/sponser3.png'
-import sponser4 from '../../../public/images/about/sponser4.png'
-import sponser5 from '../../../public/images/about/sponser5.png'
-import sponser6 from '../../../public/images/about/sponser6.png'
-import sponser7 from '../../../public/images/about/sponser7.png'
-import sponser8 from '../../../public/images/about/sponser8.png'
-import sponser9 from '../../../public/images/about/sponser9.png'
-import sponser10 from '../../../public/images/about/sponser10.jpg'
+import avatar from '../../../../public/images/about/avatar.png'
+import svg from '../../../../public/images/about/svg.png'
+import avatar2 from '../../../../public/images/about/avatar2.png'
+import avatar3 from '../../../../public/images/about/avatar3.png'
+import sponser1 from '../../../../public/images/about/sponser1.jpeg'
+import sponser2 from '../../../../public/images/about/sponser2.png'
+import sponser3 from '../../../../public/images/about/sponser3.png'
+import sponser4 from '../../../../public/images/about/sponser4.png'
+import sponser5 from '../../../../public/images/about/sponser5.png'
+import sponser6 from '../../../../public/images/about/sponser6.png'
+import sponser7 from '../../../../public/images/about/sponser7.png'
+import sponser8 from '../../../../public/images/about/sponser8.png'
+import sponser9 from '../../../../public/images/about/sponser9.png'
+import sponser10 from '../../../../public/images/about/sponser10.jpg'
 export default function About() {
     const stars = Array(5).fill(0);
     return (
@@ -35,7 +35,7 @@ export default function About() {
                                             <Image
                                                 src={overview}
                                                 alt='Overview'
-                                                priority
+                                                
                                             />
                                         </div>
                                     </Grid>
@@ -45,7 +45,7 @@ export default function About() {
                                                 <Image
                                                     src={rhombus}
                                                     alt='*'
-                                                    priority
+                                                    
                                                 />
                                                 <h5 className='about'>About us</h5>
                                             </div>
@@ -78,7 +78,7 @@ export default function About() {
                                                     <Image
                                                         src={vision}
                                                         alt='__'
-                                                        priority
+                                                        
                                                     />
                                                 </div>
                                                 <h4 className='head'>Vision</h4>
@@ -111,7 +111,7 @@ export default function About() {
                                                     <Image
                                                         src={vision}
                                                         alt='__'
-                                                        priority
+                                                        
                                                     />
                                                 </div>
                                                 <h4 className='head'>Ethics</h4>
@@ -168,7 +168,7 @@ export default function About() {
                                                                 <Image
                                                                     src={avatar}
                                                                     alt='C'
-                                                                    priority
+                                                                    
                                                                 />
                                                             </div>
                                                             <div className='name'>
@@ -189,7 +189,7 @@ export default function About() {
                                                         <Image
                                                             src={svg}
                                                             alt='o'
-                                                            priority
+                                                            
                                                         />
                                                     </div>
                                                 </div>
@@ -202,7 +202,7 @@ export default function About() {
                                                                 <Image
                                                                     src={avatar2}
                                                                     alt='C'
-                                                                    priority
+                                                                    
                                                                 />
                                                             </div>
                                                             <div className='name'>
@@ -224,7 +224,7 @@ export default function About() {
                                                         <Image
                                                             src={svg}
                                                             alt=''
-                                                            priority
+                                                            
                                                         />
                                                     </div>
                                                 </div>
@@ -237,7 +237,7 @@ export default function About() {
                                                                 <Image
                                                                     src={avatar3}
                                                                     alt='C'
-                                                                    priority
+                                                                    
                                                                 />
                                                             </div>
                                                             <div className='name'>
@@ -259,7 +259,7 @@ export default function About() {
                                                         <Image
                                                             src={svg}
                                                             alt='o'
-                                                            priority
+                                                            
                                                         />
                                                     </div>
                                                 </div>
@@ -277,7 +277,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser1}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -286,7 +286,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser2}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -295,7 +295,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser3}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -304,7 +304,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser4}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -313,7 +313,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser5}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -322,7 +322,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser6}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -331,7 +331,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser10}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -340,7 +340,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser8}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -349,7 +349,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser9}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>
@@ -358,7 +358,7 @@ export default function About() {
                                                 <Image
                                                     src={sponser7}
                                                     alt=''
-                                                    priority
+                                                    
                                                 />
                                             </div>
                                         </Grid>

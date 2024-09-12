@@ -1,14 +1,38 @@
-'use client'
+"use client"
 import Image from "next/image";
 import "../../../public/sass/pages/navbar.scss";
 import Logo from "../../../public/images/logo.png"
 import { Button, Container, Icon, Grid, item, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
-import { Close, Menu, MoreVert } from "@mui/icons-material";
+import { Close, Menu } from "@mui/icons-material";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
+
+    const [isLogin, setLogin] = useState(true);
+
     const [show, setShow] = useState(false);
+    // const [showD, setShowD] = useState(false);
+
+    const [click, setClick] = useState(null);
+
+    const navItems = [
+        { name: 'Home', link: '/home' },
+        { name: 'Buy', link: '/buy/buy_page' },
+        { name: 'About us', link: '/aboutUs' },
+        { name: 'Blogs', link: '/blogs/blog_page' },
+        { name: 'Contact us', link: '/contact' },
+        { name: 'Liked Properties', link: '/' }
+    ];
+
+    const path = usePathname();
+    const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword'];
+    const hide = hideAt.includes(path);
+    if (hide) {
+        return null;
+    };
+
     return (
         <div className="header_container">
             <Container>
@@ -20,27 +44,38 @@ export default function Navbar() {
                                     <Image
                                         src={Logo}
                                         alt="Logo"
-                                        priority={true}
+
                                     />
                                 </div>
                             </div>
                             <div className='middle_container'>
                                 <ul className="nav_list">
-                                    <li><Link className="list_item" href='#'>Home</Link></li>
-                                    <li><Link className="list_item" href='#'>Buy</Link></li>
-                                    <li><Link className="list_item" href='#'>About us</Link></li>
-                                    <li><Link className="list_item" href='#'>Blogs</Link></li>
-                                    <li><Link className="list_item" href='#'>Contact us</Link></li>
-                                    <li><Link className="list_item" href='#'>Liked Properties</Link></li>
+                                    {navItems.map((item, index) => (
+                                        <li className={`list_item ${click === index ? 'active' : ''}`} onClick={() => setClick(index)} key={index}>
+                                            <Link href={item.link}>
+                                                {item.name}
+                                            </Link>
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                             <div className="right_container">
-                                <Button className="login">
-                                    <Typography>Login</Typography>
-                                </Button>
+                                {isLogin ?
+                                    <Button className='login'>
+                                        <Link href='/profile_dashboard/sell'>
+                                            <Typography>Profile</Typography>
+                                        </Link>
+                                    </Button>
+                                    :
+                                    <Button className="login">
+                                        <Link href='/auth/login'>
+                                            <Typography>Login</Typography>
+                                        </Link>
+                                    </Button>
+                                }
                                 <div className="menu">
                                     <Icon onClick={() => setShow(true)}>
-                                        <Menu/>
+                                        <Menu />
                                     </Icon>
                                 </div>
                             </div>
@@ -60,7 +95,7 @@ export default function Navbar() {
                                                 <Image
                                                     src={Logo}
                                                     alt="Logo"
-                                                    priority={true}
+
                                                 />
                                             </div>
                                             <div >
@@ -71,12 +106,11 @@ export default function Navbar() {
                                         </div>
                                         <div className="navlist">
                                             <ul>
-                                                <li className="lisItem"><Link href="#">Home</Link></li>
-                                                <li className="lisItem"><Link href="#">Buy</Link></li>
-                                                <li className="lisItem"><Link href="#">About us</Link></li>
-                                                <li className="lisItem"><Link href="#">Blogs</Link></li>
-                                                <li className="lisItem"><Link href="#">Contact us</Link></li>
-                                                <li className="lisItem"><Link href="#">Liked Properties</Link></li>
+                                                {navLinks.map((link, index) => (
+                                                    <li className="lisItem" key={index}>
+                                                        <Link href={link.href}>{link.label}</Link>
+                                                    </li>
+                                                ))}
                                             </ul>
                                         </div>
                                     </div>

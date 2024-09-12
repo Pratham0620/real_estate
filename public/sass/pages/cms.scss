@@ -7,13 +7,7 @@
 
     h1,
     h2,
-    h3 {
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: white;
-    }
-
-
+    h3,
     h4,
     h5 {
         background: linear-gradient(90deg, #7E81E7 0%, #0F40B2 100%);
@@ -30,7 +24,6 @@
     h2 {
         font-size: 28px;
         line-height: 37.66px;
-
     }
 
     h3 {
@@ -55,7 +48,8 @@
         color: black;
         cursor: pointer;
         text-decoration: underline;
-        &:hover{
+
+        &:hover {
             color: #0F40B2;
         }
     }
@@ -82,12 +76,25 @@
             list-style: disc;
         }
     }
+    ol {
+        padding-left: 20px;
+        margin-top: -8px;
+        margin-bottom: 30px;
+
+        li {
+            font-size: 16px;
+            line-height: 27px;
+            font-weight: 400;
+            color: #000000;
+            
+        }
+    }
 
     table {
         border: 1px groove black;
         border-collapse: collapse;
         padding: 8px;
-        margin: 0 auto;
+        // margin: 0 auto;
     }
 
     th,
@@ -110,10 +117,17 @@
     .term_head {
         padding: 74px 0px;
         background: linear-gradient(90deg, #7E81E7 0%, #0F40B2 100%);
-        text-align: center;
         margin-bottom: 72px;
-    }
 
+        .MuiTypography-root {
+            text-align: center;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 41.66px;
+            color: white;
+            margin-bottom: 0px;
+        }
+    }
 }
 
 @media (min-width: 1920px) {}
@@ -167,9 +181,15 @@
             font-size: 18px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 55px 0px;
             margin-bottom: 68px;
+
+            .MuiTypography-root {
+                font-size: 30px;
+                line-height: 41.66px;
+            }
         }
     }
 }
@@ -210,9 +230,15 @@
             font-size: 18px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 40px 0px;
             margin-bottom: 60px;
+
+            .MuiTypography-root {
+                font-size: 30px;
+                line-height: 41.66px;
+            }
         }
     }
 }
@@ -252,9 +278,15 @@
             font-size: 18px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 28px 0px;
             margin-bottom: 46px;
+
+            .MuiTypography-root {
+                font-size: 28px;
+                line-height: 41.66px;
+            }
         }
     }
 }
@@ -266,7 +298,7 @@
 
         h1 {
             font-size: 26px;
-            line-height: 41.66px;
+            line-height: 37.66px;
         }
 
         h2 {
@@ -294,30 +326,39 @@
             font-size: 16px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 18px 0px;
             margin-bottom: 40px;
+
+            .MuiTypography-root {
+                font-size: 26px;
+                line-height: 41.66px;
+            }
         }
+
         p {
             font-size: 14px;
             margin-bottom: 20px;
         }
+
         ul {
             margin-bottom: 20px;
+
             li {
                 font-size: 14px;
             }
         }
-    
 
-    
+
+
         th,
         td,
         tfoot tbody,
         thead {
             font-size: 14px;
         }
-    
+
         caption {
             font-size: 14px;
         }
@@ -331,7 +372,7 @@
 
         h1 {
             font-size: 26px;
-            line-height: 41.66px;
+            line-height: 37.66px;
         }
 
         h2 {
@@ -359,30 +400,39 @@
             font-size: 16px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 10px 0px;
             margin-bottom: 30px;
+
+            .MuiTypography-root {
+                font-size: 26px;
+                line-height: 41.66px;
+            }
         }
+
         p {
             font-size: 14px;
             margin-bottom: 26px;
         }
+
         ul {
             margin-bottom: 20px;
+
             li {
                 font-size: 14px;
             }
         }
-    
 
-    
+
+
         th,
         td,
         tfoot tbody,
         thead {
             font-size: 14px;
         }
-    
+
         caption {
             font-size: 14px;
         }
@@ -396,7 +446,7 @@
 
         h1 {
             font-size: 26px;
-            line-height: 41.66px;
+            line-height: 37.66px;
         }
 
         h2 {
@@ -424,30 +474,39 @@
             font-size: 16px;
             line-height: 29.25px;
         }
+
         .term_head {
             padding: 10px 0px;
             margin-bottom: 30px;
+
+            .MuiTypography-root {
+                font-size: 26px;
+                line-height: 41.66px;
+            }
         }
+
         p {
             font-size: 14px;
             margin-bottom: 26px;
         }
+
         ul {
             margin-bottom: 20px;
+
             li {
                 font-size: 14px;
             }
         }
-    
 
-    
+
+
         th,
         td,
         tfoot tbody,
         thead {
             font-size: 14px;
         }
-    
+
         caption {
             font-size: 14px;
         }

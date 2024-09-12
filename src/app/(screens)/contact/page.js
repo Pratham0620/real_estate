@@ -1,16 +1,25 @@
 'use client'
 
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import '../../../public/sass/pages/contactUs.scss';
-import contact2 from '../../../public/images/contact/contact2.png'
-import contact3 from '../../../public/images/contact/contact3.png'
-import contact4 from '../../../public/images/contact/contact3.png'
-import contact5 from '../../../public/images/contact/contact3.png'
+import '../../../../public/sass/pages/contactUs.scss';
+import contact2 from '../../../../public/images/contact/contact2.png'
+import contact3 from '../../../../public/images/contact/contact3.png'
+import contact4 from '../../../../public/images/contact/contact3.png'
+import contact5 from '../../../../public/images/contact/contact3.png'
 
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function Contact() {
+
+    const inputFields = [
+        { id: 'first_name', name: 'first_name', type: 'text', placeholder: 'Enter Your First Name', label: 'First Name' },
+        { id: 'last_name', name: 'last_name', type: 'text', placeholder: 'Enter Your Last Name', label: 'Last Name' },
+        { id: 'phone_number', name: 'phone_number', type: 'text', placeholder: 'Enter Your Phone Number', label: 'Phone Number' },
+        { id: 'email', name: 'email', type: 'email', placeholder: 'Enter Your Email', label: 'Email' },
+    ];
+
     return (
         <div className="contact_container">
             <div className="upper_container">
@@ -51,7 +60,7 @@ export default function Contact() {
                                                 <Image
                                                     src={contact2}
                                                     alt="image"
-                                                    priority
+
 
                                                 />
                                             </div>
@@ -59,14 +68,14 @@ export default function Contact() {
                                                 <Image
                                                     src={contact3}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="rectangle2">
                                                 <Image
                                                     src={contact4}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="elipse">
@@ -78,55 +87,19 @@ export default function Contact() {
                                         <form>
                                             <div className="details">
                                                 <Grid container rowSpacing={3} columnSpacing={4}>
-                                                    <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                                                        <div className="input_field">
-                                                            <TextField
-                                                                id="first_name"
-                                                                type="text"
-                                                                name="first_name"
-                                                                placeholder="Enter Your First Name"
-                                                                label="First Name"
-                                                            />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                                                        <div className="input_field">
-                                                            <TextField
-                                                                id="last_name"
-                                                                type="text"
-                                                                name="last_name"
-                                                                placeholder="Enter Your Last Name"
-                                                                label="Last Name"
-
-                                                            />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                                                        <div className="input_field">
-                                                            <TextField
-                                                                id="phone_number"
-                                                                type="text"
-                                                                name="phone_number"
-                                                                placeholder="Enter Your Phone Number"
-                                                                label="Phone Number"
-
-                                                            />
-
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
-                                                        <div className="input_field">
-                                                            <TextField
-                                                                id="email"
-                                                                type="email"
-                                                                name="email"
-                                                                placeholder="Enter Your Email"
-                                                                label="Email"
-
-                                                            />
-
-                                                        </div>
-                                                    </Grid>
+                                                    {inputFields.map((field, index) => (
+                                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} key={index}>
+                                                            <div className="input_field">
+                                                                <TextField
+                                                                    id={field.id}
+                                                                    type={field.type}
+                                                                    name={field.name}
+                                                                    placeholder={field.placeholder}
+                                                                    label={field.label}
+                                                                />
+                                                            </div>
+                                                        </Grid>
+                                                    ))}
                                                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                                         <div className="input_field message">
                                                             <TextField
@@ -142,7 +115,9 @@ export default function Contact() {
                                                     </Grid>
                                                 </Grid>
                                                 <div className="button_submit">
-                                                    <Button>Submit</Button>
+                                                    <Link href='/contact'>
+                                                        <Button>Submit</Button>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </form>

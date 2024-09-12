@@ -1,12 +1,12 @@
-import { Container, Grid } from '@mui/material';
-import '../../../public/sass/pages/cms.scss';
+import { Container, Grid, Typography } from '@mui/material';
+import '../../../../../public/sass/pages/cms.scss';
 
 
 export default function Cookie_policy() {
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <h1>Cookie Policy</h1>
+                <Typography>Cookie Policy</Typography>
             </div>
             <Container>
                 <Grid container>
