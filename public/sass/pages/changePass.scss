@@ -1,0 +1,90 @@
+@import '../base/mixin.scss';
+@import '../base/variable.scss';
+@import '../helper/base.scss';
+
+.changepass_container {
+    margin: 40px 0px;
+    .changepass_parent {
+        display: flex;
+        position: relative;
+        clear: both;
+
+        .sidebar {
+            float: left;
+            width: 330px;
+        }
+
+        .pass_right {
+            float: right;
+            width: calc(100% - 330px);
+            position: relative;
+            clear: both;
+
+            .left {
+                float: left;
+                width: 530px;
+
+                h3 {
+                    // font-family: Rozha One;
+                    font-size: 40px;
+                    font-weight: 600;
+                    line-height: 56.8px;
+                    text-align: left;
+                    color: rgb(0, 0, 0, 1);
+                    margin-bottom: 8px;
+                }
+
+                p {
+                    // font-family: Inter;
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 27px;
+                    text-align: left;
+                    color: rgba(77, 94, 128, 1);
+                    margin-bottom: 50px;
+                }
+
+                .input_fields {
+                    h4 {
+                        // font-family: Inter;
+                        font-size: 16px;
+                        font-weight: 600;
+                        line-height: 20px;
+                        text-align: left;
+                        color: rgb(0,0,0,1);
+                        margin-bottom: 10px;
+                    }
+                    .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+                        width: 100%;
+                        margin-bottom: 20px;
+                    }
+
+                }
+                .btn_area{
+                    margin-top: 30px;
+                }
+            }
+
+            .right {
+                float: right;
+                width: calc(100% - 530px);
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                Image {
+                    height: auto;
+                    width: auto;
+                    overflow: hidden;
+
+                    img {
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+}

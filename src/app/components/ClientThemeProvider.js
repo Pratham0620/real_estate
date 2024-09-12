@@ -1,4 +1,4 @@
-'use client'
+"use client"
 import { createTheme ,ThemeProvider} from "@mui/material";
 const theme = createTheme({
     breakpoints: {
@@ -13,7 +13,7 @@ const theme = createTheme({
     components: {
         MuiButtonBase: {
           defaultProps: {
-            disableRipple:false,
+            disableRipple:true,
  // Disable ripple effect for all buttons
           },
         },

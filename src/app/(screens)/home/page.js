@@ -1,20 +1,19 @@
 'use client'
-import { BathroomTwoTone, BathtubTwoTone, Diversity3Outlined, FilterNone, Home, HotelOutlined, LocationOffOutlined, LocationOnOutlined, LocationOnRounded, Search, Villa } from "@mui/icons-material";
-import { Button, Container, FormControl, Grid, Input, InputAdornment, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
-import '../../../public/sass/pages/homepage.scss';
+import { BathtubTwoTone,  FilterNone, Home, HotelOutlined, LocationOnRounded, Search, Villa } from "@mui/icons-material";
+import { Button, Container, FormControl, Grid, Input, InputAdornment, MenuItem, Select, Typography } from "@mui/material";
+import '../../../../public/sass/pages/homepage.scss';
 import { useState } from "react";
 import Image from "next/image";
-import house from '../../../public/images/home/homesearch.svg';
-import house2 from '../../../public/images/home/contact2.png';
-import icon1 from '../../../public/images/home/feature_icon1.png';
-import icon2 from '../../../public/images/home/feature_icon2.png';
-import icon3 from '../../../public/images/home/feature_icon3.png';
-import icon4 from '../../../public/images/home/feature_icon4.png';
-import propti from '../../../public/images/home/property.png';
-import big from '../../../public/images/home/big_picture.png';
-import small from '../../../public/images/home/small_pic.png'
-import slide1 from '../../../public/images/home/slide1.png';
-import React, { useRef } from 'react';
+import house from '../../../../public/images/home/homesearch.svg';
+import house2 from '../../../../public/images/home/contact2.png';
+import icon1 from '../../../../public/images/home/feature_icon1.png';
+import icon2 from '../../../../public/images/home/feature_icon2.png';
+import icon3 from '../../../../public/images/home/feature_icon3.png';
+import icon4 from '../../../../public/images/home/feature_icon4.png';
+import propti from '../../../../public/images/home/property.png';
+import big from '../../../../public/images/home/big_picture.png';
+import small from '../../../../public/images/home/small_pic.png'
+import slide1 from '../../../../public/images/home/slide1.png';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -22,33 +21,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
-// import './styles.css';
-
-// import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 
 export default function Homepage() {
     const [property, setProperty] = useState('');
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    const handleMenuOpen = () => {
-        setMenuOpen(true);
-        document.body.style.overflow = 'hidden';  // Disable scrolling
-    };
-
-    const handleMenuClose = () => {
-        setMenuOpen(false);
-        document.body.style.overflow = 'unset';  // Enable scrolling
-    };
-
     const handleChange = (event) => {
         setProperty(event.target.value);
     };
     const [searchOption, setsearchoption] = useState(0)
     const [item, setItem] = useState(0);
-
-    const properties = Array(6).fill(null);
 
     return (
         <div className="home_container">
@@ -65,47 +46,28 @@ export default function Homepage() {
                                 <Typography variant="h6">Luxury Homes from Lusaka to Livingstone. Experience Zambia's Most Desired Real Estate.</Typography>
                                 <form>
                                     <ul className="search_type">
-                                        <li className="option" onClick={() => { setsearchoption(0) }} >Sell</li>
-                                        <li className="option" onClick={() => { setsearchoption(1) }} >Rent</li>
+                                        <li><Button onClick={() => { setsearchoption(0) }} >Sell</Button></li>
+                                        <li><Button onClick={() => { setsearchoption(1) }} >Buy</Button></li>
                                     </ul>
                                     <div className="search_bar">
                                         <div className="left">
-                                            <Villa />
-                                            <FormControl sx={{ m: 1, minWidth: 120 }}>
+                                            <FormControl sx={{ m: 0, minWidth: 150 }}>
                                                 <Select
                                                     labelId="property_type"
                                                     value={property}
                                                     id="propety_type"
                                                     onChange={handleChange}
                                                     displayEmpty
-                                                    MenuProps={{
-                                                        PaperProps: {
-                                                            sx: {
-                                                                maxHeight: 'none',
-                                                                overflowY: 'hidden',
-                                                            },
-                                                        },
-                                                        onClose: handleMenuClose,
-                                                        onOpen: handleMenuOpen,
-                                                    }}
-
                                                     renderValue={(selected) => {
                                                         if (selected.length === 0) {
                                                             return <span style={{ color: '#888' }}>Property type</span>;
                                                         }
-                                                        return selected;
+                                                        return <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                            <Villa style={{ marginRight: 8, color: "lightgray" }} />
+                                                            {selected}
+                                                        </div>;;
                                                     }}
                                                     inputProps={{ 'aria-label': 'Without label' }}
-                                                    // MenuProps={{
-                                                    //     PaperProps: {
-                                                    //         sx: {
-                                                    //             maxHeight: 'none',
-                                                    //             overflowY: 'hidden',
-                                                    //             overflow: 'hidden'
-                                                    //         },
-                                                    //     },
-                                                    // }}
-
                                                     sx={{
                                                         '& .MuiOutlinedInput-notchedOutline': {
                                                             border: 'none',
@@ -116,6 +78,7 @@ export default function Homepage() {
                                                             paddingLeft: 1,
                                                             paddingRight: 1,
                                                         },
+                                                        
                                                     }}
                                                 >
                                                     <MenuItem value="">
@@ -124,6 +87,7 @@ export default function Homepage() {
                                                     <MenuItem value="Villa">Villa</MenuItem>
                                                     <MenuItem value="Apartment">Apartment</MenuItem>
                                                     <MenuItem value="Office">Office</MenuItem>
+                                                    {/* <MenuItem value="Office">House</MenuItem> */}
                                                 </Select>
                                             </FormControl>
                                         </div>
@@ -268,7 +232,7 @@ export default function Homepage() {
                                 <Image
                                     src={house}
                                     alt="hello"
-                                    priority
+
                                 />
                             </div>
                         </Grid>
@@ -293,7 +257,7 @@ export default function Homepage() {
                                             <Image
                                                 src={house2}
                                                 alt="our features"
-                                                priority
+
                                             />
                                         </div>
                                     </Grid>
@@ -304,7 +268,7 @@ export default function Homepage() {
                                                     <Image
                                                         src={icon1}
                                                         alt="1."
-                                                        priority
+
                                                     />
                                                 </div>
                                                 <Typography variant="h5">Property Insurance</Typography>
@@ -318,7 +282,7 @@ export default function Homepage() {
                                                     <Image
                                                         src={icon2}
                                                         alt="2."
-                                                        priority
+
                                                     />
                                                 </div>
                                                 <Typography variant="h5">Best Price</Typography>
@@ -333,7 +297,7 @@ export default function Homepage() {
                                                     <Image
                                                         src={icon3}
                                                         alt="1."
-                                                        priority
+
                                                     />
                                                 </div>
                                                 <Typography variant="h5">Lowest Commission</Typography>
@@ -347,7 +311,7 @@ export default function Homepage() {
                                                     <Image
                                                         src={icon4}
                                                         alt="1."
-                                                        priority
+
                                                     />
                                                 </div>
                                                 <Typography variant="h5">Overall Control</Typography>
@@ -390,7 +354,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -419,7 +383,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -448,7 +412,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -477,7 +441,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -506,7 +470,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -535,7 +499,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -568,7 +532,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -597,7 +561,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -626,7 +590,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -655,7 +619,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -684,7 +648,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -713,7 +677,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -746,7 +710,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -775,7 +739,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -804,7 +768,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -833,7 +797,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -862,7 +826,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -891,7 +855,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -924,7 +888,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -953,7 +917,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -982,7 +946,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -1011,7 +975,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -1040,7 +1004,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -1069,7 +1033,7 @@ export default function Homepage() {
                                                         <Image
                                                             src={propti}
                                                             alt="property"
-                                                            priority
+
                                                         />
                                                     </div>
                                                     <ul className="chip_list">
@@ -1128,7 +1092,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1138,7 +1102,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1148,7 +1112,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1158,7 +1122,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1168,7 +1132,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1178,7 +1142,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1188,7 +1152,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1198,7 +1162,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1208,7 +1172,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1218,7 +1182,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1228,7 +1192,7 @@ export default function Homepage() {
                                                     src={slide1}
                                                     alt="image"
                                                     title="..."
-                                                    priority={false}
+
                                                 />
                                             </div>
                                         </SwiperSlide>
@@ -1253,7 +1217,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={big}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">
@@ -1269,7 +1233,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={small}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">
@@ -1285,7 +1249,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={small}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">
@@ -1301,7 +1265,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={small}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">
@@ -1316,7 +1280,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={small}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">
@@ -1331,7 +1295,7 @@ export default function Homepage() {
                                                 <Image
                                                     src={big}
                                                     alt="image"
-                                                    priority
+
                                                 />
                                             </div>
                                             <div className="info">

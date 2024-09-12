@@ -1,11 +1,11 @@
-import { Container, Grid } from '@mui/material';
-import '../../../public/sass/pages/cms.scss';
+import { Container, Grid, Typography } from '@mui/material';
+import '../../../../../public/sass/pages/cms.scss';
 
 export default function Term() {
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <h1>Terms & Conditions</h1>
+                <Typography>Terms & Conditions</Typography>
                 {/* h1,h2,h3 */}
             </div>
             <Container>
@@ -15,6 +15,7 @@ export default function Term() {
                             {/* h4,h5,h6,p */}
                             <h4>General</h4>
                             <p>
+
                                 Lorem ipsum dolor sit amet consectetur.
                                 Phasellus adipiscing tortor mi odio.
                                 Velit amet ut integer viverra at. Pharetra
@@ -212,7 +213,7 @@ export default function Term() {
                                 Tristique turpis eleifend quam vitae nisi ullamcorper
                                 purus sed purus.
                             </p>
-                                <ul>
+                                <ol>
                                     <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
                                         tortor mi odio. Velit amet ut integer viverra at. Pharetra
                                         vestibulum euismod felis eget nec feugiat vulputate.
@@ -233,8 +234,29 @@ export default function Term() {
                                         Tristique turpis eleifend quam vitae nisi ullamcorper
                                         purus sed purus.
                                     </li>
-                                </ul>
-                            <h3>hello</h3>
+                                </ol>
+                            {/* <table>
+                                <tr>
+                                    <th>ndjf</th>
+                                    <th>ndjf</th>
+                                </tr>
+                                <tr>
+                                    <td>hcbd</td>
+                                    <td>hcbd</td>
+                                </tr>
+                                <tr>
+                                    <td>hcbd</td>
+                                    <td>hcbd</td>
+                                </tr>
+                                <tr>
+                                    <td>hcbd</td>
+                                    <td>hcbd</td>
+                                </tr>
+                                <tr>
+                                    <td>hcbd</td>
+                                    <td>hcbd</td>
+                                </tr>
+                            </table> */}
                         </div>
                     </Grid>
                 </Grid>

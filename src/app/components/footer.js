@@ -1,13 +1,21 @@
-'use client'
+"use client"
 import { Container, Typography, Grid, item, Input, TextField, InputAdornment, Button } from "@mui/material";
 import "../../../public/sass/pages/footer.scss";
 import { Email } from "@mui/icons-material";
 import footerLogo from "../../../public/images/footerLogo.png"
 import Image from "next/image";
-
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
-  
+    
+    const path = usePathname();
+    const hideAt = ['/auth/login','/auth/reset','/auth/signup','/auth/forgotpassword'];
+    const hide = hideAt.includes(path)  ;
+    if (hide){
+        return null;
+    }
+
     return (
         <div className="footer_container">
             <div className="above_container">
@@ -32,10 +40,10 @@ export default function Footer() {
                                                 <div className="links">
                                                     <Typography>Quick Links</Typography>
                                                     <ul className="links_list">
-                                                        <li className="list_item"><a href="#">Home</a></li>
-                                                        <li className="list_item"><a href="#">Buy</a></li>
-                                                        <li className="list_item"><a href="#">Contact</a></li>
-                                                        <li className="list_item"><a href="#">About</a></li>
+                                                        <li className="list_item"><Link href="/home">Home</Link></li>
+                                                        <li className="list_item"><Link href="/buy">Buy</Link></li>
+                                                        <li className="list_item"><Link href="/contact">Contact</Link></li>
+                                                        <li className="list_item"><Link href="/aboutUs">About</Link></li>
                                                     </ul>
                                                 </div>
                                             </Grid>
@@ -43,12 +51,12 @@ export default function Footer() {
                                                 <div className="category">
                                                     <Typography>Category</Typography>
                                                     <ul className="category_list">
-                                                        <li className="item"><a href="#">Lifestyle</a></li>
-                                                        <li className="item"><a href="#">Technology</a></li>
-                                                        <li className="item"><a href="#">Travel</a></li>
-                                                        <li className="item"><a href="#">Business</a></li>
-                                                        <li className="item"><a href="#">Economy</a></li>
-                                                        <li className="item"><a href="#">Sports</a></li>
+                                                        <li className="item"><Link href="#">Lifestyle</Link></li>
+                                                        <li className="item"><Link href="#">Technology</Link></li>
+                                                        <li className="item"><Link href="#">Travel</Link></li>
+                                                        <li className="item"><Link href="#">Business</Link></li>
+                                                        <li className="item"><Link href="#">Economy</Link></li>
+                                                        <li className="item"><Link href="#">Sports</Link></li>
                                                     </ul>
                                                 </div>
                                             </Grid>
@@ -107,9 +115,9 @@ export default function Footer() {
                                     <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                                         <div className="terms">
                                             <ul className="list_main">
-                                                <li><a href="#" className="text">Terms of Use</a></li>
-                                                <li><a href="#" className="text">Privacy Policy</a></li>
-                                                <li><a href="#" className="text">Cookies Policy</a></li>
+                                                <li><Link href="/cms/term" className="text">Terms of Use</Link></li>
+                                                <li><Link href="/cms/privacy" className="text">Privacy Policy</Link></li>
+                                                <li><Link href="/cms/cookie" className="text">Cookies Policy</Link></li>
                                             </ul>
                                         </div>
                                     </Grid>
