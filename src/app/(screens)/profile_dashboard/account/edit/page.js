@@ -5,6 +5,7 @@ import profile from '../../../../../../public/images/sell/profile.png';
 import { useState } from "react";
 import '../../../../../../public/sass/pages/edit.scss';
 import Sidebar from "@/app/components/sell_sidebar";
+import Link from "next/link";
 
 export default function Edit() {
     const [city, setCity] = useState('');
@@ -37,10 +38,10 @@ export default function Edit() {
                                                 alt="Hi"
                                             />
                                         </div>
-                                            <div className="heading">Edit Profile</div>
+                                        <div className="heading">Edit Profile</div>
                                     </div>
                                     <Grid container spacing={2}>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>First Name</FormLabel>
                                             <TextField
                                                 size="small"
@@ -51,7 +52,7 @@ export default function Edit() {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
+                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>Last Name</FormLabel>
                                             <TextField
                                                 size="small"
@@ -61,6 +62,38 @@ export default function Edit() {
                                                 type="text"
                                                 fullWidth
                                             />
+                                        </Grid>
+                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                                            <FormLabel>City</FormLabel>
+                                            <FormControl fullWidth>
+                                                <Select
+                                                    size="small"
+                                                    labelId="city"
+                                                    id="city"
+                                                    value={city}
+                                                    onChange={handleCityChange}
+                                                >
+                                                    {cities.map((item, index) => (
+                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                                            <FormLabel>State</FormLabel>
+                                            <FormControl fullWidth>
+                                                <Select
+                                                    size="small"
+                                                    labelId="city"
+                                                    id="city"
+                                                    value={state}
+                                                    onChange={handleStateChange}
+                                                >
+                                                    {states.map((item, index) => (
+                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                                             <FormLabel>Email</FormLabel>
@@ -95,38 +128,7 @@ export default function Edit() {
                                                 fullWidth
                                             />
                                         </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                            <FormLabel>City</FormLabel>
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    labelId="city"
-                                                    id="city"
-                                                    value={city}
-                                                    onChange={handleCityChange}
-                                                >
-                                                    {cities.map((item, index) => (
-                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                            <FormLabel>State</FormLabel>
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    labelId="city"
-                                                    id="city"
-                                                    value={state}
-                                                    onChange={handleStateChange}
-                                                >
-                                                    {states.map((item, index) => (
-                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </Grid>
+
                                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                                             <FormLabel>Password</FormLabel>
                                             <TextField
@@ -140,7 +142,9 @@ export default function Edit() {
                                         </Grid>
                                     </Grid>
                                     <div className="buttons">
-                                        <Button>Cancel</Button>
+                                        <Link href='/profile_dashboard/account/profile'>
+                                            <Button>Cancel</Button>
+                                        </Link>
                                         <Button>Save</Button>
                                     </div>
                                 </form>

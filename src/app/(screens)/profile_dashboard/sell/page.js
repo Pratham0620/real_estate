@@ -13,7 +13,9 @@ import typeP2 from '../../../../../public/images/sell/typeP2.png';
 import typeP3 from '../../../../../public/images/sell/typeP3.png';
 import typeP4 from '../../../../../public/images/sell/typeP4.png';
 import typeP5 from '../../../../../public/images/sell/typeP5.png';
+
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Addproperty() {
     const [click, setClick] = useState(null);
@@ -49,7 +51,7 @@ export default function Addproperty() {
         {
             image1: type2,
             image2: typeP2,
-            title: 'Town House'
+            title: 'Office'
         },
         {
             image1: type3,
@@ -111,28 +113,39 @@ export default function Addproperty() {
                                                     />
                                                 </Grid>
                                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                    <FormLabel>Property Address</FormLabel>
-                                                    <TextField
-                                                        size="small"
-                                                        id="property"
-                                                        name="property"
-                                                        placeholder="Adress here"
-                                                        type="text"
-                                                        fullWidth
-                                                    />
+                                                    <FormControl fullWidth >
+                                                        <FormLabel>Role</FormLabel>
+                                                        <Select
+                                                            labelId="role-label"
+                                                            id="role"
+                                                            size="small"
+                                                            value={roles}
+                                                            onChange={handleRoleChange}
+                                                        >
+                                                            <MenuItem value={'Owner'}>Owner</MenuItem>
+                                                            <MenuItem value={'Agent'}>Agent</MenuItem>
+                                                            <MenuItem value={'seller'}>Seller</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
                                                 </Grid>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                    <FormLabel>Area</FormLabel>
-                                                    <TextField
-                                                        size="small"
-                                                        id="area"
-                                                        name="area"
-                                                        placeholder="Area"
-                                                        type="text"
-                                                        fullWidth
-                                                    />
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                                    <FormControl fullWidth >
+                                                    <FormLabel>Avaialbility</FormLabel>
+                                                        <Select
+                                                            labelId="role-label"
+                                                            id="role"
+                                                            size="small"
+                                                            value={roles}
+                                                            onChange={handleRoleChange}
+                                                        >
+                                                            <MenuItem value={'For Rent'}>For Rent</MenuItem>
+                                                            <MenuItem value={'For Sale'}>For Sale</MenuItem>
+                                                        </Select>
+                                                    </FormControl>
+                                                    
                                                 </Grid>
-                                                <Grid item xl={4} lg={4} md={4} sm={6} xs={6} >
+
+                                                <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
                                                     <FormControl fullWidth>
                                                         <FormLabel>No. of Bedrooms</FormLabel>
 
@@ -149,7 +162,7 @@ export default function Addproperty() {
                                                         </Select>
                                                     </FormControl>
                                                 </Grid>
-                                                <Grid item xl={4} lg={4} md={4} sm={6} xs={6} >
+                                                <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
                                                     <FormControl fullWidth>
                                                         <FormLabel>No. of Bathroom</FormLabel>
                                                         <Select
@@ -165,7 +178,7 @@ export default function Addproperty() {
                                                         </Select>
                                                     </FormControl>
                                                 </Grid>
-                                                <Grid item xl={4} lg={4} md={4} sm={6} xs={6} >
+                                                <Grid item xl={4} lg={4} md={4} sm={12} xs={12} >
                                                     <FormControl fullWidth>
                                                         <FormLabel>No. of Floor</FormLabel>
                                                         <Select
@@ -216,29 +229,25 @@ export default function Addproperty() {
                                                         fullWidth
                                                     />
                                                 </Grid>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                    <FormControl fullWidth >
-                                                        <FormLabel>Role</FormLabel>
-                                                        <Select
-                                                            labelId="role-label"
-                                                            id="role"
-                                                            size="small"
-                                                            value={roles}
-                                                            onChange={handleRoleChange}
-                                                        >
-                                                            <MenuItem value={'Owner'}>Owner</MenuItem>
-                                                            <MenuItem value={'Agent'}>Agent</MenuItem>
-                                                            <MenuItem value={'seller'}>Seller</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </Grid>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
-                                                    <FormLabel>Avaialbility</FormLabel>
+
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                                                    <FormLabel>Property Address</FormLabel>
                                                     <TextField
                                                         size="small"
-                                                        id="avail"
-                                                        name="avail"
-                                                        placeholder="Enter here"
+                                                        id="property"
+                                                        name="property"
+                                                        placeholder="Adress here"
+                                                        type="text"
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                                                    <FormLabel>Area</FormLabel>
+                                                    <TextField
+                                                        size="small"
+                                                        id="area"
+                                                        name="area"
+                                                        placeholder="Area"
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -271,7 +280,9 @@ export default function Addproperty() {
                                             </Grid>
                                         </div>
                                         <div className="button">
-                                            <Button>Cancel</Button>
+                                            <Link href='/home'>
+                                                <Button>Cancel</Button>
+                                            </Link>
                                             <Button>Sell</Button>
                                         </div>
                                     </div>
