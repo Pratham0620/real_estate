@@ -7,6 +7,16 @@ import Link from "next/link";
 import { EditCalendar } from "@mui/icons-material";
 
 export default function Profile() {
+    const userData = [
+        { label: "First Name", value: "Mehrab" },
+        { label: "Last Name", value: "Sunagi" },
+        { label: "Email", value: "Mehrunsungai@gmail.com" },
+        { label: "Password", value: "dwabfdehbcjd", isPassword: true },
+        { label: "Contact Number", value: "4382473829750" },
+        { label: "Address", value: "647364 Peter Tower" },
+        { label: "City", value: "Tokyo" },
+        { label: "State", value: "Japan" },
+    ];
     return (
         <div className="profile_container">
             <Container>
@@ -30,56 +40,14 @@ export default function Profile() {
                                         </div>
                                         <div className="heading">Profile</div>
                                     </div>
-                                    <Grid container spacing={2}>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3 >First Name</h3>
-                                                <p>Mehrab</p>
+                                    <div className="inputs__">
+                                        {userData.map((item, index) => (
+                                            <div className="data" key={index}>
+                                                <h3>{item.label}</h3>
+                                                <p>{item.value}</p>
                                             </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3 >Last Name</h3>
-                                                <p>Sunagi</p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3 >Email</h3>
-                                                <p>Mehrunsungai@gmail.com</p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3>Password</h3>
-                                                <p typeof="password">dwabfdehbcjd </p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3>Contact Number</h3>
-                                                <p>4382473829750</p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3 >Address</h3>
-                                                <p>647364 peter tower</p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3 >City</h3>
-                                                <p>tokyo</p>
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
-                                            <div className="data">
-                                                <h3>State</h3>
-                                                <p>Japan</p>
-                                            </div>
-                                        </Grid>
-                                    </Grid>
+                                        ))}
+                                    </div>
                                     <div className="button">
                                         <Link href='/profile_dashboard/account/edit'>
                                             <Button>

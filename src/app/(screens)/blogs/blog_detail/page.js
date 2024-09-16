@@ -90,7 +90,7 @@ export default function Fullblog() {
                                         Mi ipsum faucibus vitae aliquet nec ullamcorper sit amet.</li>
                                 </ul>
 
-                                <table>
+                                {/* <table>
                                     <thead>
 
                                         <tr>
@@ -120,7 +120,7 @@ export default function Fullblog() {
                                             <td>Chappal</td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> */}
 
                             </div>
                         </div>

@@ -64,10 +64,6 @@ export default function MyProperty() {
                                                         <Link href={'#'}>
                                                             <Typography>{place.title}</Typography>
                                                         </Link>
-                                                        <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
-                                                            color: "#d50000",
-                                                        }} />}
-                                                        />
                                                     </div>
                                                     <div className="city">
                                                         <FmdGoodOutlined />
