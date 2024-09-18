@@ -4,7 +4,7 @@ import Image from "next/image";
 import profile from '../../../../../../public/images/sell/profile.png'
 import '../../../../../../public/sass/pages/profile.scss';
 import Link from "next/link";
-import { EditCalendar } from "@mui/icons-material";
+import { Edit, EditCalendar } from "@mui/icons-material";
 
 export default function Profile() {
     const userData = [
@@ -35,7 +35,7 @@ export default function Profile() {
                                                 alt="Hi"
                                             />
                                             <IconButton>
-                                                <EditCalendar />
+                                                <Edit/>
                                             </IconButton>
                                         </div>
                                         <div className="heading">Profile</div>

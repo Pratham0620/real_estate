@@ -9,6 +9,7 @@ import contact5 from '../../../../public/images/contact/contact3.png'
 
 import Image from "next/image";
 import Link from "next/link";
+import { FormLabel } from "react-bootstrap";
 
 
 export default function Contact() {
@@ -89,25 +90,25 @@ export default function Contact() {
                                                 <Grid container rowSpacing={3} columnSpacing={4}>
                                                     {inputFields.map((field, index) => (
                                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12} key={index}>
+                                                            <FormLabel  >{field.label}</FormLabel>
                                                             <div className="input_field">
                                                                 <TextField
                                                                     id={field.id}
                                                                     type={field.type}
                                                                     name={field.name}
                                                                     placeholder={field.placeholder}
-                                                                    label={field.label}
                                                                 />
                                                             </div>
                                                         </Grid>
                                                     ))}
                                                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                                                        <FormLabel >Message</FormLabel>
                                                         <div className="input_field message">
                                                             <TextField
                                                                 id="meassage"
                                                                 type="text"
                                                                 name="meassage"
                                                                 placeholder="Write Message"
-                                                                label="Message"
                                                                 multiline
                                                                 rows={6}
                                                             />

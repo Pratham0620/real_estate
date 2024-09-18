@@ -23,7 +23,7 @@ export default function Navbar() {
         { name: 'About us', link: '/aboutUs' },
         { name: 'Blogs', link: '/blogs/blog_page' },
         { name: 'Contact us', link: '/contact' },
-        { name: 'Liked Properties', link: '#' }
+        { name: 'Liked Properties', link: '/liked' }
     ];
 
     const path = usePathname();
@@ -141,40 +141,38 @@ export default function Navbar() {
                     </Grid>
                 </Grid>
             </Container>
-            {show ? 
-            <div className='responsive_header' >
-                <Container>
-                    <Grid container>
-                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                            <div className="innerparent">
-                                <div className="header">
-                                    <div className="Logo">
-                                        <Image
-                                            src={Logo}
-                                            alt="Logo"
+            {show ?
+                <div className='responsive_header' >
+                    <Container>
+                        <Grid container>
+                            <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                                <div className="innerparent">
+                                    <div className="header">
+                                        <div className="Logo">
+                                            <Image
+                                                src={Logo}
+                                                alt="Logo"
 
-                                        />
-                                    </div>
-                                    <div >
+                                            />
+                                        </div>
                                         <IconButton onClick={() => { setShow(false) }}>
-                                            <Close />
+                                            <Close sx={{ color: 'white' }} />
                                         </IconButton>
                                     </div>
+                                    <div className="navlist">
+                                        <ul>
+                                            {navItems.map((item, index) => (
+                                                <li className="lisItem" key={index}>
+                                                    <Link href={item.link}>{item.name}</Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div className="navlist">
-                                    <ul>
-                                        {navItems.map((item, index) => (
-                                            <li className="lisItem" key={index}>
-                                                <Link href={item.link}>{item.name}</Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Container>
-            </div>: null}
+                    </Container>
+                </div> : null}
         </div>
 
     );

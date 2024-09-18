@@ -27,12 +27,12 @@
             .title {
                 display: flex;
                 gap: 5px;
-                align-items: center;
+                align-items: flex-end;
                 margin-bottom: 10px;
 
                 .css-i4bv87-MuiSvgIcon-root {
-                    height: 15px;
-                    width: 15px;
+                    height: 20px;
+                    width: 20px;
                     color: #7065F0;
                 }
 
@@ -68,7 +68,7 @@
             .search_type {
                 display: flex;
                 align-items: center;
-                margin-left: 10px;
+                margin-left: 0px;
                 gap: 6px;
 
                 .typebtn {
@@ -96,7 +96,7 @@
                 padding: 7px 10px;
                 background-color: white;
                 max-width: 590px;
-                border-radius: 8px;
+                border-radius: 0px 8px 8px 8px;
                 position: relative;
                 z-index: 4;
                 @include clearfix;
@@ -282,6 +282,9 @@
                     align-items: center;
                     justify-content: center;
                     margin-bottom: 30px;
+                    overflow-x: auto;
+                    padding: 2px;
+                    scrollbar-color: #b8b1fb #007bff ;
 
                     .list_item {
                         border-radius: 20px;
@@ -1616,8 +1619,8 @@
 
                     .swiper-slide {
                         .slide_image {
-                            margin-left: -70px;
-                            margin-right: -70px;
+                            margin-left: 0px;
+                            margin-right: 0px;
                         }
 
 
@@ -1927,8 +1930,8 @@
 
                     .swiper-slide {
                         .slide_image {
-                            margin-left: -50px;
-                            margin-right: -50px;
+                            margin-left: 0px;
+                            margin-right: 0px;
                         }
 
 
@@ -2010,12 +2013,12 @@
                     margin-bottom: 5px;
 
                     .MuiTypography-h5 {
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 12px;
                 }
 
@@ -2105,7 +2108,7 @@
 
                 .MuiTypography-h6 {
                     max-width: 274px;
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 8px;
                 }
 
@@ -2134,7 +2137,7 @@
                     }
 
                     .MuiTypography-h5 {
-                        font-size: 14px;
+                        font-size: 16px;
                         margin-bottom: 3px;
                     }
                 }
@@ -2151,14 +2154,15 @@
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 13px;
                     margin-bottom: 10px;
                 }
 
                 .properties_tab {
                     .list {
                         margin-bottom: 18px;
-
+                        padding: 2px;
+                        
                         .list_item {
                             cursor: none;
                             padding: 6px 8px;
@@ -2241,8 +2245,8 @@
 
                     .swiper-slide {
                         .slide_image {
-                            margin-left: -50px;
-                            margin-right: -50px;
+                            margin-left: 0px;
+                            margin-right: 0px;
                         }
 
 
@@ -2268,7 +2272,7 @@
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 20px;
                 }
 
@@ -2281,7 +2285,7 @@
                     }
 
                     .big_images {
-                        height: 300px;
+                     
                     }
 
                 }
@@ -2295,7 +2299,7 @@
                     }
 
                     .small_images {
-                        height: 280px;
+                       
 
                         img {
                             object-fit: fill;
@@ -2324,12 +2328,12 @@
                     margin-bottom: 5px;
 
                     .MuiTypography-h5 {
-                        font-size: 12px;
+                        font-size: 14px;
                     }
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 12px;
                 }
 
@@ -2419,7 +2423,7 @@
 
                 .MuiTypography-h6 {
                     max-width: 274px;
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 8px;
                 }
 
@@ -2448,7 +2452,7 @@
                     }
 
                     .MuiTypography-h5 {
-                        font-size: 14px;
+                        font-size: 16px;
                         margin-bottom: 3px;
                     }
                 }
@@ -2465,18 +2469,19 @@
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 13px;
                     margin-bottom: 10px;
                 }
 
                 .properties_tab {
                     .list {
                         margin-bottom: 18px;
-
+                        padding: 2px;
+                        
                         .list_item {
                             cursor: none;
                             padding: 6px 8px;
-                            font-size: 11px;
+                            font-size: 12px;
                             margin-right: 10px;
                         }
                     }
@@ -2544,19 +2549,19 @@
 
                     .swiper-button-next {
                         cursor: none;
-                        right: 10%;
+                        right: 14%;
                     }
 
                     .swiper-button-prev {
                         cursor: none;
-                        left: 10%;
+                        left: 14%;
                     }
 
 
                     .swiper-slide {
                         .slide_image {
-                            margin-left: -50px;
-                            margin-right: -50px;
+                            margin-left: 0px;
+                            margin-right: 0px;
                         }
 
 
@@ -2582,7 +2587,7 @@
                 }
 
                 .MuiTypography-h6 {
-                    font-size: 12px;
+                    font-size: 14px;
                     margin-bottom: 20px;
                 }
 
@@ -2595,7 +2600,7 @@
                     }
 
                     .big_images {
-                        height: 300px;
+                     
                     }
 
                 }
@@ -2609,7 +2614,7 @@
                     }
 
                     .small_images {
-                        height: 280px;
+                       
 
                         img {
                             object-fit: fill;
