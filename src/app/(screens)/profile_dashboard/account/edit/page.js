@@ -31,15 +31,6 @@ export default function Edit() {
                             </div>
                             <div className="edit_right">
                                 <form>
-                                    <div className='head'>
-                                        <div className="profile_photo">
-                                            <Image
-                                                src={profile}
-                                                alt="Hi"
-                                            />
-                                        </div>
-                                        <div className="heading">Edit Profile</div>
-                                    </div>
                                     <Grid container spacing={2}>
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>First Name</FormLabel>

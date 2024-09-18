@@ -70,7 +70,7 @@ export default function About() {
                     <Grid container>
                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                             <div className='inner_parent'>
-                                <Grid container rowSpacing={4}>
+                                <Grid container rowSpacing={2}>
                                     <Grid item xl={5} lg={5} md={5} sm={12} xs={12}>
                                         <div className='vision'>
                                             <div className='superset'>

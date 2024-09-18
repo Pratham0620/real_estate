@@ -668,12 +668,16 @@
 
                 h4 {
                     font-size: 16px;
-                    margin-bottom:2px ;
+                    margin-bottom:5px ;
                 }
 
                 p {
                     font-size: 14px;
                     margin-bottom: 5px;
+                    .MuiSvgIcon-root{
+                        height: 20px;
+                        width: 20px;
+                    }
                 }
             }
 
@@ -704,7 +708,11 @@
                         font-size: 16px;
                     }
                     p{
-                        font-size: 12px;
+                        font-size: 13px;
+                        .MuiSvgIcon-root{
+                            height: 18px;
+                            width: 18px;
+                        }
                     }
                 }
             }
@@ -809,7 +817,7 @@
 
                 h4 {
                     font-size: 16px;
-                    margin-bottom:2px ;
+                    margin-bottom:5px ;
                 }
 
                 p {
@@ -827,6 +835,10 @@
                     .utils_item {
                         .utils_head {
                             margin-bottom: 8px;
+                            .MuiSvgIcon-root{
+                                height: 20px;
+                                width: 20px;
+                            }
                         }
 
                         .value {
@@ -845,7 +857,11 @@
                         font-size: 16px;
                     }
                     p{
-                        font-size: 12px;
+                        font-size: 13px;
+                        .MuiSvgIcon-root{
+                            height: 18px;
+                            width: 18px;
+                        }
                     }
                 }
             }
@@ -950,7 +966,7 @@
 
                 h4 {
                     font-size: 16px;
-                    margin-bottom:2px ;
+                    margin-bottom:5px ;
                 }
 
                 p {
@@ -968,6 +984,10 @@
                     .utils_item {
                         .utils_head {
                             margin-bottom: 8px;
+                            .MuiSvgIcon-root{
+                                height: 20px;
+                                width: 20px;
+                            }
                         }
 
                         .value {
@@ -986,7 +1006,11 @@
                         font-size: 16px;
                     }
                     p{
-                        font-size: 12px;
+                        font-size: 13px;
+                        .MuiSvgIcon-root{
+                            height: 18px;
+                            width: 18px;
+                        }
                     }
                 }
             }

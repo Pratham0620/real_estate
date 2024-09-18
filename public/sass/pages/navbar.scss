@@ -56,6 +56,7 @@
             position: relative;
             display: flex;
             align-items: center;
+            gap: 6px;
 
             .right {
                 .login {
@@ -210,24 +211,28 @@
     }
 
     .responsive_header {
-        background-color: white;
+        background-color: #7E81E7;
         z-index: 99999;
         position: fixed;
         inset: 0px;
+        padding: 10px 5px;
 
         .innerparent {
             .header {
                 display: flex;
                 justify-content: space-between;
+                align-items: flex-end;
 
                 .Logo {
                     width: 118px;
                     height: 37px;
+                  
 
                     img {
                         width: 100%;
                         height: 100%;
                         object-fit: contain;
+                        filter: drop-shadow(0px 0px 8px rgb(186, 176, 208) );
                     }
                 }
             }
@@ -236,17 +241,19 @@
                 margin-top: 10px;
 
                 .lisItem {
-                    color: #000929;
+                    color: white;
+                    line-height: 25px;
                     transition: color 0.3s ease;
                     margin-top: 10px;
-                    font-size: 14px;
+                    font-size: 15px;
 
                     :hover {
-                        color: blue;
+                        color: black;
+
                     }
 
                     :active {
-                        color: blue;
+                        color: black;
                     }
                 }
             }
@@ -676,8 +683,8 @@
             .innerparent {
                 .header {
                     .Logo {
-                        width: 110px;
-                        height: 37px;
+                        width: 115px;
+                        height: 43px;
                     }
                 }
 

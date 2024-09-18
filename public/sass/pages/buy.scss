@@ -46,7 +46,7 @@
 
                 .MuiBox-root {
                     .css-1nrlq1o-MuiFormControl-root {
-                        width: 83%
+                        width: 90%
                     }
 
                     //some css is in js page 
@@ -265,6 +265,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 left: -100%;
                 top: 0;
@@ -294,6 +295,7 @@
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     .filter {
                         display: block;
@@ -318,6 +320,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 left: -100%;
                 opacity: 0;
@@ -329,7 +332,7 @@
                 bottom: 0;
 
                 &.open {
-                    padding: 0px 20px 20px 20px;
+                    padding: 20px;
                     left: 0px;
                     opacity: 1;
                     z-index: 99999;
@@ -342,11 +345,22 @@
                         display: block;
                     }
                 }
+
+                .location {
+                    .MuiBox-root {
+                        .css-1nrlq1o-MuiFormControl-root {
+                            width: 100%
+                        }
+
+                        //some css is in js page 
+                    }
+                }
             }
 
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     .filter {
                         display: block;
@@ -385,6 +399,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 top: 0;
                 bottom: 0;
@@ -397,7 +412,7 @@
 
                 &.open {
                     left: 0px;
-                    padding: 0px 20px 20px 20px;
+                    padding: 20px ;
                     opacity: 1;
                     z-index: 99999;
                     height: 100%;
@@ -418,6 +433,11 @@
 
                 .location {
                     margin-bottom: 24px;
+                    .MuiBox-root {
+                        .css-1nrlq1o-MuiFormControl-root {
+                            width: 100%
+                        }
+                    }
                 }
 
 
@@ -444,6 +464,7 @@
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     margin-bottom: 7px;
 
@@ -513,6 +534,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 top: 0;
                 bottom: 0;
@@ -523,8 +545,9 @@
                 background: white;
                 transition: all 0.3s ease;
                 z-index: -1;
+
                 &.open {
-                    padding: 0px 0px 20px 20px;
+                    padding: 20px;
                     left: 0px;
                     opacity: 1;
                     z-index: 99999;
@@ -556,6 +579,7 @@
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {
+                            width: 100%;
                             .css-gdmqzi-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
                                 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
                                     span {
@@ -630,11 +654,23 @@
                         }
                     }
                 }
+                 .style{
+                    .css-11lq3yg-MuiGrid-root {
+                        .css-dmmspl-MuiFormGroup-root {
+                            .css-y5k4xs-MuiFormControlLabel-root {
+                                .css-ahj2mt-MuiTypography-root {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     margin-bottom: 4px;
 
@@ -708,6 +744,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 left: -100%;
                 top: 0;
@@ -718,8 +755,9 @@
                 transition: all 0.3s ease;
                 z-index: -1;
                 width: 360px;
+
                 &.open {
-                    padding: 0px 10px 20px 20px;
+                    padding: 20px;
                     left: 0px;
                     opacity: 1;
                     z-index: 99999;
@@ -751,6 +789,7 @@
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {
+                            width: 100%;
                             .css-gdmqzi-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
                                 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
                                     span {
@@ -825,11 +864,23 @@
                         }
                     }
                 }
+                .style{
+                    .css-11lq3yg-MuiGrid-root {
+                        .css-dmmspl-MuiFormGroup-root {
+                            .css-y5k4xs-MuiFormControlLabel-root {
+                                .css-ahj2mt-MuiTypography-root {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     margin: 3px;
 
@@ -903,6 +954,7 @@
     .buy_container {
         .outer_container {
             position: static;
+
             .left {
                 left: -100%;
                 opacity: 0;
@@ -913,14 +965,16 @@
                 transition: all 0.3s ease;
                 z-index: -1;
                 width: 320px;
+
                 &.open {
-                    padding: 0px 10px 20px 20px;
+                    padding: 20px;
                     left: 0px;
                     opacity: 1;
                     z-index: 99999;
                     height: 100%;
                     overflow: auto;
                 }
+
                 .heading {
                     font-size: 14px;
                     margin-bottom: 16px;
@@ -945,6 +999,7 @@
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {
+                            width: 100%;
                             .css-gdmqzi-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
                                 .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
                                     span {
@@ -1019,11 +1074,23 @@
                         }
                     }
                 }
+                .style{
+                    .css-11lq3yg-MuiGrid-root {
+                        .css-dmmspl-MuiFormGroup-root {
+                            .css-y5k4xs-MuiFormControlLabel-root {
+                                .css-ahj2mt-MuiTypography-root {
+                                    font-size: 14px;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             .right {
                 width: 100%;
                 float: none;
+
                 .results {
                     margin: 3px;
 

@@ -96,7 +96,7 @@ export default function Detail() {
                 <Grid container>
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                         <div className='detail_parent'>
-                            <Grid container columnSpacing={4}>
+                            <Grid container columnSpacing={4} rowSpacing={1.5}>
                                 <Grid item xl={7} lg={7} md={7} sm={6} xs={12}  >
                                     <>
                                         <Swiper
@@ -212,10 +212,12 @@ export default function Detail() {
                                             </a>
                                         </div>
                                     </div>
-                                    <div className=' btn_area'>
-                                        <Link href='/buy/buy_fill'>
-                                            <Button variant='contained'>Get In Touch</Button>
-                                        </Link>
+                                    <div className='btn_area'>
+                                        <Button variant='contained'>
+                                            <Link href='/buy/buy_fill'>
+                                                Get In Touch
+                                            </Link>
+                                        </Button>
                                     </div>
                                 </Grid>
                             </Grid>

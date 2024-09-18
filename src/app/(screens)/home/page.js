@@ -459,9 +459,23 @@ export default function Homepage() {
                                             nextEl: '.swiper-button-next',
                                             prevEl: '.swiper-button-prev',
                                         }}
+                                        breakpoints={{
+
+                                            992:{
+                                                slidesPerView:5
+                                            },
+                                            600:{
+                                                slidesPerView:3
+                                            },
+                                            0:{
+                                                slidesPerView:1
+                                            }
+
+                                        }}
                                         centeredSlides={true} // Center the active slide
                                         modules={[Pagination, Navigation]}
                                         className="mySwiper"
+
                                     >
                                         <SwiperSlide>
                                             <div className="slide_image">
