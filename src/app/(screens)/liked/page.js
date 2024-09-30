@@ -55,7 +55,7 @@ export default function Liked() {
                                                     <Link href='/buy/buy_detail'>
                                                         <Typography>{place.title}</Typography>
                                                     </Link>
-                                                    <Checkbox checked {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
+                                                    <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
                                                             color: "#d50000",
                                                         }} />
                                                     }
