@@ -1,25 +1,48 @@
 'use client';
-import { Container, Grid, MenuItem, Select, TextField, FormControl, FormLabel, Button } from "@mui/material";
+import { Container, Grid, MenuItem, Select, TextField, FormControl, FormLabel, Button, Typography, IconButton } from "@mui/material";
 import Sidebar from "../../../components/sell_sidebar";
 import Image from "next/image";
+import { styled } from '@mui/material/styles';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import '../../../../../public/sass//pages/sell_add.scss';
-import type1 from '../../../../../public/images/sell/type1.png';
-import type2 from '../../../../../public/images/sell/type2.png';
-import type3 from '../../../../../public/images/sell/type3.png';
-import type4 from '../../../../../public/images/sell/type4.png';
-import type5 from '../../../../../public/images/sell/type5.png';
-import typeP1 from '../../../../../public/images/sell/typeP1.png';
-import typeP2 from '../../../../../public/images/sell/typeP2.png';
-import typeP3 from '../../../../../public/images/sell/typeP3.png';
-import typeP4 from '../../../../../public/images/sell/typeP4.png';
-import typeP5 from '../../../../../public/images/sell/typeP5.png';
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Close } from "@mui/icons-material";
+import {getApi} from '../../../../helpers/General'
 
 export default function Addproperty() {
-    const [click, setClick] = useState(null);
 
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
+
+    const [imageNames, setImageNames] = useState([]);
+
+    const handleChange = (event) => {
+        const files = Array.from(event.target.files); // Convert FileList to Array
+        const newNames = files.map(file => file.name); // Get names of the uploaded files
+        setImageNames(prevNames => [...prevNames, ...newNames]); // Concatenate with existing names
+    };
+    const handleRemoveImage = (name) => {
+        setImageNames(prevNames => prevNames.filter(imageName => imageName !== name)); // Remove selected image name
+    };
+    // const handleChange = (files) =>{
+    //     let file = {...files};
+    //     Object.entries(file).map(([key,value])=>{
+    //         let newFile = value.name
+    //         console.log(newFile)
+    //     })
+    // }
+
+    const [click, setClick] = useState(null);
     const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
     const [bed, setBed] = useState('');
@@ -41,34 +64,19 @@ export default function Addproperty() {
     const handleRoleChange = (event) => {
         setRoles(event.target.value);
     };
-
-    const Property = [
-        {
-            image1: type1,
-            image2: typeP1,
-            title: 'Modern Villa'
-        },
-        {
-            image1: type2,
-            image2: typeP2,
-            title: 'Office'
-        },
-        {
-            image1: type3,
-            image2: typeP3,
-            title: 'Apartment'
-        },
-        {
-            image1: type4,
-            image2: typeP4,
-            title: 'Family House'
-        },
-        {
-            image1: type5,
-            image2: typeP5,
-            title: 'Other'
+    const [category,setCategory] = useState([]);
+    const getData = async()=>{
+        let resp = await getApi('category');
+        if(resp && resp.status){
+            let { data } = resp;
+            if(data && data.data){
+                setCategory(data.data);
+            }
         }
-    ]
+    }
+    useEffect(()=>{
+        getData();
+    },[])
     return (
         <div className="add_container">
             <Container>
@@ -84,13 +92,15 @@ export default function Addproperty() {
                                         <div className="top">
                                             <h4>Sell Property Types</h4>
                                             <ul className="property_list">
-                                                {Property.map((item, index) => (
+                                                {category.map((item, index) => (
                                                     <li className={`list_item ${click === index ? 'active' : ''}`} onClick={() => setClick(click === index ? null : index)} key={index}>
                                                         <div className="property_item">
                                                             <div className="property_image">
                                                                 <Image
-                                                                    src={(click == index ? item.image2 : item.image1)}
+                                                                    src={(click == index ? item.icon[1] : item.icon[0])}
                                                                     alt="1."
+                                                                    width={100}
+                                                                    height={100}
                                                                 />
                                                             </div>
                                                             <h5>{item.title}</h5>
@@ -102,6 +112,8 @@ export default function Addproperty() {
                                         <div className="inputs_field">
                                             <Grid container spacing={2}>
                                                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
+                                                    { click == 4 ?
+                                                    <> 
                                                     <FormLabel>if other please specify</FormLabel>
                                                     <TextField
                                                         size="small"
@@ -110,7 +122,10 @@ export default function Addproperty() {
                                                         placeholder="Eg. room"
                                                         type="text"
                                                         fullWidth
-                                                    />
+                                                    /> 
+                                                    </>
+                                                    : ''
+                                                }
                                                 </Grid>
                                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                                     <FormControl fullWidth >
@@ -130,7 +145,7 @@ export default function Addproperty() {
                                                 </Grid>
                                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
                                                     <FormControl fullWidth >
-                                                    <FormLabel>Avaialbility</FormLabel>
+                                                        <FormLabel>Avaialbility</FormLabel>
                                                         <Select
                                                             labelId="role-label"
                                                             id="role"
@@ -142,9 +157,8 @@ export default function Addproperty() {
                                                             <MenuItem value={'For Sale'}>For Sale</MenuItem>
                                                         </Select>
                                                     </FormControl>
-                                                    
-                                                </Grid>
 
+                                                </Grid>
                                                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
                                                     <FormControl fullWidth>
                                                         <FormLabel>No. of Bedrooms</FormLabel>
@@ -207,13 +221,24 @@ export default function Addproperty() {
                                                         minRows={5}
                                                     />
                                                 </Grid>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                                {/* <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
                                                     <FormLabel>Rent & Deposit</FormLabel>
                                                     <TextField
                                                         size="small"
                                                         id="rent"
                                                         name="rent"
                                                         placeholder="Enter here"
+                                                        type="text"
+                                                        fullWidth
+                                                    />
+                                                </Grid> */}
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                                    <FormLabel>City</FormLabel>
+                                                    <TextField
+                                                        size="small"
+                                                        id="city"
+                                                        name="city"
+                                                        placeholder="Enter City"
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -251,6 +276,38 @@ export default function Addproperty() {
                                                         type="text"
                                                         fullWidth
                                                     />
+                                                </Grid>
+                                                <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+                                                    <Button
+                                                        component="label"
+                                                        role={undefined}
+                                                        variant="contained"
+                                                        tabIndex={-1}
+                                                        startIcon={<CloudUploadIcon />}
+                                                    >
+                                                        Upload images
+                                                        <VisuallyHiddenInput
+                                                            type="file"
+                                                            onChange={handleChange}
+                                                            multiple
+                                                        />
+                                                    </Button>
+                                                    {imageNames.length > 0 && (
+                                                        <Typography variant="body2" sx={{display:'flex', marginTop: 1 }}>
+                                                            {imageNames.map((name) => (
+                                                                <span key={name} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
+                                                                    {name}
+                                                                    <IconButton
+                                                                        size="small"
+                                                                        onClick={() => handleRemoveImage(name)}
+                                                                        sx={{ marginLeft: 1 }}
+                                                                    >
+                                                                        <Close/>
+                                                                    </IconButton>
+                                                                </span>
+                                                            ))}
+                                                        </Typography>
+                                                    )}
                                                 </Grid>
                                             </Grid>
                                             <h4>Personal information</h4>

@@ -6,6 +6,7 @@
 
 .buy_container {
     margin-bottom: 40px;
+    overflow-x: hidden;
 
     .outer_container {
         display: block;
@@ -47,9 +48,7 @@
                 .MuiBox-root {
                     .css-1nrlq1o-MuiFormControl-root {
                         width: 90%
-                    }
-
-                    //some css is in js page 
+                    }  //some css is in js page 
                 }
             }
 
@@ -438,6 +437,7 @@
                             width: 100%
                         }
                     }
+
                 }
 
 
@@ -576,6 +576,9 @@
 
                 .location {
                     margin-bottom: 30px;
+                    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+                        font-size: 14px;
+                    }
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {
@@ -596,6 +599,7 @@
                             }
                         }
                     }
+
                 }
 
 
@@ -786,6 +790,9 @@
 
                 .location {
                     margin-bottom: 20px;
+                    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+                        font-size: 14px;
+                    }
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {
@@ -996,6 +1003,9 @@
 
                 .location {
                     margin-bottom: 20px;
+                    .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+                        font-size: 14px;
+                    }
 
                     .css-0 {
                         .css-1nrlq1o-MuiFormControl-root {

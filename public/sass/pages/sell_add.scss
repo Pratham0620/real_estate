@@ -47,6 +47,9 @@
                             cursor: pointer;
                             overflow: hidden;
                             border: 2px solid white;
+                            &:hover{
+                                border:2px solid #7E81E7;
+                            }
 
                             &.active {
                                 border: 2px solid #7E81E7;

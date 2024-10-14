@@ -4,6 +4,8 @@
 
 .response_container {
     margin:40px 0px ;
+    overflow-x: hidden;
+
     .response_parent {
         clear: both;
         position: relative;

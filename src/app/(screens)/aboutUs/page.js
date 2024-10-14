@@ -1,27 +1,55 @@
-
-import { Avatar, Button, Container, Divider, Grid } from '@mui/material';
+'use client'
+import { Button, Container, Grid } from '@mui/material';
 import '../../../../public/sass/pages/aboutUs.scss';
 import Image from 'next/image';
-import overview from '../../../../public/images/about/about1.png'
 import rhombus from '../../../../public/images/about/component.png'
 import vision from '../../../../public/images/about/vision.png'
 import { Star } from '@mui/icons-material';
-import avatar from '../../../../public/images/about/avatar.png'
 import svg from '../../../../public/images/about/svg.png'
-import avatar2 from '../../../../public/images/about/avatar2.png'
-import avatar3 from '../../../../public/images/about/avatar3.png'
-import sponser1 from '../../../../public/images/about/sponser1.jpeg'
-import sponser2 from '../../../../public/images/about/sponser2.png'
-import sponser3 from '../../../../public/images/about/sponser3.png'
-import sponser4 from '../../../../public/images/about/sponser4.png'
-import sponser5 from '../../../../public/images/about/sponser5.png'
-import sponser6 from '../../../../public/images/about/sponser6.png'
-import sponser7 from '../../../../public/images/about/sponser7.png'
-import sponser8 from '../../../../public/images/about/sponser8.png'
-import sponser9 from '../../../../public/images/about/sponser9.png'
-import sponser10 from '../../../../public/images/about/sponser10.jpg'
+import { useEffect, useState } from 'react';
+import { getApi, renderHtml } from '../../../helpers/General'
 export default function About() {
     const stars = Array(5).fill(0);
+
+    const [pages, setPage] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [partner, setPartner] = useState([]);
+
+    const getData = async () => {
+        let resp = await getApi('about/view/67001e3f7096424911120c8b');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setPage(data.data);
+            }
+        }
+    }
+
+
+    const getComment = async () => {
+        let resp = await getApi('faq');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setComments(data.data);
+            }
+        }
+    }
+
+    const getPartner = async () => {
+        let resp = await getApi('partner');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setPartner(data.data);
+            }
+        }
+    }
+    useEffect(() => {
+        getData();
+        getComment();
+        getPartner();
+    }, []);
     return (
         <div className='about_container'>
             <div className='overview'>
@@ -33,9 +61,10 @@ export default function About() {
                                     <Grid item xl={6} lg={6} md={6} sm={5} xs={12} >
                                         <div className='image'>
                                             <Image
-                                                src={overview}
-                                                alt='Overview'
-                                                
+                                                src={pages.image}
+                                                alt={'Overview'}
+                                                width={1000}
+                                                height={1000}
                                             />
                                         </div>
                                     </Grid>
@@ -45,16 +74,13 @@ export default function About() {
                                                 <Image
                                                     src={rhombus}
                                                     alt='*'
-                                                    
+
                                                 />
                                                 <h5 className='about'>About us</h5>
                                             </div>
-                                            <h4 className='heading'>Our Company Overview</h4>
+                                            <h4 className='heading'>{pages.title}</h4>
                                             <h6 className='description'>
-                                                We are a real estate company that specializes in developing and managing large
-                                                A-class properties in the Baltics. Each and every real estate development being
-                                                a reflection of our commitment to excellence – from analysis to design, from
-                                                architecture to execution.
+                                                {pages.description}
                                             </h6>
                                             <Button href='#C1'>Our Partners</Button>
                                         </div>
@@ -78,32 +104,23 @@ export default function About() {
                                                     <Image
                                                         src={vision}
                                                         alt='__'
-                                                        
+
                                                     />
                                                 </div>
                                                 <h4 className='head'>Vision</h4>
                                             </div>
-                                            <h6 className='description'>
-                                                “Lorem ipsum dolor sit amet consectetur.
-                                                Sed id ultrices phasellus molestie. Posuere molestie”
-                                            </h6>
-                                            <h6 className='description'>
-                                                <br />Lorem ipsum dolor sit amet consectetur. Sed id ultrices phasellus
-                                                molestie. Posuere molestie eleifend laoreet nisi porttitor et porttitor
-                                                rhoncus sed. Et vitae eu orci neque nibh. Laoreet ut nisl massa ut dis
-                                                leo nulla nisl sollicitudin. Cras at suscipit sit at gravida. Felis donec
-                                                risus velit dolor in gravida vitae.
+                                            <h6 className='description' dangerouslySetInnerHTML={renderHtml(pages.vision)}>
                                             </h6>
                                         </div>
                                     </Grid>
-                                     <Grid item xl={2} lg={2} md={2} sm={0} xs={0} >
+                                    <Grid item xl={2} lg={2} md={2} sm={0} xs={0} >
                                         <div style={{
                                             height: '100%',
                                             width: '2px',
                                             backgroundColor: 'white', // Change the color as needed
                                             margin: '0 auto' // Adjust spacing around the line
                                         }} />
-                                    </Grid> 
+                                    </Grid>
                                     <Grid item xl={5} lg={5} md={5} sm={12} xs={12} >
                                         <div className='ethics'>
                                             <div className='superset'>
@@ -111,21 +128,12 @@ export default function About() {
                                                     <Image
                                                         src={vision}
                                                         alt='__'
-                                                        
+
                                                     />
                                                 </div>
                                                 <h4 className='head'>Ethics</h4>
                                             </div>
-                                            <h6 className='description'>
-                                                “Lorem ipsum dolor sit amet consectetur.
-                                                Sed id ultrices phasellus molestie. Posuere molestie”
-                                            </h6>
-                                            <h6 className='description'>
-                                                <br />Lorem ipsum dolor sit amet consectetur. Sed id ultrices phasellus
-                                                molestie. Posuere molestie eleifend laoreet nisi porttitor et porttitor
-                                                rhoncus sed. Et vitae eu orci neque nibh. Laoreet ut nisl massa ut dis
-                                                leo nulla nisl sollicitudin. Cras at suscipit sit at gravida. Felis donec
-                                                risus velit dolor in gravida vitae.
+                                            <h6 className='description' dangerouslySetInnerHTML={renderHtml(pages.vision)}>
                                             </h6>
                                         </div>
                                     </Grid>
@@ -160,110 +168,37 @@ export default function About() {
                                     </div>
                                     <div className='comments'>
                                         <Grid container columnSpacing={3} rowSpacing={4}>
-                                            <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
-                                                <div className='main_body'>
-                                                    <div className='heads'>
-                                                        <div className='profile'>
-                                                            <div className='avatar'>
-                                                                <Image
-                                                                    src={avatar}
-                                                                    alt='C'
-                                                                    
-                                                                />
-                                                            </div>
-                                                            <div className='name'>
-                                                                <p>Cameron Williamson </p>
-                                                                <p className='role'>Designer</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className='pera'>
-                                                        Lorem ipsum dolor sit amet consectetur.
-                                                        Ultricies ipsum scelerisque orci id et.
-                                                        Venenatis elit sagittis dictumst mattis.
-                                                        Vestibulum mauris lacinia libero nunc lorem
-                                                        nec orci bibendum laoreet. Tortor interdum
-                                                        sit neque praesent in sit tristique.
-                                                    </div>
-                                                    <div className='quote'>
-                                                        <Image
-                                                            src={svg}
-                                                            alt='o'
-                                                            
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
-                                                <div className='main_body'>
-                                                    <div className='heads'>
-                                                        <div className='profile'>
-                                                            <div className='avatar'>
-                                                                <Image
-                                                                    src={avatar2}
-                                                                    alt='C'
-                                                                    
-                                                                />
-                                                            </div>
-                                                            <div className='name'>
-                                                                <p>Esther Hawking </p>
-                                                                <p className='role'>Marketing</p>
+                                            {comments.map((comments, index) => (
+                                                <Grid key={index} item xl={4} lg={4} md={4} sm={6} xs={12}>
+                                                    <div className='main_body'>
+                                                        <div className='heads'>
+                                                            <div className='profile'>
+                                                                <div className='avatar'>
+                                                                    <Image
+                                                                        src={comments.avatar}
+                                                                        alt={comments.title.charAt(0)}
+                                                                        width={100}
+                                                                        height={100}
+                                                                    />
+                                                                </div>
+                                                                <div className='name'>
+                                                                    <p>{comments.title}</p>
+                                                                    <p className='role'>{comments.role}</p>
+                                                                </div>
                                                             </div>
                                                         </div>
-
-                                                    </div>
-                                                    <div className='pera'>
-                                                        Lorem ipsum dolor sit amet consectetur.
-                                                        Ultricies ipsum scelerisque orci id et.
-                                                        Venenatis elit sagittis dictumst mattis.
-                                                        Vestibulum mauris lacinia libero nunc lorem
-                                                        nec orci bibendum laoreet. Tortor interdum
-                                                        sit neque praesent in sit tristique.
-                                                    </div>
-                                                    <div className='quote'>
-                                                        <Image
-                                                            src={svg}
-                                                            alt=''
-                                                            
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </Grid>
-                                            <Grid item xl={4} lg={4} md={4} sm={6} xs={12} >
-                                                <div className='main_body'>
-                                                    <div className='heads'>
-                                                        <div className='profile'>
-                                                            <div className='avatar'>
-                                                                <Image
-                                                                    src={avatar3}
-                                                                    alt='C'
-                                                                    
-                                                                />
-                                                            </div>
-                                                            <div className='name'>
-                                                                <p>Dane Wilson</p>
-                                                                <p className='role'>Developer</p>
-                                                            </div>
+                                                        <div className='pera'>
+                                                            {comments.description}
                                                         </div>
-
+                                                        <div className='quote'>
+                                                            <Image
+                                                                src={svg}
+                                                                alt='quote'
+                                                            />
+                                                        </div>
                                                     </div>
-                                                    <div className='pera'>
-                                                        Lorem ipsum dolor sit amet consectetur.
-                                                        Ultricies ipsum scelerisque orci id et.
-                                                        Venenatis elit sagittis dictumst mattis.
-                                                        Vestibulum mauris lacinia libero nunc lorem
-                                                        nec orci bibendum laoreet. Tortor interdum
-                                                        sit neque praesent in sit tristique.
-                                                    </div>
-                                                    <div className='quote'>
-                                                        <Image
-                                                            src={svg}
-                                                            alt='o'
-                                                            
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </Grid>
+                                                </Grid>
+                                            ))}
                                         </Grid>
                                     </div>
                                 </div>
@@ -272,97 +207,19 @@ export default function About() {
                                         Support
                                     </div>
                                     <Grid container rowSpacing={3}>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser1}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser2}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser3}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser4}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser5}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser6}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser10}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser8}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser9}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xl={2} lg={2} md={2} sm={3} xs={4}>
-                                            <div className='sponser'>
-                                                <Image
-                                                    src={sponser7}
-                                                    alt=''
-                                                    
-                                                />
-                                            </div>
-                                        </Grid>
+                                        {partner.map((item, index) => (
 
+                                            <Grid item xl={2} lg={2} md={2} sm={3} xs={4} key={index}>
+                                                <div className='sponser'>
+                                                    <Image
+                                                        src={item.icon}
+                                                        alt='Partner'
+                                                        width={400}
+                                                        height={400}
+                                                    />
+                                                </div>
+                                            </Grid>
+                                        ))}
                                     </Grid>
                                 </div>
                             </div>

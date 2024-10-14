@@ -3,6 +3,8 @@
 @import "../helper/base.scss";
 
 .submit_container {
+    overflow-x: hidden;
+
     .submit_parent {
         padding: 50px 60px 80px;
         h3 {

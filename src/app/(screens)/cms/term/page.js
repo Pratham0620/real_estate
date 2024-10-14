@@ -1,262 +1,38 @@
+'use client'
 import { Container, Grid, Typography } from '@mui/material';
 import '../../../../../public/sass/pages/cms.scss';
+import { useEffect, useState } from 'react';
+import { getApi,renderHtml } from '../../../../helpers/General'
 
 export default function Term() {
+    const [pages, setPage] = useState([]);
+
+    const getData = async () => {
+        let resp = await getApi('cms/view/66fa5c211592952e979ac1de')
+        console.log("resp", resp);
+
+        if (resp && resp.status) {
+
+            let { data } = resp;
+            console.log("data",data)
+            if (data && data.data) {
+                setPage(data.data);
+            }
+        }
+    }
+    useEffect(() => {
+        getData();
+    }, [])
+    
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <Typography>Terms & Conditions</Typography>
-                {/* h1,h2,h3 */}
+                <Typography>{pages.title}</Typography>
             </div>
             <Container>
                 <Grid container>
                     <Grid item>
-                        <div className='inner_parent'>
-                            {/* h4,h5,h6,p */}
-                            <h4>General</h4>
-                            <p>
-
-                                Lorem ipsum dolor sit amet consectetur.
-                                Phasellus adipiscing tortor mi odio.
-                                Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent
-                                tortor fermentum habitant ultricies lectus. Risus
-                                adipiscing malesuada dictum tortor. Purus eu lorem cras
-                                pellentesque.
-                            </p>
-
-                            <h4>Acceptance of Terms</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-                                Mi sit risus sagittis ut pellentesque id dapibus est lorem.
-                                Aliquet ipsum nulla augue tellus. Placerat vulputate mattis congue
-                                et. Nulla gravida odio at libero arcu commodo praesent lacus neque.
-                                Varius ornare tempor turpis eget. Iaculis id placerat dignissim sed
-                                fermentum condimentum.
-                            </p>
-
-                            <h4>Content Contained</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-                                Mi sit risus sagittis ut pellentesque id dapibus est lorem.
-                                Aliquet ipsum nulla augue tellus. Placerat vulputate mattis congue
-                                et. Nulla gravida odio at libero arcu commodo praesent lacus neque
-                            </p>
-
-                            <h4>Content Contained</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus.
-                            </p>
-                                <ul>
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                </ul>
-
-                            <h4>Content you provide</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus.
-                            </p>
-                                <ul>
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                </ul>
-
-                            <h4>Mortgage-Related Disclosure</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus.
-                            
-                            </p>
-
-                            <h4>Applicable Law: Agreement to Arbitrate</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-                            </p>
-
-                            <h4>Disclaimer of Warranties</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-                                Mi sit risus sagittis ut pellentesque id dapibus est lorem.
-                                Aliquet ipsum nulla augue tellus. Placerat vulputate mattis congue
-                                et. Nulla gravida odio at libero arcu commodo praesent lacus neque
-                            </p>
-
-                            <h4>Interpretation of the Terms of Use</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-                                Mi sit risus sagittis ut pellentesque id dapibus est lorem.
-                                Aliquet ipsum nulla augue tellus. Placerat vulputate mattis congue
-                                et. Nulla gravida odio at libero arcu commodo praesent lacus neque
-                            </p>
-
-                            <h4>Copyright</h4>
-                            <p>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                            </p>
-
-                            <h4>Trademarks</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus. Fermentum in non tortor praesent tortor
-                                fermentum habitant ultricies lectus. Risus adipiscing
-                                malesuada dictum tortor. Purus eu lorem cras pellentesque.
-
-                            </p>
-
-                            <h4>Ability to Opt Out from Receiving Certain Communications.</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                vestibulum euismod felis eget nec feugiat vulputate.
-                                Tristique turpis eleifend quam vitae nisi ullamcorper
-                                purus sed purus.
-                            </p>
-                                <ol>
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-
-                                    <li>Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
-                                        tortor mi odio. Velit amet ut integer viverra at. Pharetra
-                                        vestibulum euismod felis eget nec feugiat vulputate.
-                                        Tristique turpis eleifend quam vitae nisi ullamcorper
-                                        purus sed purus.
-                                    </li>
-                                </ol>
-                            {/* <table>
-                                <tr>
-                                    <th>ndjf</th>
-                                    <th>ndjf</th>
-                                </tr>
-                                <tr>
-                                    <td>hcbd</td>
-                                    <td>hcbd</td>
-                                </tr>
-                                <tr>
-                                    <td>hcbd</td>
-                                    <td>hcbd</td>
-                                </tr>
-                                <tr>
-                                    <td>hcbd</td>
-                                    <td>hcbd</td>
-                                </tr>
-                                <tr>
-                                    <td>hcbd</td>
-                                    <td>hcbd</td>
-                                </tr>
-                            </table> */}
+                        <div className='inner_parent' dangerouslySetInnerHTML={renderHtml(pages.description)}>
                         </div>
                     </Grid>
                 </Grid>

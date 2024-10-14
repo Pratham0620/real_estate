@@ -1,7 +1,7 @@
 'use client'
-import { Box, Button, Checkbox, Container, Typography, Grid } from "@mui/material";
+import { Box, Button, Checkbox, Container, Typography, Grid, TextField } from "@mui/material";
 import '../../../../../public/sass/pages/buy.scss';
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import { Favorite, FavoriteBorder,Close, FmdGoodOutlined } from "@mui/icons-material";
 import { FormControl, FormControlLabel, FormGroup, IconButton, Input, MenuItem, Select, Slider} from "@mui/material";
 import {   } from "@mui/icons-material";
@@ -12,8 +12,7 @@ import buy2 from '../../../../../public/images/buy/buy2.png';
 import buy3 from '../../../../../public/images/buy/buy3.png';
 import buy4 from '../../../../../public/images/buy/buy4.png';
 import altimg from '../../../../../public/images/buy/gallery.png';
-// import Filter from "../../../components/filter";
-
+import {getApi} from '../../../../helpers/General';
 function valuetext(value) {
     return `$${value}`;
 }
@@ -21,22 +20,16 @@ function valuetext(value) {
 export default function Buy() {
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-
-    const items = [
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-    ];
+    const [ buy , setBuy] = useState([]);
+    const getBuy = async()=>{
+        let resp = await getApi('property');
+        if (resp && resp.status){
+            let {data} = resp;
+            if(data && data.data){
+                setBuy(data.data);
+            }
+        }
+    }
 
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -53,7 +46,7 @@ export default function Buy() {
         document.body.style.height = 'auto';
     };
 
-    const types = ['All', 'Shop', 'Office', 'Apartment', 'Buiding', 'House'];
+    const types = ['All', 'Shop', 'Office', 'Apartment', 'Family House', 'Modern Villa'];
 
     const [value, setValue] = useState([0, 10000]);
 
@@ -76,16 +69,20 @@ export default function Buy() {
         { value: 'India', label: 'India' },
         { value: 'America', label: 'America' }
     ];
-    const features = ['Ac & Heating', 'Clubhouse', 'Dishwasher', 'Spa', 'Balcony', 'Pool', 'Fitness Centre', 'Valet Parking']
 
-    const style = ['A-Frame', 'Dome', 'Cottage', 'Spanish']
+    // const features = ['Ac & Heating', 'Clubhouse', 'Dishwasher', 'Spa', 'Balcony', 'Pool', 'Fitness Centre', 'Valet Parking']
+
+    // const style = ['A-Frame', 'Dome', 'Cottage', 'Spanish']
 
     const [loc, setloc] = useState('');
 
     const handleDropChange = (event) => {
         setloc(event.target.value);
     };
-
+    useEffect(()=>{
+        getBuy();
+    },[])
+    console.log("buy",buy);
 
     return (
         <div className="buy_container">
@@ -102,7 +99,15 @@ export default function Buy() {
                                 </div>
                                 <div className="location">
                                     <h3 className="heading">Location</h3>
-                                    <Box>
+                                    <TextField
+                                        id="location"
+                                        name="location"
+                                        type="text"
+                                        size="small"
+                                        placeholder="Enter Location"
+                                        fullWidth
+                                    />
+                                    {/* <Box>
                                         <FormControl>
                                             <Select
                                                 labelId="Location"
@@ -149,7 +154,7 @@ export default function Buy() {
                                                 ))}
                                             </Select>
                                         </FormControl>
-                                    </Box>
+                                    </Box> */}
                                 </div>
                                 <div className="place_type">
                                     <h3 className="heading">Type of Place</h3>
@@ -239,7 +244,7 @@ export default function Buy() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="features">
+                                {/* <div className="features">
                                     <h3 className="heading">Features</h3>
                                     <Grid container>
                                         {features.map((item, index) => (
@@ -305,7 +310,7 @@ export default function Buy() {
 
                                         ))}
                                     </Grid>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="right">
                                 <div className="results">
@@ -318,22 +323,25 @@ export default function Buy() {
                                     </div>
                                 </div>
                                 <Grid container rowSpacing={3} columnSpacing={2}>
-                                    {items.map((place, index) => (
+                                    {buy.map((place, index) => (
                                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
                                             <div className="card">
                                                 <Link href='/buy/buy_detail'>
                                                     <div className="image_div">
                                                         <Image
-                                                            src={place.src}
-                                                            alt={place.alt}
+                                                            src={place.images}
+                                                            alt={"Pictures"}
                                                             priority={false}
+                                                            loading="lazy"
+                                                            width={400}
+                                                            height={400}
                                                         />
                                                     </div>
                                                 </Link>
                                                 <div className="details">
                                                     <div className="title">
                                                         <Link href='/buy/buy_detail'>
-                                                            <Typography>{place.title}</Typography>
+                                                            <Typography>{place.type.charAt(0).toUpperCase() + place.type.slice(1) }</Typography>
                                                         </Link>
                                                         <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
                                                             color: "#d50000",
@@ -342,7 +350,7 @@ export default function Buy() {
                                                     </div>
                                                     <div className="city">
                                                         <FmdGoodOutlined />
-                                                        {place.city}
+                                                        {place.city.charAt(0).toUpperCase() + place.city.slice(1)}
                                                     </div>
                                                 </div>
                                             </div>

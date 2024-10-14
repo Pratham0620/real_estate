@@ -1,18 +1,35 @@
+'use client'
 import { Container, Grid, Typography } from '@mui/material';
 import '../../../../../public/sass/pages/cms.scss';
-
+import { useEffect, useState } from 'react';
+import {getApi , renderHtml} from '../../../../helpers/General';
 
 export default function Cookie_policy() {
+    const [pages,setPage] = useState([]);
+
+    const getData = async()=>{
+        let resp =await getApi('cms/view/66fe5912f00419f121f76c10');
+
+        if (resp && resp.status){
+            let { data } = resp ;
+            if(data && data.data){
+                setPage(data.data);
+            }
+        }
+    }
+    useEffect(()=>{
+        getData();
+    },[]);
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <Typography>Cookie Policy</Typography>
+                <Typography>{pages.title}</Typography>
             </div>
             <Container>
                 <Grid container>
                     <Grid item>
-                        <div className="inner_parent">
-                            <p>
+                        <div className="inner_parent" dangerouslySetInnerHTML={renderHtml(pages.description)}>
+                            {/* <p>
                                 Lorem ipsum dolor sit amet consectetur. Phasellus adipiscing
                                 tortor mi odio. Velit amet ut integer viverra at. Pharetra
                                 vestibulum euismod felis eget nec feugiat vulputate.
@@ -130,7 +147,7 @@ export default function Cookie_policy() {
                                 Tristique turpis eleifend quam vitae nisi ullamcorper
                                 purus sed purus.</p>
 
-                            <h6>Click here to manage your cookie preferences</h6>
+                            <h6>Click here to manage your cookie preferences</h6> */}
                         </div>
                     </Grid>
                 </Grid>

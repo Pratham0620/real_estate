@@ -1,10 +1,29 @@
+'use client'
 import { Container, Grid } from '@mui/material';
 import '../../../../../public/sass/pages/fullblog.scss';
 import { AccountCircle } from '@mui/icons-material';
 import Image from 'next/image';
-import Blog from '../../../../../public/images/blog/Blog.png';
+import { useEffect, useState } from 'react';
+import { getApi, renderHtml } from '../../../../helpers/General';
 
 export default function Fullblog() {
+
+    const [post, setPost] = useState([]);
+    const getHead = async () => {
+        let resp = await getApi('blog_head');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setPost(data.data[7]);
+            }
+        }
+    }
+
+    useEffect(() => {
+        getHead();
+    }, []);
+    console.log("head", post);
+
     return (
         <div className='blog_container'>
             <Container>
@@ -12,25 +31,26 @@ export default function Fullblog() {
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
                         <div className='parent'>
                             <h1>
-                                What is apartment? Understand the Difference Between a Flat and an Apartment
+                                {post.title}
                             </h1>
                             <div className='account'>
-                                {/* <div className='avatar'> */}
                                 <AccountCircle />
-                                {/* </div> */}
                                 <div className='detail'>
-                                    <p >Olivia Rhye</p>
-                                    <p >1 Jan 2023</p>
+                                    <p>
+                                        {post.nameAndDate}
+                                    </p>
                                 </div>
                             </div>
                             <div className='image'>
                                 <Image
-                                    src={Blog}
+                                    src={post.image}
                                     alt='blog'
-                                    
+                                    width={1000}
+                                    height={500}
                                 />
                             </div>
-                            <h6>
+                            <div dangerouslySetInnerHTML={renderHtml(post.description)}></div>
+                            {/* <h6>
                                 Traveling is an enriching experience that opens up new horizons,
                                 exposes us to different cultures, and creates memories that last a lifetime.
                                 However, traveling can also be stressful and overwhelming, especially if you don't
@@ -89,40 +109,7 @@ export default function Fullblog() {
                                     <li> In hendrerit gravida rutrum quisque non tellus orci ac auctor.
                                         Mi ipsum faucibus vitae aliquet nec ullamcorper sit amet.</li>
                                 </ul>
-
-                                {/* <table>
-                                    <thead>
-
-                                        <tr>
-                                            <th>Nma of Animal</th>
-                                            <th>Food</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Buffalo</td>
-                                            <td>Grass</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tiger</td>
-                                            <td>Meat</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Monkey</td>
-                                            <td>Banana</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Elephant</td>
-                                            <td>SugarCane</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Meena</td>
-                                            <td>Chappal</td>
-                                        </tr>
-                                    </tbody>
-                                </table> */}
-
-                            </div>
+                            </div> */}
                         </div>
                     </Grid>
                 </Grid>
