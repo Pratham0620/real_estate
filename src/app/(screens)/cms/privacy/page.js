@@ -1,17 +1,35 @@
+'use client'
 import { Container, Grid, Typography } from '@mui/material'
 import '../../../../../public/sass/pages/cms.scss'
+import { useEffect, useState } from 'react';
+import {getApi , renderHtml} from '../../../../helpers/General';
 
 export default function Privacy() {
+    const [pages,setPage] = useState([]);
+
+    const getData = async()=>{
+        let resp =await getApi('cms/view/66fa5c571592952e979ac1e2');
+
+        if (resp && resp.status){
+            let { data } = resp ;
+            if(data && data.data){
+                setPage(data.data);
+            }
+        }
+    }
+    useEffect(()=>{
+        getData();
+    },[]);
     return (
         <div className='term_container'>
             <div className='term_head'>
-                <Typography>Privacy Notice</Typography>
+                <Typography>{pages.title}</Typography>
             </div>
             <Container>
                 <Grid container>
                     <Grid item>
-                        <div className='inner_parent'>
-                            <h4>Last Modified</h4>
+                        <div className='inner_parent' dangerouslySetInnerHTML={renderHtml(pages.description)}>
+                            {/* <h4>Last Modified</h4>
                             <p>
                                 Lorem ipsum dolor sit amet consectetur.
                                 Phasellus adipiscing tortor mi odio.
@@ -215,7 +233,7 @@ export default function Privacy() {
                                 Tristique turpis eleifend quam vitae nisi ullamcorper
                                 purus sed purus.
                             
-                            </p>
+                            </p> */}
                         </div>
                     </Grid>
                 </Grid>

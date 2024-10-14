@@ -2,19 +2,13 @@
 import { ArrowBack, ArrowForward, BathtubTwoTone, ChevronLeft, ChevronRight, FilterNone, Home, HotelOutlined, LocationOnRounded, Search, SearchRounded, Villa } from "@mui/icons-material";
 import { Button, Container, FormControl, Grid, IconButton, Input, InputAdornment, MenuItem, Select, Typography } from "@mui/material";
 import '../../../../public/sass/pages/homepage.scss';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import house from '../../../../public/images/home/homesearch.svg';
-import house2 from '../../../../public/images/home/contact2.png';
-import icon1 from '../../../../public/images/home/feature_icon1.png';
-import icon2 from '../../../../public/images/home/feature_icon2.png';
-import icon3 from '../../../../public/images/home/feature_icon3.png';
-import icon4 from '../../../../public/images/home/feature_icon4.png';
 import propti from '../../../../public/images/home/property.png';
 import big from '../../../../public/images/home/big_picture.png';
 import small from '../../../../public/images/home/small_pic.png'
 import slide1 from '../../../../public/images/home/slide1.png';
-// Import Swiper React components
+import { getApi } from '../../../helpers/General'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -26,12 +20,39 @@ import Link from "next/link";
 
 export default function Homepage() {
     const [property, setProperty] = useState('');
+    
+    const [searchOption, setsearchoption] = useState('')
+    const [item, setItem] = useState(0);
+    
+    const [banner, setBanner] = useState([]);
+    const [feature, setFeature] = useState([]);
+    
     const handleChange = (event) => {
         setProperty(event.target.value);
     };
-    const [searchOption, setsearchoption] = useState('')
-    const [item, setItem] = useState(0);
+    const getBanner = async () => {
+        let resp = await getApi('banner/view/67062ae137d871018fa0c178');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setBanner(data.data);
+            }
+        }
+    }
 
+    const getFeature = async () => {
+        let resp = await getApi('feature');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if(data && data.data){
+                setFeature(data.data);
+            }
+        }
+    }
+    useEffect(() => {
+        getBanner();
+        getFeature();
+    }, []);
     const cardsData = [
         {
             imageSrc: propti,
@@ -93,10 +114,10 @@ export default function Homepage() {
                             <div className="inner_parent">
                                 <div className="title">
                                     <Home />
-                                    <Typography variant="h5">Best Real Estate</Typography>
+                                    <Typography variant="h5">{banner.title}</Typography>
                                 </div>
-                                <Typography variant="h4">Make Yourself At Home</Typography>
-                                <Typography variant="h6">Luxury Homes from Lusaka to Livingstone. Experience Zambia's Most Desired Real Estate.</Typography>
+                                <Typography variant="h4">{banner.sub_title}</Typography>
+                                <Typography variant="h6">{banner.description}</Typography>
                                 <form>
                                     <ul className="search_type">
                                         <li onClick={() => { setsearchoption(searchOption == 0 ? null : 0) }} className={`typebtn ${searchOption == 0 ? 'active' : ''}`} >Buy</li>
@@ -157,9 +178,10 @@ export default function Homepage() {
                             </div>
                             <div className="house">
                                 <Image
-                                    src={house}
+                                    src={banner.icon}
                                     alt="hello"
-
+                                    width={800}
+                                    height={800}
                                 />
                             </div>
                         </Grid>
@@ -175,11 +197,11 @@ export default function Homepage() {
                                     <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                         <Grid container>
                                             <Grid item xl={12} lg={12} md={12} sm={12} xs={6}>
-                                                <Typography variant="h4">The new way to find your new home</Typography>
-                                                <Typography variant="h6">Find your dream place to live in with more than 10k+ properties listed.</Typography>
+                                                <Typography variant="h4">{banner.feature_title}</Typography>
+                                                <Typography variant="h6">{banner.feature_quote}</Typography>
                                                 <Button className="browse">
                                                     <Typography>
-                                                        Browse Properties
+                                                        {banner.feature_button}
                                                     </Typography>
                                                 </Button>
 
@@ -187,9 +209,10 @@ export default function Homepage() {
                                             <Grid item xl={12} lg={12} md={12} sm={12} xs={6}>
                                                 <div className="images">
                                                     <Image
-                                                        src={house2}
+                                                        src={banner.feature_image}
                                                         alt="our features"
-
+                                                        width={500}
+                                                        height={500}
                                                     />
                                                 </div>
                                             </Grid>
@@ -197,64 +220,22 @@ export default function Homepage() {
                                     </Grid>
                                     <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                         <Grid container spacing={4} marginTop={0.4} >
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                <div className="icons">
-                                                    <Image
-                                                        src={icon1}
-                                                        alt="1."
-
-                                                    />
-                                                </div>
-                                                <Typography variant="h5">Property Insurance</Typography>
-                                                <Typography variant="h6">
-                                                    We offer our customer property protection
-                                                    of liability coverage and insurance for their better life.
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                <div className="icons">
-                                                    <Image
-                                                        src={icon2}
-                                                        alt="2."
-
-                                                    />
-                                                </div>
-                                                <Typography variant="h5">Best Price</Typography>
-                                                <Typography variant="h6">
-                                                    Not sure what you should be charging for your property?
-                                                    No need to worry, let us do the numbers for you.
-                                                </Typography>
-
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                <div className="icons">
-                                                    <Image
-                                                        src={icon3}
-                                                        alt="1."
-
-                                                    />
-                                                </div>
-                                                <Typography variant="h5">Lowest Commission</Typography>
-                                                <Typography variant="h6">
-                                                    You no longer have to negotiate commissions
-                                                    and haggle with other agents it only cost 2%!                                                </Typography>
-
-                                            </Grid>
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
-                                                <div className="icons">
-                                                    <Image
-                                                        src={icon4}
-                                                        alt="1."
-
-                                                    />
-                                                </div>
-                                                <Typography variant="h5">Overall Control</Typography>
-                                                <Typography variant="h6">
-                                                    Get a virtual tour, and schedule visits before you rent or buy any properties.
-                                                    You get overall control.
-                                                </Typography>
-
-                                            </Grid>
+                                            {feature.map((item, index) => (
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} key={index}>
+                                                    <div className="icons">
+                                                        <Image
+                                                            src={item.image}
+                                                            alt="1."
+                                                            width={500}
+                                                            height={500}
+                                                        />
+                                                    </div>
+                                                    <Typography variant="h5">{item.title}</Typography>
+                                                    <Typography variant="h6">
+                                                        {item.description}
+                                                    </Typography>
+                                                </Grid>
+                                            ))}
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -461,14 +442,14 @@ export default function Homepage() {
                                         }}
                                         breakpoints={{
 
-                                            992:{
-                                                slidesPerView:5
+                                            992: {
+                                                slidesPerView: 5
                                             },
-                                            600:{
-                                                slidesPerView:3
+                                            600: {
+                                                slidesPerView: 3
                                             },
-                                            0:{
-                                                slidesPerView:1
+                                            0: {
+                                                slidesPerView: 1
                                             }
 
                                         }}

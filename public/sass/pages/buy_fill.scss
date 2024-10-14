@@ -3,6 +3,8 @@
 @import "../helper/base.scss";
 
 .fill_container {
+    overflow-x: hidden;
+
     .fill_parent {
         padding: 80px 150px 100px;
 
