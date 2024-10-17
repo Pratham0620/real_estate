@@ -1,89 +1,112 @@
 'use client'
-import { Box, Button, Checkbox, Container, Typography, Grid, TextField } from "@mui/material";
+import { Box, Button, Checkbox, Container, Typography, Grid, TextField, FormControl, Select, MenuItem, FormLabel } from "@mui/material";
 import '../../../../../public/sass/pages/buy.scss';
-import {useEffect, useState } from "react";
-import { Favorite, FavoriteBorder,Close, FmdGoodOutlined } from "@mui/icons-material";
-import { FormControl, FormControlLabel, FormGroup, IconButton, Input, MenuItem, Select, Slider} from "@mui/material";
-import {   } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { Favorite, FavoriteBorder, Close, FmdGoodOutlined } from "@mui/icons-material";
+import { FormControlLabel, FormGroup, IconButton, Input, Slider } from "@mui/material";
+import { } from "@mui/icons-material";
 import Link from "next/link";
 import Image from "next/image";
-import buy1 from '../../../../../public/images/buy/buy1.png';
-import buy2 from '../../../../../public/images/buy/buy2.png';
-import buy3 from '../../../../../public/images/buy/buy3.png';
-import buy4 from '../../../../../public/images/buy/buy4.png';
-import altimg from '../../../../../public/images/buy/gallery.png';
-import {getApi} from '../../../../helpers/General';
+import { getApi } from '../../../../helpers/General';
+
 function valuetext(value) {
-    return `$${value}`;
+    return `${value}`;
 }
 
 export default function Buy() {
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-    const [ buy , setBuy] = useState([]);
-    const getBuy = async()=>{
-        let resp = await getApi('property');
-        if (resp && resp.status){
-            let {data} = resp;
-            if(data && data.data){
+    const [buy, setBuy] = useState([]);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [value, setValue] = useState([100, 10000]);
+    const [category,setCategory]= useState([])
+    const avail = ['For Sale' , 'For Rent']
+    const [loc, setLoc] = useState('');
+    const [minSize, setMin] = useState('');
+    const [maxSize, setMax] = useState('');
+    const [placeType, setPlaceType] = useState([]);
+    const [availability, setAvailability] = useState('');
+
+    const getBuy = async () => {
+        let resp = await getApi('property', {
+            params: {
+                location: loc,
+                priceRange:value,
+                placeType: placeType,
+                availability: availability,
+                minSize: minSize,
+                maxSize: maxSize
+            }
+        });
+        console.log(resp.data)
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
                 setBuy(data.data);
             }
         }
     }
-
-    const [drawerOpen, setDrawerOpen] = useState(false);
-
+    const getCategory = async()=>{
+        let resp = await getApi('category');
+        if(resp && resp.status){
+            let {data} = resp;
+            if (data && data.data){
+                setCategory(data.data)
+            }
+        }
+    }
+    const handlePlaceTypeChange = (e, label) => {
+        const checked = e.target.checked;
+        if (checked) {
+            setPlaceType([...placeType, label]);
+        } else {
+            setPlaceType(placeType.filter(type => type !== label));
+        }
+    };
+    const handleAvailabilityChange = (e) => {
+        setAvailability(e.target.value);
+    };
+    const handleMinChange = (event) => {
+        setMin(event.target.value);
+    }
+    const handleMaxChange = (event) => {
+        setMax(event.target.value);
+    }
     const handleDrawerOpen = () => {
         setDrawerOpen(true);
         document.body.style.overflow = 'hidden';
         document.body.style.height = '100vh';
 
     };
-
     const handleDrawerClose = () => {
         setDrawerOpen(false);
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
     };
-
-    const types = ['All', 'Shop', 'Office', 'Apartment', 'Family House', 'Modern Villa'];
-
-    const [value, setValue] = useState([0, 10000]);
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     const marks = [
         {
             value: 100,
-            label: valuetext(value[0])
+            label: `$${valuetext(value[0])}`
         },
         {
             value: 10000,
-            label: valuetext(value[1])
+            label: `$${valuetext(value[1])}`
         }
     ]
-
-    const options = [
-        { value: 'Scotland', label: 'Scotland' },
-        { value: 'India', label: 'India' },
-        { value: 'America', label: 'America' }
-    ];
-
-    // const features = ['Ac & Heating', 'Clubhouse', 'Dishwasher', 'Spa', 'Balcony', 'Pool', 'Fitness Centre', 'Valet Parking']
-
-    // const style = ['A-Frame', 'Dome', 'Cottage', 'Spanish']
-
-    const [loc, setloc] = useState('');
-
-    const handleDropChange = (event) => {
-        setloc(event.target.value);
+    const handleLocChange = (e) => {
+        setLoc(e.target.value);
     };
-    useEffect(()=>{
+    useEffect(() => {
         getBuy();
-    },[])
-    console.log("buy",buy);
-
+    }, [loc, minSize, maxSize, placeType, availability, value])
+    useEffect(()=>{
+        getCategory();
+    },[]);
+    // console.log("resp",buy);
+    console.log('Fetching properties with filters:', { loc, placeType, maxSize, minSize, availability,value});
     return (
         <div className="buy_container">
             <Container>
@@ -106,63 +129,37 @@ export default function Buy() {
                                         size="small"
                                         placeholder="Enter Location"
                                         fullWidth
+                                        value={loc}
+                                        onChange={handleLocChange}
                                     />
-                                    {/* <Box>
-                                        <FormControl>
-                                            <Select
-                                                labelId="Location"
-                                                value={loc}
-                                                id="Loaction"
-                                                onChange={handleDropChange}
-                                                displayEmpty
-                                                renderValue={(selected) => {
-                                                    if (selected.length === 0) {
-                                                        return <span style={{ color: '#888' }}>Enter Place</span>;
-                                                    }
-                                                    return <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                        <FmdGoodOutlined style={{ marginRight: 8, color: "lightgray" }} />
-                                                        {selected}
-                                                    </div>;
-                                                }}
 
-                                                inputProps={{ 'aria-label': 'Without label' }}
-                                                sx={{
-                                                    '& .MuiOutlinedInput-notchedOutline': {
-                                                        border: '0.5px solid lightgrey',
-                                                    },
-                                                    '& .MuiSelect-select': {
-                                                        paddingTop: 1,
-                                                        paddingBottom: 1,
-                                                        paddingLeft: 2,
-                                                    },
-                                                }}
-                                            >
-                                                {options.map((option) => (
-                                                    <MenuItem
-                                                        key={option.value}
-                                                        value={option.value}
-                                                        sx={{
-                                                            backgroundColor: 'whitesmoke !important',
-                                                            '&:hover': {
-                                                                backgroundColor: '#0e55ab !important',
-                                                                color: 'white',
-                                                            },
-                                                        }}
-                                                    >
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Box> */}
+                                </div>
+                                <div className="place_type">
+                                    <h3 className="heading">Availability</h3>
+                                    <FormControl fullWidth>
+                                        <Select
+                                            size="small"
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={availability}
+                                            defaultValue={''}
+                                            onChange={handleAvailabilityChange}
+                                        >
+                                            {avail.map((item, index) => (
+                                                <MenuItem value={item} key={index}>{item}</MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
                                 </div>
                                 <div className="place_type">
                                     <h3 className="heading">Type of Place</h3>
-                                    <Grid container >
-                                        {types.map((label, index) => (
+                                    <Grid container>
+                                        {category.map((label, index) => (
                                             <Grid item xl={6} lg={6} md={6} sm={6} xs={6} key={index}>
                                                 <FormGroup>
-                                                    <FormControlLabel control={<Checkbox disableRipple
+                                                    <FormControlLabel control={<Checkbox
+                                                        onChange={(e) => handlePlaceTypeChange(e, label._id)}
+                                                        disableRipple
                                                         sx={{
                                                             transition: 'transform 0.1s ease-in-out',
                                                             '&.Mui-checked': {
@@ -171,8 +168,8 @@ export default function Buy() {
                                                                 // color: 'linear-gradient(164.6deg, #9991F4 -16.94%, rgba(224, 222, 247, 0) 124.1%)'
 
                                                             },
-                                                        }} />}
-                                                        label={label}
+                                                        }}/>}
+                                                        label={label.title}
                                                         sx={{
                                                             // '.MuiFormControlLabel-label': {
                                                             //     color: '#000', // default color
@@ -223,6 +220,7 @@ export default function Buy() {
                                                 type="text"
                                                 placeholder="sq ft"
                                                 disableUnderline
+                                                onChange={handleMinChange}
                                                 sx={{
                                                     paddingLeft: '40px'
                                                 }}
@@ -237,6 +235,7 @@ export default function Buy() {
                                                 type="text"
                                                 placeholder="sq ft"
                                                 disableUnderline
+                                                onChange={handleMaxChange}
                                                 sx={{
                                                     paddingLeft: '40px'
                                                 }}
@@ -244,79 +243,12 @@ export default function Buy() {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <div className="features">
-                                    <h3 className="heading">Features</h3>
-                                    <Grid container>
-                                        {features.map((item, index) => (
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6} key={index}>
-                                                <FormGroup>
-                                                    <FormControlLabel control={<Checkbox disableRipple
-                                                        sx={{
-                                                            transition: 'transform 0.1s ease-in-out', // color when checkbox is checked
-
-                                                            '&.Mui-checked': {
-                                                                // color: green[900],
-                                                                color: 'rgba(24, 69, 182, 1)'
-
-                                                            },
-                                                        }} />} label={item}
-                                                        sx={{
-                                                            // '.MuiFormControlLabel-label': {
-                                                            //     color: '#000', // default color
-                                                            // },
-                                                            '.Mui-checked + .MuiFormControlLabel-label': {
-                                                                // color: green[900],
-                                                                color: 'rgba(24, 69, 182, 1)',
-
-                                                                transform: 'scale(1.06)',
-                                                                transition: 'transform 0.1s ease-in-out',// color when checkbox is checked
-                                                            },
-                                                        }}
-                                                    />
-                                                </FormGroup>
-                                            </Grid>
-                                        ))}
-                                    </Grid>
-                                </div>
-                                <div className="style">
-                                    <h3 className="heading">Style</h3>
-                                    <Grid container>
-                                        {style.map((item, index) => (
-                                            <Grid item xl={6} lg={6} md={6} sm={6} xs={6} key={item}>
-                                                <FormGroup>
-                                                    <FormControlLabel control={<Checkbox disableRipple
-                                                        sx={{
-                                                            transition: 'transform 0.1s ease-in-out', // color when checkbox is checked
-
-                                                            '&.Mui-checked': {
-                                                                // color: green[900],
-                                                                color: 'rgba(24, 69, 182, 1)',
-                                                            },
-                                                        }} />} label={item}
-                                                        sx={{
-                                                            // '.MuiFormControlLabel-label': {
-                                                            //     color: '#000', // default color
-                                                            // },
-                                                            '.Mui-checked + .MuiFormControlLabel-label': {
-                                                                // color: green[900],
-                                                                color: 'rgba(24, 69, 182, 1)',
-                                                                transform: 'scale(1.06)',
-                                                                transition: 'transform 0.1s ease-in-out', // color when checkbox is checked
-                                                            },
-                                                        }}
-                                                    />
-                                                </FormGroup>
-                                            </Grid>
-
-                                        ))}
-                                    </Grid>
-                                </div> */}
                             </div>
                             <div className="right">
                                 <div className="results">
                                     <div className="text">
-                                        <Typography variant="h4">398 Results </Typography>
-                                        <Typography variant="h6">in Scotland</Typography>
+                                        <Typography variant="h4">{buy.length} Results </Typography>
+                                        {/* <Typography variant="h6"></Typography> */}
                                     </div>
                                     <div className="filter">
                                         <Button onClick={handleDrawerOpen} className="title" disableRipple>Filter</Button>
@@ -326,10 +258,10 @@ export default function Buy() {
                                     {buy.map((place, index) => (
                                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
                                             <div className="card">
-                                                <Link href='/buy/buy_detail'>
+                                                <Link href={`/buy/${place.slug}`} passHref>
                                                     <div className="image_div">
                                                         <Image
-                                                            src={place.images}
+                                                            src={place.image[0]}
                                                             alt={"Pictures"}
                                                             priority={false}
                                                             loading="lazy"
@@ -340,8 +272,8 @@ export default function Buy() {
                                                 </Link>
                                                 <div className="details">
                                                     <div className="title">
-                                                        <Link href='/buy/buy_detail'>
-                                                            <Typography>{place.type.charAt(0).toUpperCase() + place.type.slice(1) }</Typography>
+                                                        <Link href={`/buy/${place.slug}`} passHref>
+                                                            <Typography>{place.type.charAt(0).toUpperCase() + place.type.slice(1)}</Typography>
                                                         </Link>
                                                         <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
                                                             color: "#d50000",

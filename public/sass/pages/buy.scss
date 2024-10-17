@@ -2,8 +2,6 @@
 @import '../base/variable.scss';
 @import '../helper/base.scss';
 
-
-
 .buy_container {
     margin-bottom: 40px;
     overflow-x: hidden;
@@ -134,6 +132,7 @@
         .right {
             float: right;
             width: calc(100% - 390px);
+            padding-bottom: 10px;
 
             .results {
                 display: flex;
@@ -616,6 +615,12 @@
                             }
                         }
                     }
+                    .css-q8hpuo-MuiFormControl-root{
+                        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+
+                            font-size: 14px;
+                        }
+                    }
                 }
 
                 .price_range {
@@ -829,6 +834,12 @@
                             }
                         }
                     }
+                    .css-q8hpuo-MuiFormControl-root{
+                        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+
+                            font-size: 14px;
+                        }
+                    }
                 }
 
                 .price_range {
@@ -1040,6 +1051,12 @@
                                     font-size: 14px;
                                 }
                             }
+                        }
+                    }
+                    .css-q8hpuo-MuiFormControl-root{
+                        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root{
+
+                            font-size: 14px;
                         }
                     }
                 }
