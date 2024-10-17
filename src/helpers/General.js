@@ -25,10 +25,10 @@ let postApi = async (url, formData) => {
     return data
 }
 
-let getApi = async (url) => {
-
+let getApi = async (url, params) => {
     let apiUrl = process.env.url
     let resp = await axios.get( `${apiUrl}${url}`,
+        params,
         {
             headers: {
                 Authorization: "Bearer " 

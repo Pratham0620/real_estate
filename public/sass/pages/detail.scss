@@ -244,6 +244,17 @@
                 cursor: pointer;
                 border-radius: 20px;
                 overflow: hidden;
+                &::after{
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #141414;
+                    opacity: 0.4;
+                    z-index: 2;
+                }
 
                 .featured_image {
                     height: inherit;
@@ -270,6 +281,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     gap: 5px;
+                    z-index: 3;
 
                     .chip {
                         width: 88px;
@@ -297,6 +309,7 @@
                     bottom: 20px;
                     left: 22px;
                     width: 90%;
+                    z-index: 3;
 
                     .title {
                         font-family: Roboto;
@@ -332,6 +345,7 @@
                                 position: relative;
                                 line-height: 12px;
                                 color: white;
+                                text-shadow: #1F4B43;
                                 margin-right: 30px;
                                 margin-bottom: 7px;
 
