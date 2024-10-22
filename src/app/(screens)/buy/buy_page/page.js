@@ -1,5 +1,5 @@
 'use client'
-import { Box, Button, Checkbox, Container, Typography, Grid, TextField, FormControl, Select, MenuItem, FormLabel } from "@mui/material";
+import { Box, Button, Checkbox, Container, Typography, Grid, TextField, FormControl, Select, MenuItem, FormLabel, Stack, Pagination } from "@mui/material";
 import '../../../../../public/sass/pages/buy.scss';
 import { useEffect, useState } from "react";
 import { Favorite, FavoriteBorder, Close, FmdGoodOutlined } from "@mui/icons-material";
@@ -14,63 +14,160 @@ function valuetext(value) {
 }
 
 export default function Buy() {
-
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-    const [buy, setBuy] = useState([]);
+    const avail = ['For Sale', 'For Rent', 'None']
+    const [category, setCategory] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [value, setValue] = useState([100, 10000]);
-    const [category,setCategory]= useState([])
-    const avail = ['For Sale' , 'For Rent']
-    const [loc, setLoc] = useState('');
-    const [minSize, setMin] = useState('');
-    const [maxSize, setMax] = useState('');
-    const [placeType, setPlaceType] = useState([]);
-    const [availability, setAvailability] = useState('');
 
+    // const defaultValue = {
+    //     loc: '',
+    //     availability: '',
+    //     placeType: [],
+    //     value: [100, 10000],
+    //     minSize: '',
+    //     maxSize: ''
+    // }
+    // const queryString = `?${new URLSearchParams(filterData).toString()}` ;
+    // console.log(queryString);
+    // window.history.replaceState({},'',queryString);
+
+    const [info, setInfo] = useState({
+        buy: [],
+        page: 1,
+        totalPages: 1,
+        totalCount: 1
+    })
+    const getInitialFilterData = () => {
+        if (typeof window != "undefined") {
+            const searchParams = new URLSearchParams(window.location.search);
+            return {
+                loc: searchParams.get('loc') || null,
+                availability: searchParams.get('availability') || null,
+                placeType: searchParams.get('placeType') ? searchParams.get('placeType').split(',') : [],
+                value: [
+                    parseInt(searchParams.get('minValue') || 100),
+                    parseInt(searchParams.get('maxValue') || 10000)
+                ],
+                minSize: parseInt(searchParams.get('minSize')) || null,
+                maxSize: parseInt(searchParams.get('maxSize')) || null,
+            };
+        }
+        return {
+            loc: '',
+            availability: '',
+            placeType: [],
+            value: [100, 10000],
+            minSize: '',
+            maxSize: ''
+        }
+    };
+
+    const [filterData, setFilterData] = useState(getInitialFilterData);
+
+    const updateURL = () => {
+        if (typeof window != "undefined") {
+            const searchParams = new URLSearchParams();
+            if (filterData.loc) searchParams.set('loc', filterData.loc);
+            if (filterData.availability) searchParams.set('availability', filterData.availability);
+            if (filterData.placeType.length) searchParams.set('placeType', filterData.placeType.join(','));
+            if (filterData.value) {
+                searchParams.set('minValue', filterData.value[0]);
+                searchParams.set('maxValue', filterData.value[1]);
+            }
+            if (filterData.minSize) searchParams.set('minSize', filterData.minSize);
+            if (filterData.maxSize) searchParams.set('maxSize', filterData.maxSize);
+
+            const queryString = `?${searchParams.toString()}`;
+            window.history.replaceState(null, '', queryString);
+        };
+    };
+    const handleLocChange = (e) => {
+        setFilterData((prevData) => ({
+            ...prevData,
+            loc: e.target.value
+        }))
+    };
+    const handleAvailabilityChange = (e) => {
+        if (e.target.value == 'None') {
+            setFilterData((prevData) => ({
+                ...prevData,
+                availability: ''
+            }))
+        }
+        else {
+
+            setFilterData((prevData) => ({
+                ...prevData,
+                availability: e.target.value
+            }))
+        }
+    };
+    const handlePlaceTypeChange = (e, label) => {
+        const checked = e.target.checked;
+        setFilterData(prevData => ({
+            ...prevData,
+            placeType: checked
+                ? [...prevData.placeType, label]
+                : prevData.placeType.filter(type => type !== label)
+        }));
+    };
+    const handleChange = (e) => {
+        setFilterData((prevData) => ({
+            ...prevData,
+            value: e.target.value
+        }))
+    };
+    const handleMinChange = (e) => {
+        setFilterData((prevData) => ({
+            ...prevData,
+            minSize: e.target.value
+        }))
+    }
+    const handleMaxChange = (e) => {
+        setFilterData((prevData) => ({
+            ...prevData,
+            maxSize: e.target.value
+        }))
+    }
+    const handlePageChange = (event, value) => {
+        setInfo((prevData) => ({
+            ...prevData,
+            page: value
+        }));
+    };
     const getBuy = async () => {
         let resp = await getApi('property', {
             params: {
-                location: loc,
-                priceRange:value,
-                placeType: placeType,
-                availability: availability,
-                minSize: minSize,
-                maxSize: maxSize
+                location: filterData.loc,
+                priceRange: filterData.value,
+                placeType: filterData.placeType,
+                availability: filterData.availability,
+                minSize: filterData.minSize,
+                maxSize: filterData.maxSize,
+                page: info.page,
             }
         });
         console.log(resp.data)
         if (resp && resp.status) {
             let { data } = resp;
             if (data && data.data) {
-                setBuy(data.data);
+                setInfo((prevData) => ({
+                    ...prevData,
+                    buy: data.data,
+                    totalPages: data.totalPages,
+                    totalCount: data.totalCount
+                }))
             }
         }
     }
-    const getCategory = async()=>{
+    const getCategory = async () => {
         let resp = await getApi('category');
-        if(resp && resp.status){
-            let {data} = resp;
-            if (data && data.data){
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
                 setCategory(data.data)
             }
         }
-    }
-    const handlePlaceTypeChange = (e, label) => {
-        const checked = e.target.checked;
-        if (checked) {
-            setPlaceType([...placeType, label]);
-        } else {
-            setPlaceType(placeType.filter(type => type !== label));
-        }
-    };
-    const handleAvailabilityChange = (e) => {
-        setAvailability(e.target.value);
-    };
-    const handleMinChange = (event) => {
-        setMin(event.target.value);
-    }
-    const handleMaxChange = (event) => {
-        setMax(event.target.value);
     }
     const handleDrawerOpen = () => {
         setDrawerOpen(true);
@@ -83,30 +180,31 @@ export default function Buy() {
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
     };
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
     const marks = [
         {
             value: 100,
-            label: `$${valuetext(value[0])}`
+            label: `$${valuetext(filterData.value[0])}`
         },
         {
             value: 10000,
-            label: `$${valuetext(value[1])}`
+            label: `$${valuetext(filterData.value[1])}`
         }
     ]
-    const handleLocChange = (e) => {
-        setLoc(e.target.value);
-    };
+    // useEffect(()=>{
+    //     getInitialFilterData();
+    // },[]);
+    useEffect(() => {
+        updateURL();
+    }, [filterData]);
+
     useEffect(() => {
         getBuy();
-    }, [loc, minSize, maxSize, placeType, availability, value])
-    useEffect(()=>{
+    }, [filterData, info.page])
+
+    useEffect(() => {
         getCategory();
-    },[]);
-    // console.log("resp",buy);
-    console.log('Fetching properties with filters:', { loc, placeType, maxSize, minSize, availability,value});
+    }, []);
+    // console.log('Fetching properties with filters:', { loc, placeType, maxSize, minSize, availability, value});
     return (
         <div className="buy_container">
             <Container>
@@ -129,7 +227,7 @@ export default function Buy() {
                                         size="small"
                                         placeholder="Enter Location"
                                         fullWidth
-                                        value={loc}
+                                        value={filterData.loc || ''}
                                         onChange={handleLocChange}
                                     />
 
@@ -141,7 +239,7 @@ export default function Buy() {
                                             size="small"
                                             labelId="demo-simple-select-label"
                                             id="demo-simple-select"
-                                            value={availability}
+                                            value={filterData.availability || ''}
                                             defaultValue={''}
                                             onChange={handleAvailabilityChange}
                                         >
@@ -160,6 +258,7 @@ export default function Buy() {
                                                     <FormControlLabel control={<Checkbox
                                                         onChange={(e) => handlePlaceTypeChange(e, label._id)}
                                                         disableRipple
+                                                        checked={filterData.placeType.includes(label._id)}
                                                         sx={{
                                                             transition: 'transform 0.1s ease-in-out',
                                                             '&.Mui-checked': {
@@ -168,7 +267,7 @@ export default function Buy() {
                                                                 // color: 'linear-gradient(164.6deg, #9991F4 -16.94%, rgba(224, 222, 247, 0) 124.1%)'
 
                                                             },
-                                                        }}/>}
+                                                        }} />}
                                                         label={label.title}
                                                         sx={{
                                                             // '.MuiFormControlLabel-label': {
@@ -193,7 +292,7 @@ export default function Buy() {
                                     <Box sx={{ textAlign: 'center' }}>
                                         <Slider
                                             getAriaLabel={() => 'Price range'}
-                                            value={value}
+                                            value={filterData.value}
                                             onChange={handleChange}
                                             valueLabelDisplay="auto"
                                             min={100}
@@ -210,7 +309,7 @@ export default function Buy() {
                                     </Box>
                                 </div>
                                 <div className="size">
-                                    <h3 className="heading">Size</h3>
+                                    <h3 className="heading">Size(Enter Number)</h3>
                                     <div className="areas">
                                         <div className="min">
                                             <p className="placeholder">Min</p>
@@ -220,11 +319,11 @@ export default function Buy() {
                                                 type="text"
                                                 placeholder="sq ft"
                                                 disableUnderline
+                                                value={filterData.minSize || ''}
                                                 onChange={handleMinChange}
                                                 sx={{
                                                     paddingLeft: '40px'
                                                 }}
-
                                             />
                                         </div>
                                         <div className="max">
@@ -235,6 +334,7 @@ export default function Buy() {
                                                 type="text"
                                                 placeholder="sq ft"
                                                 disableUnderline
+                                                value={filterData.maxSize || ''}
                                                 onChange={handleMaxChange}
                                                 sx={{
                                                     paddingLeft: '40px'
@@ -247,7 +347,7 @@ export default function Buy() {
                             <div className="right">
                                 <div className="results">
                                     <div className="text">
-                                        <Typography variant="h4">{buy.length} Results </Typography>
+                                        <Typography variant="h4">{info.totalCount} Results </Typography>
                                         {/* <Typography variant="h6"></Typography> */}
                                     </div>
                                     <div className="filter">
@@ -255,7 +355,7 @@ export default function Buy() {
                                     </div>
                                 </div>
                                 <Grid container rowSpacing={3} columnSpacing={2}>
-                                    {buy.map((place, index) => (
+                                    {info.buy.map((place, index) => (
                                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
                                             <div className="card">
                                                 <Link href={`/buy/${place.slug}`} passHref>
@@ -289,6 +389,12 @@ export default function Buy() {
                                         </Grid>
                                     ))}
                                 </Grid>
+                                <div className="pagination">
+                                    <Stack spacing={2}>
+                                        {/* <Typography>Page: {page}</Typography> */}
+                                        <Pagination count={info.totalPages} page={info.page} onChange={handlePageChange} />
+                                    </Stack>
+                                </div>
                             </div>
                         </div>
                     </Grid>

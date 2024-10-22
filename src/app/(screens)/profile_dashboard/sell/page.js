@@ -8,7 +8,7 @@ import '../../../../../public/sass//pages/sell_add.scss';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Close } from "@mui/icons-material";
-import {getApi} from '../../../../helpers/General'
+import {getApi, postApi} from '../../../../helpers/General'
 
 export default function Addproperty() {
 
@@ -26,14 +26,18 @@ export default function Addproperty() {
 
     const [imageNames, setImageNames] = useState([]);
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         const files = Array.from(event.target.files); // Convert FileList to Array
         const newNames = files.map(file => file.name); // Get names of the uploaded files
         setImageNames(prevNames => [...prevNames, ...newNames]); // Concatenate with existing names
+
+        upload = await postApi("")
+
     };
     const handleRemoveImage = (name) => {
         setImageNames(prevNames => prevNames.filter(imageName => imageName !== name)); // Remove selected image name
     };
+    
     // const handleChange = (files) =>{
     //     let file = {...files};
     //     Object.entries(file).map(([key,value])=>{
@@ -294,8 +298,8 @@ export default function Addproperty() {
                                                     </Button>
                                                     {imageNames.length > 0 && (
                                                         <Typography variant="body2" sx={{display:'flex', marginTop: 1 }}>
-                                                            {imageNames.map((name) => (
-                                                                <span key={name} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
+                                                            {imageNames.map((name, index) => (
+                                                                <span key={index} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
                                                                     {name}
                                                                     <IconButton
                                                                         size="small"
