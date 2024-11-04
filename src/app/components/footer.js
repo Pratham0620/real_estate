@@ -10,7 +10,7 @@ import { usePathname } from "next/navigation";
 export default function Footer() {
     
     const path = usePathname();
-    const hideAt = ['/auth/login','/auth/reset','/auth/signup','/auth/forgotpassword'];
+    const hideAt = ['/auth/login','/auth/reset','/auth/signup','/auth/forgotpassword','/auth/otp-verification'];
     const hide = hideAt.includes(path)  ;
     if (hide){
         return null;

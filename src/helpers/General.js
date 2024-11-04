@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import Validator from 'validatorjs';
+import { store } from "@/providers/redux/store";
 
 let validatorMake = async (data, rules, message) => {
     let validation = new Validator(data, rules, message);
@@ -16,9 +18,11 @@ const foreach = (obj, callback) => {
 
 let postApi = async (url, formData) => {
     let apiUrl = process.env.url
-    let resp = await axios.post( `${apiUrl}${url}` , formData, {
+    let userLoginData = store.getState().auth.data;
+    let accessToken = userLoginData &&  userLoginData.access && userLoginData.access.token ? userLoginData.access.token : '';
+    let resp = await axios.post(`${apiUrl}${url}`, formData, {
         headers: {
-            Authorization: "Bearer "
+            Authorization: "Bearer " + accessToken
         }
     })
     let { data } = resp
@@ -27,11 +31,13 @@ let postApi = async (url, formData) => {
 
 let getApi = async (url, params) => {
     let apiUrl = process.env.url
+    let userLoginData = store.getState().auth.data;
+    let accessToken = userLoginData &&  userLoginData.login_token && userLoginData.login_token ? userLoginData.login_token : '';
     let resp = await axios.get( `${apiUrl}${url}`,
-        params,
         {
+            params,
             headers: {
-                Authorization: "Bearer " 
+                Authorization: "Bearer " + accessToken
             }
         })
         .then((resp) => {

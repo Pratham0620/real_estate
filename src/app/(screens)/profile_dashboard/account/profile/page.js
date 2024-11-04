@@ -1,3 +1,5 @@
+'use client'
+
 import Sidebar from "@/app/components/sell_sidebar";
 import { Button, Container, Grid, IconButton } from "@mui/material";
 import Image from "next/image";
@@ -5,18 +7,37 @@ import profile from '../../../../../../public/images/sell/profile.png'
 import '../../../../../../public/sass/pages/profile.scss';
 import Link from "next/link";
 import { Edit, EditCalendar } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { getApi } from "../../../../../helpers/General";
 
 export default function Profile() {
+    const [profileData, setProfileData] = useState({});
+    
+    const getProfileData = async () => {
+        let resp = await getApi("user/view");
+        if (resp && resp.status){
+            let {data} = resp;
+            if(data && data.data){
+                setProfileData(data.data);
+            }
+        }
+    }
+
+    useEffect(() => {
+        getProfileData();
+    }, [])
+
     const userData = [
-        { label: "First Name", value: "Mehrab" },
-        { label: "Last Name", value: "Sunagi" },
-        { label: "Email", value: "Mehrunsungai@gmail.com" },
-        { label: "Password", value: "dwabfdehbcjd", isPassword: true },
-        { label: "Contact Number", value: "4382473829750" },
-        { label: "Address", value: "647364 Peter Tower" },
-        { label: "City", value: "Tokyo" },
-        { label: "State", value: "Japan" },
+        { label: "First Name", value: profileData.first_name},
+        { label: "Last Name", value: profileData.last_name },
+        { label: "Email", value: profileData.email },
+        { label: "Password", value: '**********' },
+        { label: "Contact Number", value: profileData.phone_number },
+        { label: "Address", value: profileData.address },
+        { label: "City", value: profileData.city },
+        { label: "State", value: profileData.state },
     ];
+
     return (
         <div className="profile_container">
             <Container>
