@@ -1,11 +1,11 @@
 "use client"
-
 import { Provider } from "react-redux";
 import ClientThemeProvider from "../components/ClientThemeProvider";
 import Footer from "../components/footer";
 import Navbar from "../components/navbar";
 import { store, persistor } from "./../../providers/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 
 export default function layout({ children }) {
     return (
@@ -14,6 +14,7 @@ export default function layout({ children }) {
                 <PersistGate loading={null} persistor={persistor}>
                     <ClientThemeProvider>
                         <Navbar /> 
+                        <ToastContainer />
                         {children}
                         <Footer/>
                     </ClientThemeProvider>

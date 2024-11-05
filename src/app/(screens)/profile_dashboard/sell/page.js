@@ -26,7 +26,7 @@ export default function Addproperty() {
 
     const [imageNames, setImageNames] = useState([]);
 
-    const handleChange = async (event) => {
+    const handleImageChange = async (event) => {
         const files = Array.from(event.target.files);
         const base64Files = await Promise.all(files.map(file => getBase64(file)));
         for (let i = 0; i < files.length; i++) {
@@ -314,7 +314,7 @@ export default function Addproperty() {
                                                         Upload images
                                                         <VisuallyHiddenInput
                                                             type="file"
-                                                            onChange={handleChange}
+                                                            onChange={handleImageChange}
                                                             multiple
                                                         />
                                                     </Button>

@@ -24,15 +24,14 @@ export default function Navbar() {
     const [show, setShow] = useState(false);
     const [click, setClick] = useState(null);
     const checkLogin = () => {
-        if(selectorData){
+        if(selectorData) {
             setLogin(true)
         }
-        else{
+        else {
             setLogin(false);
             router.push('/auth/login');
         }
     }
-
     useEffect(() => {
         setResp(false);
         setShow(false);

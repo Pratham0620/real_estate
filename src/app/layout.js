@@ -4,6 +4,7 @@ import "../../public/sass/global.scss";
 import "../../public/sass/helper/base.scss";
 import "../../public/sass/helper/helper.scss";
 import "../../public/sass/helper/reset.scss";
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin-ext"] });
 

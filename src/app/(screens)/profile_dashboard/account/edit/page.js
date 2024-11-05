@@ -2,23 +2,98 @@
 import { Button, Container, FormControl, FormLabel, Grid, MenuItem, Select, TextField } from "@mui/material";
 import Image from "next/image";
 import profile from '../../../../../../public/images/sell/profile.png';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import '../../../../../../public/sass/pages/edit.scss';
 import Sidebar from "@/app/components/sell_sidebar";
-import Link from "next/link";
+import { getApi, postApi, validatorMake, foreach } from "../../../../../helpers/General";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+
 
 export default function Edit() {
-    const [city, setCity] = useState('');
-    const cities = ['Ludhiana', 'Patiala', 'Ambala', 'Amritsar'];
-    const handleCityChange = (event) => {
-        setCity(event.target.value)
+    const router = useRouter();
+    const defaultValue = {
+        first_name: '',
+        last_name: '',
+        city: '',
+        state: '',
+        email: '',
+        address: '',
+        phone_number: ''
     }
-    const [state, setState] = useState('');
-    const states = ['Punjab', 'Delhi', 'Uttarkhand', 'Haryana']
-    const handleStateChange = (event) => {
-        setState(event.target.value)
+    
+    const [data, setData] = useState(defaultValue);
+    const [errors, setErrors] = useState(defaultValue);
+
+    const handleChange = (e) => {
+        let { name, value } = e.target;
+        setData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+        setErrors((prevData) => ({
+            ...prevData,
+            [name]: null
+        }))
     }
 
+    let handleErrors = (errors) => {
+        foreach(errors, (index, item) => {
+            setErrors((prevData) => {
+                return {
+                    ...prevData,
+                    [index]: item[0]
+                }
+            })
+        })
+    }
+
+    const getData = async()=>{
+        let resp = await getApi('user/view');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setData(data.data);
+            }
+        }
+    }
+
+    useEffect(()=>{
+        getData();
+    },[])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let validationRules = await validatorMake(data, {
+            "first_name": 'required',
+            "last_name": 'required',
+            "city": 'required',
+            "state": 'required',
+            "email": 'required',
+            "address": 'required',
+            "phone_number": 'required'
+        })
+
+        if(!validationRules.fails()){
+            let resp = await postApi('user/edit',data);
+            if(resp.status){
+                toast.success(resp.message);
+                setData(defaultValue);
+                router.push('/profile_dashboard/account/profile')
+            }
+            else{
+                if (typeof resp.message == 'object') {
+                    handleErrors(resp.message.errors)
+                }
+                else {
+                    toast.error(resp.message)
+                }
+            }
+        }
+        else{
+            handleErrors(validationRules.errors.errors);
+        }
+    }
 
     return (
         <div className="edit_container">
@@ -30,7 +105,7 @@ export default function Edit() {
                                 <Sidebar />
                             </div>
                             <div className="edit_right">
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <Grid container spacing={2}>
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>First Name</FormLabel>
@@ -41,6 +116,10 @@ export default function Edit() {
                                                 placeholder="Enter First Name"
                                                 type="text"
                                                 fullWidth
+                                                error={!!errors.first_name}
+                                                helperText={errors.first_name || ''}
+                                                value={data.first_name || ''}
+                                                onChange={handleChange}
                                             />
                                         </Grid>
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
@@ -51,40 +130,42 @@ export default function Edit() {
                                                 name="last_name"
                                                 placeholder='Enter Your Last Name'
                                                 type="text"
+                                                error={!!errors.last_name}
+                                                helperText={errors.last_name || ''}
+                                                value={data.last_name || ''}
+                                                onChange={handleChange}
                                                 fullWidth
                                             />
                                         </Grid>
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>City</FormLabel>
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    labelId="city"
-                                                    id="city"
-                                                    value={city}
-                                                    onChange={handleCityChange}
-                                                >
-                                                    {cities.map((item, index) => (
-                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
+                                            <TextField
+                                                size="small"
+                                                id="city"
+                                                name="city"
+                                                placeholder="Enter City"
+                                                type="text"
+                                                error={!!errors.city}
+                                                helperText={errors.city || ''}
+                                                value={data.city || ''}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
                                         </Grid>
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                             <FormLabel>State</FormLabel>
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    labelId="city"
-                                                    id="city"
-                                                    value={state}
-                                                    onChange={handleStateChange}
-                                                >
-                                                    {states.map((item, index) => (
-                                                        <MenuItem value={item} key={index}>{item}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
+                                            <TextField
+                                                size="small"
+                                                id="State"
+                                                name="state"
+                                                placeholder="Enter State"
+                                                type="text"
+                                                error={!!errors.state}
+                                                helperText={errors.state || ''}
+                                                value={data.state || ''}
+                                                onChange={handleChange}
+                                                fullWidth
+                                            />
                                         </Grid>
                                         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                                             <FormLabel>Email</FormLabel>
@@ -94,6 +175,10 @@ export default function Edit() {
                                                 name="email"
                                                 placeholder="Enter Email"
                                                 type="text"
+                                                error={!!errors.email}
+                                                helperText={errors.email || ''}
+                                                value={data.email || ''}
+                                                onChange={handleChange}
                                                 fullWidth
                                             />
                                         </Grid>
@@ -105,6 +190,10 @@ export default function Edit() {
                                                 name="address"
                                                 placeholder="Address here"
                                                 type="text"
+                                                error={!!errors.address}
+                                                helperText={errors.address || ''}
+                                                value={data.address || ''}
+                                                onChange={handleChange}
                                                 fullWidth
                                             />
                                         </Grid>
@@ -112,36 +201,25 @@ export default function Edit() {
                                             <FormLabel>Contact Number</FormLabel>
                                             <TextField
                                                 size="small"
-                                                id="contact"
-                                                name="contact"
+                                                id="phone_number"
+                                                name="phone_number"
                                                 placeholder="Enter Phone Number"
                                                 type="text"
-                                                fullWidth
-                                            />
-                                        </Grid>
-
-                                        <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                                            <FormLabel>Password</FormLabel>
-                                            <TextField
-                                                size="small"
-                                                id="password"
-                                                name="password"
-                                                placeholder="Enter Password"
-                                                type="password"
+                                                error={!!errors.phone_number}
+                                                helperText={errors.phone_number || ''}
+                                                value={data.phone_number || ''}
+                                                onChange={handleChange}
                                                 fullWidth
                                             />
                                         </Grid>
                                     </Grid>
                                     <div className="buttons">
-                                        <Link href='/profile_dashboard/account/profile'>
-                                            <Button>Cancel</Button>
-                                        </Link>
-                                        <Button>Save</Button>
+                                        <Button href='/profile_dashboard/account/profile'>Cancel</Button>
+                                        <Button type="submit">Save</Button>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                     </Grid>
                 </Grid>
             </Container>

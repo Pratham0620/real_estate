@@ -19,7 +19,7 @@ const foreach = (obj, callback) => {
 let postApi = async (url, formData) => {
     let apiUrl = process.env.url
     let userLoginData = store.getState().auth.data;
-    let accessToken = userLoginData &&  userLoginData.access && userLoginData.access.token ? userLoginData.access.token : '';
+    let accessToken = userLoginData &&  userLoginData.login_token && userLoginData.login_token ? userLoginData.login_token : '';
     let resp = await axios.post(`${apiUrl}${url}`, formData, {
         headers: {
             Authorization: "Bearer " + accessToken
