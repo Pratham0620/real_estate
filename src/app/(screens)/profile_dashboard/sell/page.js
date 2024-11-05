@@ -8,7 +8,7 @@ import '../../../../../public/sass//pages/sell_add.scss';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Close } from "@mui/icons-material";
-import {getApi, postApi} from '../../../../helpers/General'
+import { getApi, postApi } from '../../../../helpers/General'
 
 export default function Addproperty() {
 
@@ -26,25 +26,47 @@ export default function Addproperty() {
 
     const [imageNames, setImageNames] = useState([]);
 
-    const handleChange = async (event) => {
-        const files = Array.from(event.target.files); // Convert FileList to Array
-        const newNames = files.map(file => file.name); // Get names of the uploaded files
-        setImageNames(prevNames => [...prevNames, ...newNames]); // Concatenate with existing names
-
-        upload = await postApi("")
-
-    };
-    const handleRemoveImage = (name) => {
-        setImageNames(prevNames => prevNames.filter(imageName => imageName !== name)); // Remove selected image name
-    };
+    const handleImageChange = async (event) => {
+        const files = Array.from(event.target.files);
+        const base64Files = await Promise.all(files.map(file => getBase64(file)));
+        for (let i = 0; i < files.length; i++) {
+            let response = await postApi('image/upload', {
+                image: base64Files[i], 
+                folder_name: 'properties_image'
+            });
     
-    // const handleChange = (files) =>{
-    //     let file = {...files};
-    //     Object.entries(file).map(([key,value])=>{
-    //         let newFile = value.name
-    //         console.log(newFile)
-    //     })
-    // }
+            if (response && response.fileName) { 
+                setImageNames(prevNames => ({   
+                    ...prevNames,
+                    [response.fileName]: files[i].name 
+                }));
+            }
+            console.log("response",response);
+        }
+    }
+
+    const handleRemoveImage = async (name) => {
+        let _name = `C:/NodeJS/realEstate_server/uploads/properties_image/${name}`;
+        let response = await postApi('image/delete', { image:_name });
+        if(response.status){
+            setImageNames(prevNames => {
+                const updatedNames = { ...prevNames };  
+                delete updatedNames[name]; 
+                return updatedNames;  
+            });
+            console.log('image_deleted');
+        }
+        else{
+            console.log("error in deleting image");
+        }
+    };
+
+    const getBase64 = (file) => new Promise(function (resolve, reject) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (error) => reject('Error: ', error);
+    })
 
     const [click, setClick] = useState(null);
     const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -68,19 +90,19 @@ export default function Addproperty() {
     const handleRoleChange = (event) => {
         setRoles(event.target.value);
     };
-    const [category,setCategory] = useState([]);
-    const getData = async()=>{
+    const [category, setCategory] = useState([]);
+    const getData = async () => {
         let resp = await getApi('category');
-        if(resp && resp.status){
+        if (resp && resp.status) {
             let { data } = resp;
-            if(data && data.data){
+            if (data && data.data) {
                 setCategory(data.data);
             }
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         getData();
-    },[])
+    }, [])
     return (
         <div className="add_container">
             <Container>
@@ -116,20 +138,20 @@ export default function Addproperty() {
                                         <div className="inputs_field">
                                             <Grid container spacing={2}>
                                                 <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
-                                                    { click == 4 ?
-                                                    <> 
-                                                    <FormLabel>if other please specify</FormLabel>
-                                                    <TextField
-                                                        size="small"
-                                                        id="other"
-                                                        name="other"
-                                                        placeholder="Eg. room"
-                                                        type="text"
-                                                        fullWidth
-                                                    /> 
-                                                    </>
-                                                    : ''
-                                                }
+                                                    {click == 4 ?
+                                                        <>
+                                                            <FormLabel>if other please specify</FormLabel>
+                                                            <TextField
+                                                                size="small"
+                                                                id="other"
+                                                                name="other"
+                                                                placeholder="Eg. room"
+                                                                type="text"
+                                                                fullWidth
+                                                            />
+                                                        </>
+                                                        : ''
+                                                    }
                                                 </Grid>
                                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={6}>
                                                     <FormControl fullWidth >
@@ -292,21 +314,21 @@ export default function Addproperty() {
                                                         Upload images
                                                         <VisuallyHiddenInput
                                                             type="file"
-                                                            onChange={handleChange}
+                                                            onChange={handleImageChange}
                                                             multiple
                                                         />
                                                     </Button>
-                                                    {imageNames.length > 0 && (
-                                                        <Typography variant="body2" sx={{display:'flex', marginTop: 1 }}>
-                                                            {imageNames.map((name, index) => (
-                                                                <span key={index} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
+                                                    {Object.keys(imageNames).length > 0 && (
+                                                        <Typography variant="body2" sx={{ display: 'flex', marginTop: 1 }}>
+                                                            {Object.entries(imageNames).map(([key,name]) => (
+                                                                <span key={key} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
                                                                     {name}
                                                                     <IconButton
                                                                         size="small"
-                                                                        onClick={() => handleRemoveImage(name)}
+                                                                        onClick={() => handleRemoveImage(key)}
                                                                         sx={{ marginLeft: 1 }}
                                                                     >
-                                                                        <Close/>
+                                                                        <Close />
                                                                     </IconButton>
                                                                 </span>
                                                             ))}

@@ -6,9 +6,71 @@ import { Button, Container, FormLabel, Grid, IconButton, InputAdornment, TextFie
 import { useState } from "react";
 import Image from "next/image";
 import secu from '../../../../../public/images/sell/Security.png'
+import { useRouter } from "next/navigation";
+import { getApi, postApi, validatorMake, foreach } from "../../../../helpers/General";
+import { toast } from "react-toastify";
+
 
 export default function ChangePass() {
     const [showPassword, setShowPassword] = useState(false); // State for showing/hiding password
+    const router = useRouter();
+    const defaultValue = {
+        old_password: '',
+        password: '',
+        password_confirmation: ''
+    }
+    const [data, setData] = useState(defaultValue);
+    const [errors, setErrors] = useState(defaultValue);
+
+    let handleChange = (e) => {
+        let { name, value } = e.target;
+        setData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+        setErrors((prevData) => ({
+            ...prevData,
+            [name]: null
+        }))
+    }
+    let handleErrors = (errors) => {
+        foreach(errors, (index, item)=>{
+            setErrors((prevData) => {
+                return {
+                    ...prevData,
+                    [index]: item[0]
+                }
+            })
+        })
+    }
+
+    const handleSubmit = async(e)=>{
+        e.preventDefault();
+        let validationRules = await validatorMake(data,{
+            "old_password":'required',
+            "password":'required',
+            "password_confirmation":'required|same:password'
+        })
+
+        if(!validationRules.fails()){
+            let resp = await postApi('user/changePass',data)
+            if(resp.status) {
+                toast.success(resp.message);
+                setData(defaultValue);
+            }
+            else{
+                if (typeof resp.message == 'object') {
+                    handleErrors(resp.message.errors)
+                }
+                else {
+                    toast.error(resp.message)
+                }
+            }
+        }
+        else{
+            handleErrors(validationRules.errors.errors)
+        }
+    }
 
     // Toggle password visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -17,6 +79,7 @@ export default function ChangePass() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+
     return (
         <div className="changepass_container">
             <Container>
@@ -37,7 +100,7 @@ export default function ChangePass() {
                                         creating your account, We’ll send you the
                                         instructions to reset your password
                                     </p>
-                                    <form>
+                                    <form onSubmit={handleSubmit}>
                                         <div className="input_fields">
                                             <h4>Old Password</h4>
                                             <TextField
@@ -45,7 +108,8 @@ export default function ChangePass() {
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Old Password"
                                                 name="old_password"
-
+                                                value={data.old_password || ''}
+                                                onChange={handleChange}
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position="end">
@@ -70,11 +134,12 @@ export default function ChangePass() {
                                         <div className="input_fields">
                                             <h4>New Password</h4>
                                             <TextField
-                                                id="new_password"
+                                                id="password"
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="New Password"
-                                                name="new_password"
-
+                                                name="password"
+                                                value={data.password || ''}
+                                                onChange={handleChange}
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position="end">
@@ -99,11 +164,12 @@ export default function ChangePass() {
                                         <div className="input_fields">
                                             <h4>Confirm Password</h4>
                                             <TextField
-                                                id="confirm_password"
+                                                id="password_confirmation"
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Confirm Password"
-                                                name="confirm_password"
-
+                                                name="password_confirmation"
+                                                value={data.password_confirmation || ''}
+                                                onChange={handleChange}
                                                 InputProps={{
                                                     endAdornment: (
                                                         <InputAdornment position="end">
@@ -126,7 +192,7 @@ export default function ChangePass() {
                                             />
                                         </div>
                                         <div className="btn_area">
-                                            <Button variant="contained">Change Password</Button>
+                                            <Button variant="contained" type="submit">Change Password</Button>
                                         </div>
                                     </form>
                                 </div>

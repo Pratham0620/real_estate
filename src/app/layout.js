@@ -4,9 +4,7 @@ import "../../public/sass/global.scss";
 import "../../public/sass/helper/base.scss";
 import "../../public/sass/helper/helper.scss";
 import "../../public/sass/helper/reset.scss";
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
-import ClientThemeProvider from "./components/ClientThemeProvider";
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin-ext"] });
 
@@ -19,11 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className} id="pb_scroll">
-        <ClientThemeProvider>
-          <Navbar /> 
-          {children}
-          <Footer/>
-        </ClientThemeProvider>
+        {children}
       </body>
     </html>
   );

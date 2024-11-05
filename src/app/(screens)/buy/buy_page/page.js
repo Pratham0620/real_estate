@@ -118,16 +118,22 @@ export default function Buy() {
         }))
     };
     const handleMinChange = (e) => {
-        setFilterData((prevData) => ({
-            ...prevData,
-            minSize: e.target.value
-        }))
+        const value = e.target.value;
+        if (!isNaN(value) && Number(value) >= 0) {
+            setFilterData((prevData) => ({
+                ...prevData,
+                minSize: Number(value) 
+            }));
+        }
     }
     const handleMaxChange = (e) => {
-        setFilterData((prevData) => ({
-            ...prevData,
-            maxSize: e.target.value
-        }))
+        const value = e.target.value;
+        if (!isNaN(value) && Number(value) >= 0) {
+            setFilterData((prevData) => ({
+                ...prevData,
+                maxSize: Number(value) 
+            }));
+        }
     }
     const handlePageChange = (event, value) => {
         setInfo((prevData) => ({

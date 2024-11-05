@@ -6,17 +6,38 @@ import { Button, Container, Icon, Grid, item, IconButton, Typography } from "@mu
 import { useEffect, useState } from "react";
 import { Close, LocationCity, LockOutlined, Logout, Menu, Person2Outlined, Sell, Textsms } from "@mui/icons-material";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import pic from '../../../../my-app/public/images/sell/profile.png';
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
-
-    const [isLogin, setLogin] = useState(true);
+    const router = useRouter();
+    const path = usePathname();
+    const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword','/auth/otp-verification'];
+    const hide = hideAt.includes(path);
+    if (hide) {
+        return null;
+    };
+    const selectorData = useSelector(state => state.auth.data);
+    const [isLogin, setLogin] = useState(false);
     const [resp, setResp] = useState(false);
     const [show, setShow] = useState(false);
-
     const [click, setClick] = useState(null);
-
+    const checkLogin = () => {
+        if(selectorData) {
+            setLogin(true)
+        }
+        else {
+            setLogin(false);
+            router.push('/auth/login');
+        }
+    }
+    useEffect(() => {
+        setResp(false);
+        setShow(false);
+        checkLogin();
+    }, [path]);
+    
     const navItems = [
         { name: 'Home', link: '/home' },
         { name: 'Buy', link: '/buy/buy_page' },
@@ -25,22 +46,6 @@ export default function Navbar() {
         { name: 'Contact us', link: '/contact' },
         { name: 'Liked Properties', link: '/liked' }
     ];
-
-    const path = usePathname();
-    const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword'];
-    const hide = hideAt.includes(path);
-    if (hide) {
-        return null;
-    };
-    useEffect(() => {
-        setResp(false);
-        setShow(false);
-        return () => {
-            setResp(false);
-            setShow(false);
-        }
-    }, [path]);
-
     const listItems = [
         { href: '/profile_dashboard/account/profile', icon: <Person2Outlined />, text: 'My Account' },
         { href: '/profile_dashboard/change_password', icon: <LockOutlined />, text: 'Change Password' },

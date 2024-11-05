@@ -5,6 +5,7 @@
 
 
 .auth_section {
+
     .auth_area {
         padding: 40px 0px;
         display: flex;
@@ -46,7 +47,6 @@
                     }
 
                     .MuiTypography-h6 {
-
                         font-size: 16px;
                         font-weight: 700;
                         line-height: 20px;
@@ -63,6 +63,26 @@
 
                 .form_fields {
                     margin-bottom: 30px;
+
+                    &.otp_input {
+                        display: flex;
+                        justify-content: center;
+                        align-self: center;
+                        margin-bottom: 80px;
+
+                        input {
+                            width: 2em !important;
+                            font-size: 24px;
+                            font-weight: 600;
+                            line-height: 30px;
+                            padding: 16px 8px;
+                            border-radius: 14px;
+                            border: 1px solid grey;
+                            background-color: white;
+                            color: black;
+                            margin-right: 24px;
+                        }
+                    }
 
                     .MuiFormControl-root {
                         width: 100%;
@@ -99,7 +119,7 @@
                     margin-bottom: 70px;
                     display: flex;
                     justify-content: space-between;
-
+                    
                     .remember {
                         display: flex;
                         font-size: 13px;
@@ -107,15 +127,15 @@
                         line-height: 25px;
                         text-align: left;
                         color: #7D8FB3;
-
+                        
                         input {
                             margin-right: 3px;
                         }
                     }
-
+                    
                     .forgot_pass {
                         a {
-
+                            
                             font-size: 13px;
                             font-weight: 700;
                             line-height: 25px;
@@ -123,10 +143,10 @@
                             color: #1C48B8;
                             @extend %bottom-Line_animation;
                         }
-
+                        
                     }
-
                 }
+
             }
 
         }
@@ -158,12 +178,47 @@
             }
         }
     }
-    &.reset_section{
+
+    &.otp_section {
         .auth_area {
             .left {
-                .logo{
+                .form_area {
+                    .btn_area {
+                        margin-top: 130px;
+                    }
+
+                    .resend_otp_section {
+                        text-align: center;
+                        margin-top: 5px;
+
+                        .MuiTypography-h6 {
+                            font-size: 16px;
+                            font-weight: 700;
+                            line-height: 20px;
+                            color: #4D5E80;
+                        }
+
+                        span {
+                            text-indent: 4px;
+                            font-size: 16px;
+                            font-weight: 700;
+                            line-height: 20px;
+                            color: $primaryBlue_color;
+                            @extend %bottom-Line_animation;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &.reset_section {
+        .auth_area {
+            .left {
+                .logo {
                     margin-bottom: 50px;
                 }
+
                 .form_area {
                     .btn_area {
                         margin-top: 80px;
@@ -182,12 +237,13 @@
                 }
 
                 .form_area {
-                    .form_fields{
+                    .form_fields {
                         margin-bottom: 20px;
                     }
-                    .extras {
-                        margin-bottom: 50px;
-                    }
+
+                   .btn_area{
+                    margin-top: 50px;
+                   }
                 }
             }
         }
@@ -241,6 +297,15 @@
 
                         }
                     }
+
+                    .form_fields {
+                        &.otp_input {
+                            input {
+                                padding: 10px 8px;
+                                margin-right: 16px;
+                            }
+                        }
+                    }
                 }
 
             }
@@ -263,6 +328,20 @@
                 }
             }
         }
+
+        &.otp_section {
+            .auth_area {
+                .left {
+                    .form_area {
+                        .btn_area {
+                            margin-top: 40px;
+                        }
+                    }
+                }
+            }
+        }
+
+
         &.reset_section {
             .auth_area {
                 .left {
@@ -284,8 +363,8 @@
                     }
 
                     .form_area {
-                        .extras {
-                            margin-bottom: 50px;
+                        .btn_area {
+                            margin-top: 50px;
                         }
                     }
                 }
@@ -314,6 +393,17 @@
                 .form_area {
                     padding: 0px 14px;
 
+                    .form_fields {
+                        &.otp_input {
+                            input {
+                                padding: 10px 4px;
+                                margin-right: 12px;
+                                line-height: 24px;
+                                font-size: 16px;
+                            }
+                        }
+                    }
+
                     .header {
 
                         .MuiTypography-h4 {
@@ -348,6 +438,19 @@
                 }
             }
         }
+
+        &.otp_section {
+            .auth_area {
+                .left {
+                    .form_area {
+                        .btn_area {
+                            margin-top: 40px;
+                        }
+                    }
+                }
+            }
+        }
+
         &.reset_section {
             .auth_area {
                 .left {
@@ -368,8 +471,8 @@
                     }
 
                     .form_area {
-                        .extras {
-                            margin-bottom: 40px;
+                        .btn_area {
+                            margin-top: 40px;
                         }
                     }
                 }
@@ -398,6 +501,17 @@
                 .form_area {
                     padding: 0px 14px;
 
+                    .form_fields {
+                        &.otp_input {
+                            input {
+                                padding: 8px 0px;
+                                margin-right: 10px;
+                                line-height: 24px;
+                                font-size: 14px;
+                            }
+                        }
+                    }
+
                     .header {
 
                         .MuiTypography-h4 {
@@ -432,6 +546,29 @@
                 }
             }
         }
+
+        &.otp_section {
+            .auth_area {
+                .left {
+                    .form_area {
+                        .btn_area {
+                            margin-top: 40px;
+                        }
+
+                        .resend_otp_section {
+                            .MuiTypography-h6 {
+                                font-size: 14px;
+                            }
+
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         &.reset_section {
             .auth_area {
                 .left {
@@ -452,8 +589,8 @@
                     }
 
                     .form_area {
-                        .extras {
-                            margin-bottom: 30px;
+                        .btn_area {
+                            margin-top: 30px;
                         }
                     }
                 }
@@ -482,6 +619,17 @@
                 .form_area {
                     padding: 0px 8px;
 
+                    .form_fields {
+                        &.otp_input {
+                            input {
+                                font-size: 14px;
+                                padding: 8px 0px;
+                                margin-right: 8px;
+                                line-height: 24px;
+                            }
+                        }
+                    }
+
                     .header {
 
                         .MuiTypography-h4 {
@@ -515,6 +663,29 @@
                 }
             }
         }
+
+        &.otp_section {
+            .auth_area {
+                .left {
+                    .form_area {
+                        .btn_area {
+                            margin-top: 40px;
+                        }
+
+                        .resend_otp_section {
+                            .MuiTypography-h6 {
+                                font-size: 14px;
+                            }
+
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         &.reset_section {
             .auth_area {
                 .left {
@@ -535,8 +706,8 @@
                     }
 
                     .form_area {
-                        .extras {
-                            margin-bottom: 30px;
+                        .btn_area {
+                            margin-top: 30px;
                         }
                     }
                 }
@@ -565,6 +736,16 @@
 
                 .form_area {
                     padding: 0px 8px;
+                    .form_fields {
+                        &.otp_input {
+                            input {
+                                font-size: 14px;
+                                padding: 8px 0px;
+                                margin-right: 8px;
+                                line-height: 24px;
+                            }
+                        }
+                    }
 
                     .header {
 
@@ -599,12 +780,35 @@
                 }
             }
         }
+
+        &.otp_section {
+            .auth_area {
+                .left {
+                    .form_area {
+                        .btn_area {
+                            margin-top: 40px;
+                        }
+                        .resend_otp_section {
+                            .MuiTypography-h6 {
+                                font-size: 14px;
+                            }
+
+                            span {
+                                font-size: 14px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         &.reset_section {
             .auth_area {
                 .left {
-                    .logo{
+                    .logo {
                         margin-bottom: 30px;
                     }
+
                     .form_area {
                         .btn_area {
                             margin-top: 40px;
@@ -622,8 +826,8 @@
                     }
 
                     .form_area {
-                        .extras {
-                            margin-bottom: 30px;
+                        .btn_area {
+                            margin-top: 30px;
                         }
                     }
                 }
