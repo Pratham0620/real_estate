@@ -153,7 +153,6 @@ export default function Buy() {
                 page: info.page,
             }
         });
-        console.log(resp.data)
         if (resp && resp.status) {
             let { data } = resp;
             if (data && data.data) {
@@ -210,7 +209,8 @@ export default function Buy() {
     useEffect(() => {
         getCategory();
     }, []);
-    // console.log('Fetching properties with filters:', { loc, placeType, maxSize, minSize, availability, value});
+    // console.log('Fetching properties with filters:', filterData);
+    let imagePath = 'http://localhost:4001/uploads/properties_image/'
     return (
         <div className="buy_container">
             <Container>
@@ -367,7 +367,7 @@ export default function Buy() {
                                                 <Link href={`/buy/${place.slug}`} passHref>
                                                     <div className="image_div">
                                                         <Image
-                                                            src={place.image[0]}
+                                                            src={ `${imagePath}${place.image[0]}` }
                                                             alt={"Pictures"}
                                                             priority={false}
                                                             loading="lazy"

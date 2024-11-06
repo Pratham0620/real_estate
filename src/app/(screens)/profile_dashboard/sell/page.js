@@ -8,7 +8,8 @@ import '../../../../../public/sass//pages/sell_add.scss';
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Close } from "@mui/icons-material";
-import { getApi, postApi } from '../../../../helpers/General'
+import { getApi, postApi, validatorMake, foreach } from '../../../../helpers/General'
+import { toast } from "react-toastify";
 
 export default function Addproperty() {
 
@@ -24,73 +25,8 @@ export default function Addproperty() {
         width: 1,
     });
 
-    const [imageNames, setImageNames] = useState([]);
-
-    const handleImageChange = async (event) => {
-        const files = Array.from(event.target.files);
-        const base64Files = await Promise.all(files.map(file => getBase64(file)));
-        for (let i = 0; i < files.length; i++) {
-            let response = await postApi('image/upload', {
-                image: base64Files[i], 
-                folder_name: 'properties_image'
-            });
-    
-            if (response && response.fileName) { 
-                setImageNames(prevNames => ({   
-                    ...prevNames,
-                    [response.fileName]: files[i].name 
-                }));
-            }
-            console.log("response",response);
-        }
-    }
-
-    const handleRemoveImage = async (name) => {
-        let _name = `C:/NodeJS/realEstate_server/uploads/properties_image/${name}`;
-        let response = await postApi('image/delete', { image:_name });
-        if(response.status){
-            setImageNames(prevNames => {
-                const updatedNames = { ...prevNames };  
-                delete updatedNames[name]; 
-                return updatedNames;  
-            });
-            console.log('image_deleted');
-        }
-        else{
-            console.log("error in deleting image");
-        }
-    };
-
-    const getBase64 = (file) => new Promise(function (resolve, reject) {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = (error) => reject('Error: ', error);
-    })
-
-    const [click, setClick] = useState(null);
-    const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-    const [bed, setBed] = useState('');
-    const handleBedchange = (event) => {
-        setBed(event.target.value)
-    }
-
-    const [bath, setBath] = useState('');
-    const handleBathChange = (event) => {
-        setBath(event.target.value);
-    };
-
-    const [floor, setFloor] = useState('');
-    const handleFloorChange = (event) => {
-        setFloor(event.target.value);
-    };
-
-    const [roles, setRoles] = useState('');
-    const handleRoleChange = (event) => {
-        setRoles(event.target.value);
-    };
     const [category, setCategory] = useState([]);
+
     const getData = async () => {
         let resp = await getApi('category');
         if (resp && resp.status) {
@@ -100,9 +36,170 @@ export default function Addproperty() {
             }
         }
     }
+
+    const [click, setClick] = useState('');
+    const [property, setProperty] = useState('');
+    const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
     useEffect(() => {
         getData();
     }, [])
+
+    const [imageNames, setImageNames] = useState([]);
+
+    const defaultvalue = {
+        type: '',
+        role: '',
+        availabilty: '',
+        bedrooms: '',
+        bathrooms: '',
+        floors: '',
+        description: '',
+        city: '',
+        address: '',
+        price: '',
+        area: '',
+        contact_name: '',
+        contact_number: '',
+        email: '',
+        image: [],
+        cat_id: '',
+    }
+
+    const [formData, setFormData] = useState(defaultvalue);
+    const [errors, setErrors] = useState(defaultvalue);
+
+    let handleClick = (index) => {
+        setClick(click === index ? null : index)
+        if (index == 4) {
+            setFormData((prevData) => ({
+                ...prevData,
+                cat_id: category[index]._id,
+                type:''
+            }))
+        }
+        else{
+            setFormData((prevData) => ({
+                ...prevData,
+                cat_id: category[index]._id,
+                type: category[index].title
+            }))  
+        }
+    }
+
+    const handleImageChange = async (event) => {
+        const files = Array.from(event.target.files);
+        const base64Files = await Promise.all(files.map(file => getBase64(file)));
+        for (let i = 0; i < files.length; i++) {
+            let response = await postApi('image/upload', {
+                image: base64Files[i],
+                folder_name: 'properties_image'
+            });
+
+            if (response && response.fileName) {
+                setImageNames(prevNames => ({
+                    ...prevNames,
+                    [response.fileName]: files[i].name
+                }));
+                setFormData((prevData) => ({
+                    ...prevData,
+                    image: [...prevData.image, response.fileName]
+                }))
+            }
+        }
+    }
+
+    const handleRemoveImage = async (name) => {
+        let _name = `C:/NodeJS/realEstate_server/uploads/properties_image/${name}`;
+        let response = await postApi('image/delete', { image: _name });
+        if (response.status) {
+            setImageNames(prevNames => {
+                const updatedNames = { ...prevNames };
+                delete updatedNames[name];
+                return updatedNames;
+            });
+            setFormData((prevData) => ({
+                ...prevData,
+                image: prevData.image.filter(images => images !== name)
+            }))
+            console.log('image_deleted');
+        }
+        else {
+            console.log("error in deleting image");
+        }
+    };
+
+    let handleInputChange = (e) => {
+        let { name, value } = e.target
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }))
+        setErrors((prevData) => ({
+            ...prevData,
+            [name]: null
+        }))
+    }
+
+    let handleErrors = (errors) => {
+        foreach(errors, (index, item) => {
+            setErrors((prevData) => {
+                return {
+                    ...prevData,
+                    [index]: item[0]
+                }
+            })
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let validationRules = await validatorMake(formData, {
+            "type": 'required',
+            "role": 'required',
+            "availabilty": 'required',
+            "bedrooms": 'required',
+            "bathrooms": 'required',
+            "floors": 'required',
+            "description": 'required',
+            "city": 'required',
+            "address": 'required',
+            "price": 'required',
+            "area": 'required',
+            "contact_name": 'required',
+            "contact_number": 'required|min:10|max:14',
+            "email": 'required|email',
+            "image": 'required',
+            "cat_id": 'required'
+        })
+        if (!validationRules.fails()) {
+            let resp = await postApi('property/add', formData);
+            if (resp.status) {
+                toast.success(resp.message)
+                setFormData(defaultvalue)
+                setImageNames([]);
+            }
+            else {
+                if (typeof resp.message == 'object') {
+                    handleErrors(resp.message.errors)
+                }
+                else {
+                    toast.error(resp.message)
+                }
+            }
+        }
+        else {
+            handleErrors(validationRules.errors.errors)
+        }
+    }
+
+    const getBase64 = (file) => new Promise(function (resolve, reject) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (error) => reject('Error: ', error);
+    })
+
     return (
         <div className="add_container">
             <Container>
@@ -113,13 +210,13 @@ export default function Addproperty() {
                                 <Sidebar />
                             </div>
                             <div className="add_form">
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <div className="form_area">
                                         <div className="top">
-                                            <h4>Sell Property Types</h4>
+                                            <h4>Select Property Types</h4>
                                             <ul className="property_list">
                                                 {category.map((item, index) => (
-                                                    <li className={`list_item ${click === index ? 'active' : ''}`} onClick={() => setClick(click === index ? null : index)} key={index}>
+                                                    <li className={`list_item ${click === index ? 'active' : ''}`} onClick={() => handleClick(index)} key={index}>
                                                         <div className="property_item">
                                                             <div className="property_image">
                                                                 <Image
@@ -143,9 +240,11 @@ export default function Addproperty() {
                                                             <FormLabel>if other please specify</FormLabel>
                                                             <TextField
                                                                 size="small"
-                                                                id="other"
-                                                                name="other"
-                                                                placeholder="Eg. room"
+                                                                id="type"
+                                                                name="type"
+                                                                value={formData.type}
+                                                                onChange={handleInputChange}
+                                                                placeholder="Eg. PentHouse,Studio,FarmHouse etc."
                                                                 type="text"
                                                                 fullWidth
                                                             />
@@ -160,8 +259,10 @@ export default function Addproperty() {
                                                             labelId="role-label"
                                                             id="role"
                                                             size="small"
-                                                            value={roles}
-                                                            onChange={handleRoleChange}
+                                                            name="role"
+                                                            value={formData.role}
+                                                            onChange={handleInputChange}
+                                                            error= {!!errors.role}
                                                         >
                                                             <MenuItem value={'Owner'}>Owner</MenuItem>
                                                             <MenuItem value={'Agent'}>Agent</MenuItem>
@@ -176,8 +277,10 @@ export default function Addproperty() {
                                                             labelId="role-label"
                                                             id="role"
                                                             size="small"
-                                                            value={roles}
-                                                            onChange={handleRoleChange}
+                                                            name="availabilty"
+                                                            value={formData.availabilty}
+                                                            onChange={handleInputChange}
+                                                            error={!!errors.availabilty}
                                                         >
                                                             <MenuItem value={'For Rent'}>For Rent</MenuItem>
                                                             <MenuItem value={'For Sale'}>For Sale</MenuItem>
@@ -193,8 +296,10 @@ export default function Addproperty() {
                                                             size="small"
                                                             labelId="demo-simple-select-label"
                                                             id="demo-simple-select"
-                                                            value={bed}
-                                                            onChange={handleBedchange}
+                                                            name="bedrooms"
+                                                            value={formData.bedrooms}
+                                                            onChange={handleInputChange}
+                                                            error={!!errors.bedrooms}
                                                         >
                                                             {number.map((item, index) => (
                                                                 <MenuItem value={item} key={index}>{item}</MenuItem>
@@ -209,8 +314,10 @@ export default function Addproperty() {
                                                             size="small"
                                                             labelId="bath-label"
                                                             id="bath"
-                                                            value={bath}
-                                                            onChange={handleBathChange}
+                                                            name="bathrooms"
+                                                            value={formData.bathrooms}
+                                                            onChange={handleInputChange}
+                                                            error={!!errors.bathrooms}
                                                         >
                                                             {number.map((item, index) => (
                                                                 <MenuItem value={item} key={index}>{item}</MenuItem>
@@ -225,8 +332,10 @@ export default function Addproperty() {
                                                             size="small"
                                                             labelId="floor-label"
                                                             id="floor"
-                                                            value={floor}
-                                                            onChange={handleFloorChange}
+                                                            name="floors"
+                                                            value={formData.floors}
+                                                            onChange={handleInputChange}
+                                                            error={!!errors.floors}
                                                         >
                                                             {number.map((item, index) => (
                                                                 <MenuItem value={item} key={index}>{item}</MenuItem>
@@ -239,9 +348,13 @@ export default function Addproperty() {
                                                     <TextField
                                                         size="small"
                                                         id="other"
-                                                        name="other"
+                                                        name="description"
                                                         placeholder="Write description and amenties"
                                                         type="text"
+                                                        value={formData.description}
+                                                        onChange={handleInputChange}
+                                                        error={!!errors.description}
+                                                        helperText={errors.description ? errors.description :''}
                                                         fullWidth
                                                         multiline
                                                         minRows={5}
@@ -264,7 +377,11 @@ export default function Addproperty() {
                                                         size="small"
                                                         id="city"
                                                         name="city"
+                                                        value={formData.city}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter City"
+                                                        error={!!errors.city}
+                                                        helperText={errors.city ? errors.city :''}
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -275,20 +392,27 @@ export default function Addproperty() {
                                                         size="small"
                                                         id="price"
                                                         name="price"
+                                                        value={formData.price}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter here"
+                                                        error={!!errors.price}
+                                                        helperText={errors.price ? errors.price :''}
                                                         type="text"
                                                         fullWidth
                                                     />
                                                 </Grid>
-
                                                 <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
                                                     <FormLabel>Property Address</FormLabel>
                                                     <TextField
                                                         size="small"
                                                         id="property"
-                                                        name="property"
+                                                        name="address"
+                                                        value={formData.address}
+                                                        onChange={handleInputChange}
                                                         placeholder="Adress here"
                                                         type="text"
+                                                        error={!!errors.address}
+                                                        helperText={errors.address ? errors.address : ''}
                                                         fullWidth
                                                     />
                                                 </Grid>
@@ -298,7 +422,11 @@ export default function Addproperty() {
                                                         size="small"
                                                         id="area"
                                                         name="area"
-                                                        placeholder="Area"
+                                                        value={formData.area}
+                                                        onChange={handleInputChange}
+                                                        placeholder="In sq ft"
+                                                        error={!!errors.area}
+                                                        helperText={errors.area ? errors.area :''}
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -320,7 +448,7 @@ export default function Addproperty() {
                                                     </Button>
                                                     {Object.keys(imageNames).length > 0 && (
                                                         <Typography variant="body2" sx={{ display: 'flex', marginTop: 1 }}>
-                                                            {Object.entries(imageNames).map(([key,name]) => (
+                                                            {Object.entries(imageNames).map(([key, name]) => (
                                                                 <span key={key} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
                                                                     {name}
                                                                     <IconButton
@@ -338,25 +466,48 @@ export default function Addproperty() {
                                             </Grid>
                                             <h4>Personal information</h4>
                                             <Grid container spacing={2}>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
                                                     <FormLabel>Name</FormLabel>
                                                     <TextField
                                                         size="small"
                                                         id="name"
-                                                        name="name"
+                                                        name="contact_name"
+                                                        value={formData.contact_name}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter here"
                                                         type="text"
+                                                        error={!!errors.contact_name}
+                                                        helperText={errors.contact_name ? errors.contact_name :''}
                                                         fullWidth
                                                     />
                                                 </Grid>
-                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={6} >
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={12} >
                                                     <FormLabel>Contact Number</FormLabel>
                                                     <TextField
                                                         size="small"
-                                                        id="num"
-                                                        name="num"
+                                                        id="Contact_number"
+                                                        name="contact_number"
+                                                        value={formData.contact_number}
+                                                        onChange={handleInputChange}
                                                         placeholder="Enter here"
                                                         type="text"
+                                                        error={!!errors.contact_number}
+                                                        helperText={errors.contact_number ? errors.contact_number :''}
+                                                        fullWidth
+                                                    />
+                                                </Grid>
+                                                <Grid item xl={6} lg={6} md={6} sm={6} xs={12}>
+                                                    <FormLabel>Email</FormLabel>
+                                                    <TextField
+                                                        size="small"
+                                                        id="email"
+                                                        name="email"
+                                                        value={formData.email}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Enter Email"
+                                                        type="text"
+                                                        error={!!errors.email}
+                                                        helperText={errors.email ? errors.email :''}
                                                         fullWidth
                                                     />
                                                 </Grid>
@@ -366,7 +517,7 @@ export default function Addproperty() {
                                             <Link href='/home'>
                                                 <Button>Cancel</Button>
                                             </Link>
-                                            <Button>Sell</Button>
+                                            <Button type="submit">Sell</Button>
                                         </div>
                                     </div>
                                 </form>
