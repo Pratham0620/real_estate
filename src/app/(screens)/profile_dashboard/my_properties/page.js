@@ -1,34 +1,67 @@
-import { Button, Checkbox, Container, Grid, Typography } from "@mui/material";
-import buy1 from '../../../../../public/images/buy/buy1.png';
-import buy2 from '../../../../../public/images/buy/buy2.png';
-import buy3 from '../../../../../public/images/buy/buy3.png';
-import buy4 from '../../../../../public/images/buy/buy4.png';
+'use client'
+import { Container, Grid, Pagination, Stack, Typography } from "@mui/material";
 import altimg from '../../../../../public/images/buy/gallery.png';
 import Sidebar from "../../../components/sell_sidebar";
-import { Favorite, FavoriteBorder, FmdGoodOutlined } from "@mui/icons-material";
+import { Delete, Edit, FmdGoodOutlined } from "@mui/icons-material";
 import Link from "next/link";
 import Image from "next/image";
 import '../../../../../public/sass/pages/sell_myproperties.scss';
+import { useEffect, useState } from "react";
+import { getApi, postApi } from '../../../../helpers/General'
+import { toast } from "react-toastify";
+
 export default function MyProperty() {
+    const [info, setInfo] = useState({
+        buy: [],
+        page: 1,
+        totalPages: 1,
+        totalCount: 1
+    })
 
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+    const getBuy = async () => {
+        let resp = await getApi('property/list');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setInfo((prevData) => ({
+                    ...prevData,
+                    buy: data.data,
+                    totalPages: data.totalPages,
+                    totalCount: data.totalCount
+                }))
+            }
+        }
+    }
 
+    const handlePageChange = (event, value) => {
+        setInfo((prevData) => ({
+            ...prevData,
+            page: value
+        }));
+    };
+    const handleDelete = async (id) => {
+        let resp = await getApi(`property/remove/${id}`);
+        console.log(resp);
+        if (resp.status) {
+            toast.success(resp.message)
+            getBuy();
+        }
+        else {
+            if (typeof resp.message == 'object') {
+                handleErrors(resp.message.errors)
+            }
+            else {
+                toast.error(resp.message)
+            }
+        }
 
-    const items = [
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy1, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy2, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy3, alt: altimg, title: 'Modern House', city: 'Scotland' },
-        { src: buy4, alt: altimg, title: 'Modern House', city: 'Scotland' },
-    ];
+    }
 
+    useEffect(() => {
+        getBuy();
+    }, [info.page,])
+
+    let imagePath = 'http://localhost:4001/uploads/properties_image/'
 
     return (
         <div className="myproperty_container">
@@ -37,33 +70,41 @@ export default function MyProperty() {
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                         <div className="myproperty_parent">
                             <div className="sidebar">
-                                <Sidebar/>
+                                <Sidebar />
                             </div>
                             <div className="myproperty">
                                 <div className="results">
                                     <div className="text">
-                                        <Typography variant="h4">398 Results </Typography>
-                                        <Typography variant="h6">in Scotland</Typography>
+                                        <Typography variant="h4">{info.buy.length} </Typography>
+                                        <Typography variant="h6">in Result</Typography>
                                     </div>
                                 </div>
                                 <Grid container rowSpacing={3} columnSpacing={2}>
-                                    {items.map((place, index) => (
+                                    {info.buy.map((place, index) => (
                                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
                                             <div className="card">
                                                 <Link href={'#'}>
                                                     <div className="image_div">
                                                         <Image
-                                                            src={place.src}
-                                                            alt={place.alt}
+                                                            src={`${imagePath}${place.image[0]}`}
+                                                            alt={altimg}
                                                             priority={false}
+                                                            loading="lazy"
+                                                            width={500}
+                                                            height={700}
+
                                                         />
                                                     </div>
                                                 </Link>
                                                 <div className="details">
                                                     <div className="title">
                                                         <Link href={'#'}>
-                                                            <Typography>{place.title}</Typography>
+                                                            <Typography>{place.type}</Typography>
                                                         </Link>
+                                                        <div className="icons">
+                                                            <Edit />
+                                                            <Delete onClick={() => handleDelete(place._id)} />
+                                                        </div>
                                                     </div>
                                                     <div className="city">
                                                         <FmdGoodOutlined />
@@ -78,6 +119,12 @@ export default function MyProperty() {
                         </div>
                     </Grid>
                 </Grid>
+                <div className="pagination">
+                    <Stack spacing={2}>
+                        {/* <Typography>Page: {page}</Typography> */}
+                        <Pagination count={info.totalPages} page={info.page} onChange={handlePageChange} />
+                    </Stack>
+                </div>
             </Container>
 
         </div>

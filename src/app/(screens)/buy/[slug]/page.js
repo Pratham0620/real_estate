@@ -23,6 +23,8 @@ export default function Detail() {
     const [detail, setDetail] = useState([]);
     const [timeAgo, setTimeAgo] = useState('');
     const [random, setRandom] = useState([]);
+    const [More, setMore] = useState(false);
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     const getRandom = async () => {
         let resp = await getApi('property/random');
@@ -85,14 +87,12 @@ export default function Detail() {
         }
     }, [detail]);
 
-    const [More, setMore] = useState(false);
-
     const Read = () => {
         setMore(!More)
     };
     const description = `${detail.description}`;
 
-    const [thumbsSwiper, setThumbsSwiper] = useState(null);
+    let imagePath = 'http://localhost:4001/uploads/properties_image/'
     return (
         <div className='buy_detail'>
             <Container>
@@ -116,7 +116,7 @@ export default function Detail() {
                                             {
                                             detail.image?.map((item, index) => (
                                                 <SwiperSlide key={index}>
-                                                    <img src={item} />
+                                                    <img src={ `${imagePath}${item}` } />
                                                 </SwiperSlide>
                                             ))}
 
@@ -132,7 +132,7 @@ export default function Detail() {
                                         >
                                             {detail.image?.map((item, index) => (
                                                 <SwiperSlide key={index}>
-                                                    <img src={item} />
+                                                    <img src={`${imagePath}${item}`} />
                                                 </SwiperSlide>
                                             ))}
                                         </Swiper>
@@ -231,7 +231,7 @@ export default function Detail() {
                                             <Link href={`/buy/${card.slug}`} passHref >
                                                 <div className="card">
                                                     <div className="featured_image">
-                                                        <Image src={card.image[0]} alt={'picture'} width={700} height={700} />
+                                                        <Image src={ `${imagePath}${card.image[0]}` } alt={'picture'} width={700} height={700} />
                                                     </div>
                                                     <ul className="chip_list">
                                                         {/* {card.chips.map((chip, chipIndex) => (
