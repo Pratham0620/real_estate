@@ -10,47 +10,65 @@ import Link from "next/link";
 import { Close } from "@mui/icons-material";
 import { getApi, postApi, validatorMake, foreach } from '../../../../helpers/General'
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 
 export default function Addproperty() {
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
-
+    const searchParams = useSearchParams();
+    const slug = searchParams.get('slug') || null;
     const [category, setCategory] = useState([]);
-
-    const getData = async () => {
-        let resp = await getApi('category');
-        if (resp && resp.status) {
-            let { data } = resp;
-            if (data && data.data) {
-                setCategory(data.data);
-            }
-        }
-    }
-
-    const [click, setClick] = useState('');
-    const [property, setProperty] = useState('');
+    const [click, setClick] = useState(null);
     const number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    useEffect(() => {
-        getData();
-    }, [])
-
     const [imageNames, setImageNames] = useState([]);
+
+    const getInitialFormData = () => {
+        if (typeof window != "undefined") {
+            const searchParams = new URLSearchParams(window.location.search);
+            return {
+                type: searchParams.get('type') || '',
+                role: searchParams.get('role') || '',
+                availability: searchParams.get('availability') || '',
+                bedrooms: searchParams.get('bedrooms') || '',
+                bathrooms: searchParams.get('bathrooms') || '',
+                floors: searchParams.get('floors') || '',
+                description: searchParams.get('description') || '',
+                city: searchParams.get('city') || '',
+                address: searchParams.get('address') || '',
+                price: searchParams.get('price') || '',
+                area: searchParams.get('area') || '',
+                contact_name: searchParams.get('contact_name') || '',
+                contact_number: searchParams.get('contact_number') || '',
+                email: searchParams.get('email') || '',
+                image: searchParams.get('image') ? searchParams.get('image').split(',') : [],
+                cat_id: searchParams.get('cat_id') || '',
+
+            };
+        }
+        return {
+            type: '',
+            role: '',
+            availability: '',
+            bedrooms: '',
+            bathrooms: '',
+            floors: '',
+            description: '',
+            city: '',
+            address: '',
+            price: '',
+            area: '',
+            contact_name: '',
+            contact_number: '',
+            email: '',
+            image: [],
+            cat_id: '',
+        }
+    };
 
     const defaultvalue = {
         type: '',
         role: '',
-        availabilty: '',
+        availability: '',
         bedrooms: '',
         bathrooms: '',
         floors: '',
@@ -66,8 +84,98 @@ export default function Addproperty() {
         cat_id: '',
     }
 
-    const [formData, setFormData] = useState(defaultvalue);
+    const [formData, setFormData] = useState(getInitialFormData);
     const [errors, setErrors] = useState(defaultvalue);
+
+    const updateURL = () => {
+        if (typeof window != "undefined") {
+            const searchParams = new URLSearchParams();
+            if (formData.type) searchParams.set('type', formData.type);
+            if (formData.availability) searchParams.set('availability', formData.availability);
+            if (formData.image.length) searchParams.set('image', formData.image.join(','));
+            if (formData.address) searchParams.set('address', formData.address);
+            if (formData.area) searchParams.set('area', formData.area);
+            if (formData.bathrooms) searchParams.set('bathrooms', formData.bathrooms);
+            if (formData.bedrooms) searchParams.set('bedrooms', formData.bedrooms);
+            if (formData.cat_id) searchParams.set('cat_id', formData.cat_id);
+            if (formData.city) searchParams.set('city', formData.city);
+            if (formData.contact_name) searchParams.set('contact_name', formData.contact_name);
+            if (formData.contact_number) searchParams.set('contact_number', formData.contact_number);
+            if (formData.description) searchParams.set('description', formData.description);
+            if (formData.email) searchParams.set('email', formData.email);
+            if (formData.floors) searchParams.set('floors', formData.floors);
+            if (formData.price) searchParams.set('price', formData.price);
+            if (formData.role) searchParams.set('role', formData.role);
+
+            let slugQuery = slug ? `slug=${slug}` : '';
+            const queryString = `?${slugQuery}&${searchParams.toString()}`;
+            window.history.replaceState(null, '', queryString);
+        };
+    };
+
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
+
+    useEffect(() => {
+        updateURL();
+    }, [formData]);
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+
+    if (slug) {
+        useEffect(() => {
+            getForm(slug);
+        }, [])
+    }
+
+    const getForm = async (slug) => {
+        let resp = await getApi(`property/view/${slug}`)
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setFormData(data.data);
+                let url = data.data.image;
+                let type = data.data.type;
+                let sample = [];
+                url.forEach((item) => {
+                    let array = item.split('/');
+                    let s = array[(array.length) - 1];
+                    array[(array.length) - 1] = '';
+                    sample.push(s)
+                })
+                setImageNames(sample);
+                let index = category.findIndex(category => category.title === type);
+                if (index == -1) {
+                    setClick(4)
+                }
+                else{
+                    setClick(index);
+                }
+            }
+        }
+    }
+
+    const getData = async () => {
+        let resp = await getApi('category');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setCategory(data.data);
+            }
+        }
+    }
 
     let handleClick = (index) => {
         setClick(click === index ? null : index)
@@ -75,15 +183,15 @@ export default function Addproperty() {
             setFormData((prevData) => ({
                 ...prevData,
                 cat_id: category[index]._id,
-                type:''
+                type: ''
             }))
         }
-        else{
+        else {
             setFormData((prevData) => ({
                 ...prevData,
                 cat_id: category[index]._id,
                 type: category[index].title
-            }))  
+            }))
         }
     }
 
@@ -97,13 +205,14 @@ export default function Addproperty() {
             });
 
             if (response && response.fileName) {
+                console.log(response);
                 setImageNames(prevNames => ({
                     ...prevNames,
                     [response.fileName]: files[i].name
                 }));
                 setFormData((prevData) => ({
                     ...prevData,
-                    image: [...prevData.image, response.fileName]
+                    image: [...prevData.image, response.imageUrl]
                 }))
             }
         }
@@ -111,6 +220,7 @@ export default function Addproperty() {
 
     const handleRemoveImage = async (name) => {
         let _name = `C:/NodeJS/realEstate_server/uploads/properties_image/${name}`;
+        let url = `uploads/properties_image/${name}`;
         let response = await postApi('image/delete', { image: _name });
         if (response.status) {
             setImageNames(prevNames => {
@@ -120,7 +230,7 @@ export default function Addproperty() {
             });
             setFormData((prevData) => ({
                 ...prevData,
-                image: prevData.image.filter(images => images !== name)
+                image: prevData.image.filter(images => images !== url)
             }))
             console.log('image_deleted');
         }
@@ -157,7 +267,7 @@ export default function Addproperty() {
         let validationRules = await validatorMake(formData, {
             "type": 'required',
             "role": 'required',
-            "availabilty": 'required',
+            "availability": 'required',
             "bedrooms": 'required',
             "bathrooms": 'required',
             "floors": 'required',
@@ -173,23 +283,45 @@ export default function Addproperty() {
             "cat_id": 'required'
         })
         if (!validationRules.fails()) {
-            let resp = await postApi('property/add', formData);
-            if (resp.status) {
-                toast.success(resp.message)
-                setFormData(defaultvalue)
-                setImageNames([]);
-            }
-            else {
-                if (typeof resp.message == 'object') {
-                    handleErrors(resp.message.errors)
+            if (slug == null) {
+                let resp = await postApi('property/add', formData);
+                if (resp.status) {
+                    toast.success(resp.message)
+                    setFormData(defaultvalue)
+                    setImageNames([]);
+                    setClick(null)
                 }
                 else {
-                    toast.error(resp.message)
+                    if (typeof resp.message == 'object') {
+                        handleErrors(resp.message.errors)
+                    }
+                    else {
+                        toast.error(resp.message)
+                    }
+                }
+            }
+
+            else {
+                let resp = await postApi(`property/edit`, formData);
+                if (resp.status) {
+                    toast.success(resp.message)
+                    setFormData(defaultvalue)
+                    setImageNames([]);
+                    setClick(null)
+                }
+                else {
+                    if (typeof resp.message == 'object') {
+                        handleErrors(resp.message.errors)
+                    }
+                    else {
+                        toast.error(resp.message)
+                    }
                 }
             }
         }
         else {
             handleErrors(validationRules.errors.errors)
+            toast.error("Validation Error . Please Check Fields")
         }
     }
 
@@ -199,7 +331,7 @@ export default function Addproperty() {
         reader.onload = () => resolve(reader.result)
         reader.onerror = (error) => reject('Error: ', error);
     })
-
+    console.log(category);
     return (
         <div className="add_container">
             <Container>
@@ -262,7 +394,7 @@ export default function Addproperty() {
                                                             name="role"
                                                             value={formData.role}
                                                             onChange={handleInputChange}
-                                                            error= {!!errors.role}
+                                                            error={!!errors.role}
                                                         >
                                                             <MenuItem value={'Owner'}>Owner</MenuItem>
                                                             <MenuItem value={'Agent'}>Agent</MenuItem>
@@ -277,10 +409,10 @@ export default function Addproperty() {
                                                             labelId="role-label"
                                                             id="role"
                                                             size="small"
-                                                            name="availabilty"
-                                                            value={formData.availabilty}
+                                                            name="availability"
+                                                            value={formData.availability || ''}
                                                             onChange={handleInputChange}
-                                                            error={!!errors.availabilty}
+                                                            error={!!errors.availability}
                                                         >
                                                             <MenuItem value={'For Rent'}>For Rent</MenuItem>
                                                             <MenuItem value={'For Sale'}>For Sale</MenuItem>
@@ -354,7 +486,7 @@ export default function Addproperty() {
                                                         value={formData.description}
                                                         onChange={handleInputChange}
                                                         error={!!errors.description}
-                                                        helperText={errors.description ? errors.description :''}
+                                                        helperText={errors.description ? errors.description : ''}
                                                         fullWidth
                                                         multiline
                                                         minRows={5}
@@ -381,7 +513,7 @@ export default function Addproperty() {
                                                         onChange={handleInputChange}
                                                         placeholder="Enter City"
                                                         error={!!errors.city}
-                                                        helperText={errors.city ? errors.city :''}
+                                                        helperText={errors.city ? errors.city : ''}
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -396,7 +528,7 @@ export default function Addproperty() {
                                                         onChange={handleInputChange}
                                                         placeholder="Enter here"
                                                         error={!!errors.price}
-                                                        helperText={errors.price ? errors.price :''}
+                                                        helperText={errors.price ? errors.price : ''}
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -426,7 +558,7 @@ export default function Addproperty() {
                                                         onChange={handleInputChange}
                                                         placeholder="In sq ft"
                                                         error={!!errors.area}
-                                                        helperText={errors.area ? errors.area :''}
+                                                        helperText={errors.area ? errors.area : ''}
                                                         type="text"
                                                         fullWidth
                                                     />
@@ -477,7 +609,7 @@ export default function Addproperty() {
                                                         placeholder="Enter here"
                                                         type="text"
                                                         error={!!errors.contact_name}
-                                                        helperText={errors.contact_name ? errors.contact_name :''}
+                                                        helperText={errors.contact_name ? errors.contact_name : ''}
                                                         fullWidth
                                                     />
                                                 </Grid>
@@ -492,7 +624,7 @@ export default function Addproperty() {
                                                         placeholder="Enter here"
                                                         type="text"
                                                         error={!!errors.contact_number}
-                                                        helperText={errors.contact_number ? errors.contact_number :''}
+                                                        helperText={errors.contact_number ? errors.contact_number : ''}
                                                         fullWidth
                                                     />
                                                 </Grid>
@@ -507,7 +639,7 @@ export default function Addproperty() {
                                                         placeholder="Enter Email"
                                                         type="text"
                                                         error={!!errors.email}
-                                                        helperText={errors.email ? errors.email :''}
+                                                        helperText={errors.email ? errors.email : ''}
                                                         fullWidth
                                                     />
                                                 </Grid>
