@@ -143,7 +143,6 @@ export default function Buy() {
     };
     const getBuy = async () => {
         let resp = await getApi('property', {
-            params: {
                 location: filterData.loc,
                 priceRange: filterData.value,
                 placeType: filterData.placeType,
@@ -151,7 +150,6 @@ export default function Buy() {
                 minSize: filterData.minSize,
                 maxSize: filterData.maxSize,
                 page: info.page,
-            }
         });
         if (resp && resp.status) {
             let { data } = resp;
@@ -210,7 +208,7 @@ export default function Buy() {
         getCategory();
     }, []);
     // console.log('Fetching properties with filters:', filterData);
-    let imagePath = 'http://localhost:4001/uploads/properties_image/'
+    let imagePath = 'http://localhost:4001/'
     return (
         <div className="buy_container">
             <Container>
@@ -236,7 +234,6 @@ export default function Buy() {
                                         value={filterData.loc || ''}
                                         onChange={handleLocChange}
                                     />
-
                                 </div>
                                 <div className="place_type">
                                     <h3 className="heading">Availability</h3>

@@ -9,8 +9,10 @@ import '../../../../../public/sass/pages/sell_myproperties.scss';
 import { useEffect, useState } from "react";
 import { getApi, postApi } from '../../../../helpers/General'
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function MyProperty() {
+    const router = useRouter();
     const [info, setInfo] = useState({
         buy: [],
         page: 1,
@@ -39,9 +41,13 @@ export default function MyProperty() {
             page: value
         }));
     };
+
+    const handleEdit = async(slug)=>{
+        router.push(`/profile_dashboard/sell?slug=${slug}`)
+    }
+
     const handleDelete = async (id) => {
         let resp = await getApi(`property/remove/${id}`);
-        console.log(resp);
         if (resp.status) {
             toast.success(resp.message)
             getBuy();
@@ -61,7 +67,7 @@ export default function MyProperty() {
         getBuy();
     }, [info.page,])
 
-    let imagePath = 'http://localhost:4001/uploads/properties_image/'
+    let imagePath = 'http://localhost:4001/'
 
     return (
         <div className="myproperty_container">
@@ -102,7 +108,7 @@ export default function MyProperty() {
                                                             <Typography>{place.type}</Typography>
                                                         </Link>
                                                         <div className="icons">
-                                                            <Edit />
+                                                            <Edit onClick={()=>handleEdit(place.slug)}/>
                                                             <Delete onClick={() => handleDelete(place._id)} />
                                                         </div>
                                                     </div>

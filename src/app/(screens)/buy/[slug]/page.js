@@ -92,7 +92,7 @@ export default function Detail() {
     };
     const description = `${detail.description}`;
 
-    let imagePath = 'http://localhost:4001/uploads/properties_image/'
+    let imagePath = 'http://localhost:4001/'
     return (
         <div className='buy_detail'>
             <Container>
@@ -142,7 +142,7 @@ export default function Detail() {
                                     <div className='title'>
                                         <div className='heading'>
                                             <Typography >{detail.type}</Typography>
-                                            <Typography>{detail.availability == 'for sale' ?  `$${detail.price}`: `$${detail.price}/month` }</Typography>
+                                            <Typography>{detail.availability == 'For Sale' ?  `$${detail.price}`: `$${detail.price}/month` }</Typography>
                                         </div>
                                         <div className='address'>
                                             <FmdGoodTwoTone />
@@ -210,7 +210,7 @@ export default function Detail() {
                                         <div className='details'>
                                             <p><EmailOutlined />Email:</p>
                                             <a href='mailto:debbie.baker@example.com'>
-                                                <h6>debbie.baker@example.com</h6>
+                                                <h6>{detail.email}</h6>
                                             </a>
                                         </div>
                                     </div>
@@ -256,7 +256,7 @@ export default function Detail() {
                                                             </ul>
 
                                                             <h5 className="price">
-                                                                {card.availability == 'for sale' ? `$${card.price}`  :`$${card.price}/month` }
+                                                                {card.availability == 'For Sale' ? `$${card.price}`  :`$${card.price}/month` }
                                                             </h5>
                                                         </div>
                                                     </div>
