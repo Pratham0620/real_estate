@@ -5,7 +5,10 @@ import pic from '../../../public/images/sell/profile.png'
 import { LocationCity, LockOutlined, Logout, Person2Outlined, Sell, Textsms } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {postApi} from '../../helpers/General'
+import { toast } from "react-toastify";
+
 
 export default function Sidebar() {
 
@@ -17,7 +20,20 @@ export default function Sidebar() {
         { href: '/profile_dashboard/response', icon: <Textsms />, text: 'Responses' },
     ];
 
+    const router = useRouter();
+
     const pathname = usePathname()
+
+    const handleLogout = async()=>{
+        let resp = await postApi('user/logout');
+        if(resp.status){
+            toast.success(resp.message)
+            router.push('/auth/login');
+        }
+        else{
+            toast.error(resp.message)
+        }
+    }
 
     return (
         <div className="sidebar_parent">
@@ -44,7 +60,7 @@ export default function Sidebar() {
                 ))}
             </ul>
             <div className="logout">
-                <Button> <Logout />Logout</Button>
+                <Button onClick={handleLogout}> <Logout />Logout</Button>
             </div>
         </div>
 

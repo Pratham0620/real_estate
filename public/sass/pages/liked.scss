@@ -111,6 +111,17 @@
             }
         }
     }
+    .pagination{
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected{
+            background-color: lightgrey;
+            color: purple;
+            font-weight: 550;
+        }
+    }
 }
 
 

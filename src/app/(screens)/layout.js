@@ -14,7 +14,7 @@ export default function layout({ children }) {
                 <PersistGate loading={null} persistor={persistor}>
                     <ClientThemeProvider>
                         <Navbar /> 
-                        <ToastContainer />
+                        <ToastContainer autoClose={1000} hideProgressBar={true} limit={1}/>
                         {children}
                         <Footer/>
                     </ClientThemeProvider>

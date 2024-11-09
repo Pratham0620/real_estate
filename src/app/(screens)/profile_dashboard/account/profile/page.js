@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 export default function Profile() {
     const router = useRouter();
     const [profileData, setProfileData] = useState({});
-    const [image, setImage] = useState(false);
+    // const [image, setImage] = useState(false);
 
     const VisuallyHiddenInput = styled('input')({
         clip: 'circle(50%)',

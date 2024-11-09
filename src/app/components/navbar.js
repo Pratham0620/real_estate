@@ -8,7 +8,8 @@ import { Close, LocationCity, LockOutlined, Logout, Menu, Person2Outlined, Sell,
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import pic from '../../../../my-app/public/images/sell/profile.png';
-import { useSelector } from "react-redux";
+import {getApi,postApi} from '../../helpers/General';
+import { toast } from "react-toastify";
 
 export default function Navbar() {
     const router = useRouter();
@@ -18,25 +19,39 @@ export default function Navbar() {
     if (hide) {
         return null;
     };
-    const selectorData = useSelector(state => state.auth.data);
     const [isLogin, setLogin] = useState(false);
     const [resp, setResp] = useState(false);
     const [show, setShow] = useState(false);
     const [click, setClick] = useState(null);
-    const checkLogin = () => {
-        if(selectorData) {
-            setLogin(true)
-        }
-        else {
+
+    const checkLogin = async() => {
+        let resp = await getApi('user/checkLogin');
+        if(!resp.status){
+            toast.info("User not Logged In");
             setLogin(false);
             router.push('/auth/login');
         }
+        else{
+            setLogin(true);
+        }
     }
+    
     useEffect(() => {
         setResp(false);
         setShow(false);
         checkLogin();
     }, [path]);
+
+    const handleLogout = async()=>{
+        let resp = await postApi('user/logout');
+        if(resp.status){
+            toast.success(resp.message)
+            router.push('/auth/login');
+        }
+        else{
+            toast.error(resp.message)
+        }
+    }
     
     const navItems = [
         { name: 'Home', link: '/home' },
@@ -133,7 +148,7 @@ export default function Navbar() {
                                         ))}
                                     </ul>
                                     <div className="logout">
-                                        <Button> <Logout />Logout</Button>
+                                        <Button onClick={handleLogout}> <Logout />Logout</Button>
                                     </div>
                                 </div>
                                 <div className="menu">
