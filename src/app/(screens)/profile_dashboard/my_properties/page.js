@@ -89,7 +89,7 @@ export default function MyProperty() {
                                     {info.buy.map((place, index) => (
                                         <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
                                             <div className="card">
-                                                <Link href={'#'}>
+                                                <Link href={`/buy/${place.slug}`} passHref>
                                                     <div className="image_div">
                                                         <Image
                                                             src={`${imagePath}${place.image[0]}`}
@@ -104,7 +104,7 @@ export default function MyProperty() {
                                                 </Link>
                                                 <div className="details">
                                                     <div className="title">
-                                                        <Link href={'#'}>
+                                                        <Link href={`/buy/${place.slug}`} passHref>
                                                             <Typography>{place.type}</Typography>
                                                         </Link>
                                                         <div className="icons">

@@ -331,7 +331,7 @@ export default function Addproperty() {
         reader.onload = () => resolve(reader.result)
         reader.onerror = (error) => reject('Error: ', error);
     })
-    console.log(category);
+
     return (
         <div className="add_container">
             <Container>

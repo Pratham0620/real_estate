@@ -1,13 +1,14 @@
 'use client'
 import { Box, Button, Checkbox, Container, Typography, Grid, TextField, FormControl, Select, MenuItem, FormLabel, Stack, Pagination } from "@mui/material";
 import '../../../../../public/sass/pages/buy.scss';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Favorite, FavoriteBorder, Close, FmdGoodOutlined } from "@mui/icons-material";
 import { FormControlLabel, FormGroup, IconButton, Input, Slider } from "@mui/material";
 import { } from "@mui/icons-material";
 import Link from "next/link";
 import Image from "next/image";
-import { getApi } from '../../../../helpers/General';
+import { getApi, postApi, validatorMake } from '../../../../helpers/General';
+import { toast } from "react-toastify";
 
 function valuetext(value) {
     return `${value}`;
@@ -18,18 +19,8 @@ export default function Buy() {
     const avail = ['For Sale', 'For Rent', 'None']
     const [category, setCategory] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false);
-
-    // const defaultValue = {
-    //     loc: '',
-    //     availability: '',
-    //     placeType: [],
-    //     value: [100, 10000],
-    //     minSize: '',
-    //     maxSize: ''
-    // }
-    // const queryString = `?${new URLSearchParams(filterData).toString()}` ;
-    // console.log(queryString);
-    // window.history.replaceState({},'',queryString);
+    
+    const isFirstRender = useRef(true);
 
     const [info, setInfo] = useState({
         buy: [],
@@ -61,6 +52,19 @@ export default function Buy() {
             maxSize: ''
         }
     };
+    const initailLike = () => {
+        if (typeof window != "undefined") {
+            const searchParams = new URLSearchParams(window.location.search);
+            return {
+                liked: searchParams.get('liked') ? searchParams.get('liked').split(',') : [],
+            }
+        }
+        return {
+            liked: []
+        }
+    };
+
+    const [liked, setLiked] = useState(initailLike);
 
     const [filterData, setFilterData] = useState(getInitialFilterData);
 
@@ -76,10 +80,12 @@ export default function Buy() {
             }
             if (filterData.minSize) searchParams.set('minSize', filterData.minSize);
             if (filterData.maxSize) searchParams.set('maxSize', filterData.maxSize);
+            if(liked) searchParams.set('liked',liked)
 
             const queryString = `?${searchParams.toString()}`;
             window.history.replaceState(null, '', queryString);
         };
+
     };
     const handleLocChange = (e) => {
         setFilterData((prevData) => ({
@@ -122,7 +128,7 @@ export default function Buy() {
         if (!isNaN(value) && Number(value) >= 0) {
             setFilterData((prevData) => ({
                 ...prevData,
-                minSize: Number(value) 
+                minSize: Number(value)
             }));
         }
     }
@@ -131,7 +137,7 @@ export default function Buy() {
         if (!isNaN(value) && Number(value) >= 0) {
             setFilterData((prevData) => ({
                 ...prevData,
-                maxSize: Number(value) 
+                maxSize: Number(value)
             }));
         }
     }
@@ -143,13 +149,13 @@ export default function Buy() {
     };
     const getBuy = async () => {
         let resp = await getApi('property', {
-                location: filterData.loc,
-                priceRange: filterData.value,
-                placeType: filterData.placeType,
-                availability: filterData.availability,
-                minSize: filterData.minSize,
-                maxSize: filterData.maxSize,
-                page: info.page,
+            location: filterData.loc,
+            priceRange: filterData.value,
+            placeType: filterData.placeType,
+            availability: filterData.availability,
+            minSize: filterData.minSize,
+            maxSize: filterData.maxSize,
+            page: info.page,
         });
         if (resp && resp.status) {
             let { data } = resp;
@@ -178,11 +184,22 @@ export default function Buy() {
         document.body.style.height = '100vh';
 
     };
+
     const handleDrawerClose = () => {
         setDrawerOpen(false);
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
     };
+
+    const handleLikes = async (e, placeId) => {
+        if (e.target.checked) {
+            setLiked((prevLiked) => [...prevLiked, placeId]);
+        }
+        else {
+            setLiked((prevLiked) => prevLiked.filter(id => id !== placeId));
+        }
+    };
+
     const marks = [
         {
             value: 100,
@@ -193,22 +210,56 @@ export default function Buy() {
             label: `$${valuetext(filterData.value[1])}`
         }
     ]
-    // useEffect(()=>{
-    //     getInitialFilterData();
-    // },[]);
+
+    const getUserData = async () => {
+        let resp = await getApi('user/view');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setLiked(data.data.liked);
+            }
+        }
+    }
+
+    const putLike = async () => {
+        let data = {
+            liked: liked
+        }
+        console.log('data', data);
+        let resp = await postApi('user/likes', data)
+        if (resp.status) {
+            toast.success(resp.message);
+        }
+
+        else {
+            if(!isFirstRender.current){
+                toast.error(resp.message)
+            }
+        }
+
+    }
+    useEffect(() => {
+        getCategory();
+        getUserData();
+    }, []);
+    
     useEffect(() => {
         updateURL();
-    }, [filterData]);
+    }, [filterData,liked]);
+
+    useEffect(() => {
+        putLike()
+    }, [liked])
 
     useEffect(() => {
         getBuy();
-    }, [filterData, info.page])
+    }, [filterData, info.page]);
 
-    useEffect(() => {
-        getCategory();
-    }, []);
-    // console.log('Fetching properties with filters:', filterData);
+
     let imagePath = 'http://localhost:4001/'
+
+    console.log('Fetching properties with filters:', liked);
+
     return (
         <div className="buy_container">
             <Container>
@@ -265,23 +316,15 @@ export default function Buy() {
                                                         sx={{
                                                             transition: 'transform 0.1s ease-in-out',
                                                             '&.Mui-checked': {
-                                                                // color: purple[300],
                                                                 color: 'rgba(24, 69, 182, 1)'
-                                                                // color: 'linear-gradient(164.6deg, #9991F4 -16.94%, rgba(224, 222, 247, 0) 124.1%)'
-
                                                             },
                                                         }} />}
                                                         label={label.title}
                                                         sx={{
-                                                            // '.MuiFormControlLabel-label': {
-                                                            //     color: '#000', // default color
-                                                            // },
                                                             '.Mui-checked + .MuiFormControlLabel-label': {
                                                                 color: 'rgba(24, 69, 182, 1)',
-                                                                // color: 'linear-gradient(164.6deg, #9991F4 -16.94%, rgba(224, 222, 247, 0) 124.1%)',
                                                                 transform: 'scale(1.06)',
                                                                 transition: 'transform 0.1s ease-in-out',
-                                                                // color when checkbox is checked
                                                             },
                                                         }}
                                                     />
@@ -351,7 +394,6 @@ export default function Buy() {
                                 <div className="results">
                                     <div className="text">
                                         <Typography variant="h4">{info.totalCount} Results </Typography>
-                                        {/* <Typography variant="h6"></Typography> */}
                                     </div>
                                     <div className="filter">
                                         <Button onClick={handleDrawerOpen} className="title" disableRipple>Filter</Button>
@@ -364,7 +406,7 @@ export default function Buy() {
                                                 <Link href={`/buy/${place.slug}`} passHref>
                                                     <div className="image_div">
                                                         <Image
-                                                            src={ `${imagePath}${place.image[0]}` }
+                                                            src={`${imagePath}${place.image[0]}`}
                                                             alt={"Pictures"}
                                                             priority={false}
                                                             loading="lazy"
@@ -378,9 +420,14 @@ export default function Buy() {
                                                         <Link href={`/buy/${place.slug}`} passHref>
                                                             <Typography>{place.type.charAt(0).toUpperCase() + place.type.slice(1)}</Typography>
                                                         </Link>
-                                                        <Checkbox {...label} icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{
-                                                            color: "#d50000",
-                                                        }} />}
+                                                        <Checkbox
+                                                            {...label}
+                                                            icon={<FavoriteBorder />}
+                                                            checkedIcon={<Favorite sx={{
+                                                                color: "#d50000",
+                                                            }} />}
+                                                            checked={liked.includes(place.slug)}
+                                                            onChange={(e) => handleLikes(e, place.slug)}
                                                         />
                                                     </div>
                                                     <div className="city">

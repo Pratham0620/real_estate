@@ -64,7 +64,16 @@ export default function Edit() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let validationRules = await validatorMake(data, {
+        let formData= {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            city: data.city,
+            state: data.state,
+            email: data.email,
+            address: data.address,
+            phone_number: data.phone_number
+        }
+        let validationRules = await validatorMake(formData, {
             "first_name": 'required',
             "last_name": 'required',
             "city": 'required',
@@ -75,7 +84,7 @@ export default function Edit() {
         })
 
         if(!validationRules.fails()){
-            let resp = await postApi('user/edit',data);
+            let resp = await postApi('user/edit',formData);
             if(resp.status){
                 toast.success(resp.message);
                 setData(defaultValue);
