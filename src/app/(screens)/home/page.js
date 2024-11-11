@@ -8,7 +8,7 @@ import propti from '../../../../public/images/home/property.png';
 import big from '../../../../public/images/home/big_picture.png';
 import small from '../../../../public/images/home/small_pic.png'
 import slide1 from '../../../../public/images/home/slide1.png';
-import { getApi } from '../../../helpers/General'
+import { getApi, validatorMake } from '../../../helpers/General'
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -17,19 +17,25 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Navigation } from 'swiper/modules';
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Homepage() {
-    const [property, setProperty] = useState('');
-    
+    const router = useRouter();
+
+    const [category, setCategory] = useState([])
+    const [property, setProperty] = useState([]);
     const [searchOption, setsearchoption] = useState('')
-    const [item, setItem] = useState(0);
-    
+    const [location, setLocation] = useState('')
+
     const [banner, setBanner] = useState([]);
     const [feature, setFeature] = useState([]);
-    
-    const handleChange = (event) => {
+    const [item, setItem] = useState(0);
+    const handleChange = (event,) => {
         setProperty(event.target.value);
     };
+    const handleFieldChange = (e) => {
+        setLocation(e.target.value);
+    }
     const getBanner = async () => {
         let resp = await getApi('banner/view/67062ae137d871018fa0c178');
         if (resp && resp.status) {
@@ -40,18 +46,46 @@ export default function Homepage() {
         }
     }
 
+    const getCategory = async () => {
+        let resp = await getApi('category');
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setCategory(data.data)
+            }
+        }
+    }
+
     const getFeature = async () => {
         let resp = await getApi('feature');
         if (resp && resp.status) {
             let { data } = resp;
-            if(data && data.data){
+            if (data && data.data) {
                 setFeature(data.data);
             }
+        }
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let data = {
+            property,
+            location,
+            searchOption
+        }
+        let validationRules = await validatorMake(data, {
+            "searchOption": 'required',
+            "property": 'required',
+            "location": 'required'
+        })
+        if (!validationRules.fails()) {
+            router.push(`/buy/buy_page?loc=${location}&placeType=${property[1]}&availability=${searchOption}`)
         }
     }
     useEffect(() => {
         getBanner();
         getFeature();
+        getCategory();
     }, []);
     const cardsData = [
         {
@@ -105,6 +139,7 @@ export default function Homepage() {
 
     ];
 
+    console.log(searchOption,location,property)
     return (
         <div className="home_container">
             <div className="search_container">
@@ -118,38 +153,67 @@ export default function Homepage() {
                                 </div>
                                 <Typography variant="h4">{banner.sub_title}</Typography>
                                 <Typography variant="h6">{banner.description}</Typography>
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <ul className="search_type">
-                                        <li onClick={() => { setsearchoption(searchOption == 0 ? null : 0) }} className={`typebtn ${searchOption == 0 ? 'active' : ''}`} >Buy</li>
-                                        <li onClick={() => { setsearchoption(searchOption == 1 ? null : 1) }} className={`typebtn ${searchOption == 1 ? 'active' : ''}`}  >Rent</li>
+                                        <li onClick={() => { setsearchoption(searchOption == 'For Sale' ? null : 'For Sale') }} className={`typebtn ${searchOption == 'For Sale' ? 'active' : ''}`} >Buy</li>
+                                        <li onClick={() => { setsearchoption(searchOption == 'For Rent' ? null : 'For Rent') }} className={`typebtn ${searchOption == 'For Rent' ? 'active' : ''}`}  >Rent</li>
                                     </ul>
                                     <div className="search_bar">
-                                        <div className="left">
+                                        {/* <div className="left">
                                             <FormControl fullWidth>
                                                 <Select
                                                     size="small"
                                                     labelId="property-label"
                                                     id="property"
-                                                    value={property}
+                                                    value={property[1]}
                                                     onChange={handleChange}
                                                     displayEmpty
                                                     renderValue={(selected) => {
                                                         if (selected.length === 0) {
                                                             return <span style={{ color: '#888' }}>Property type</span>;
                                                         }
+                                                        {console.log(selected)}
                                                         return <div style={{ display: 'flex', alignItems: 'center' }}>
                                                             {selected}
                                                         </div>;;
                                                     }}
                                                 >
-                                                    <MenuItem value={'Modern Villa'}>Modern Villa</MenuItem>
-                                                    <MenuItem value={'Town House'}>Office</MenuItem>
-                                                    <MenuItem value={'Family House'}>Family House</MenuItem>
-                                                    <MenuItem value={'Apartment'}>Apartment</MenuItem>
-                                                    <MenuItem value={'Other'}>Other</MenuItem>
+                                                    {category.map((item, index) => (
+                                                        <MenuItem value={[item._id,item.title]} key={index} >{item.title}</MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
+                                        </div> */}
+
+                                        <div className="left">
+                                            <FormControl fullWidth>
+                                                <Select
+                                                    size="small"
+                                                    labelId="property-label"
+                                                    id="property"
+                                                    value={property[0] || ''} // ensure property[1] is defined and correct
+                                                    onChange={handleChange}
+                                                    displayEmpty
+                                                    renderValue={(selected) => {
+                                                        if (!selected || selected.length === 0) {
+                                                            return <span style={{ color: '#888' }}>Property type</span>;
+                                                        }
+                                                        return (
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                                {selected}
+                                                            </div>
+                                                        );
+                                                    }}
+                                                >
+                                                    {category.map((item, index) => (
+                                                        <MenuItem value={[item.title,item._id]} key={index}>
+                                                            {item.title}
+                                                        </MenuItem>
+                                                    ))}
                                                 </Select>
                                             </FormControl>
                                         </div>
+
                                         <div className="right">
                                             <div className="input_field">
                                                 <Input
@@ -157,6 +221,8 @@ export default function Homepage() {
                                                     name="search_item"
                                                     type="text"
                                                     fullWidth
+                                                    value={location}
+                                                    onChange={handleFieldChange}
                                                     placeholder="Search by location or Property ID..."
                                                     startAdornment={
                                                         <InputAdornment position="start">
@@ -166,7 +232,7 @@ export default function Homepage() {
                                                     disableUnderline
                                                 />
                                             </div>
-                                            <Button className="search_button">
+                                            <Button className="search_button" type="submit">
                                                 <Typography>Search</Typography>
                                             </Button>
                                             <IconButton>
@@ -199,7 +265,7 @@ export default function Homepage() {
                                             <Grid item xl={12} lg={12} md={12} sm={12} xs={6}>
                                                 <Typography variant="h4">{banner.feature_title}</Typography>
                                                 <Typography variant="h6">{banner.feature_quote}</Typography>
-                                                <Button className="browse">
+                                                <Button className="browse" href="/buy/buy_page">
                                                     <Typography>
                                                         {banner.feature_button}
                                                     </Typography>

@@ -21,7 +21,9 @@ export default function MyProperty() {
     })
 
     const getBuy = async () => {
-        let resp = await getApi('property/list');
+        let resp = await getApi('property/list', {
+            page: info.page
+        });
         if (resp && resp.status) {
             let { data } = resp;
             if (data && data.data) {
@@ -42,7 +44,7 @@ export default function MyProperty() {
         }));
     };
 
-    const handleEdit = async(slug)=>{
+    const handleEdit = async (slug) => {
         router.push(`/profile_dashboard/sell?slug=${slug}`)
     }
 
@@ -54,7 +56,7 @@ export default function MyProperty() {
         }
         else {
             if (typeof resp.message == 'object') {
-                handleErrors(resp.message.errors)
+                toast.error(resp.message)
             }
             else {
                 toast.error(resp.message)
@@ -108,7 +110,7 @@ export default function MyProperty() {
                                                             <Typography>{place.type}</Typography>
                                                         </Link>
                                                         <div className="icons">
-                                                            <Edit onClick={()=>handleEdit(place.slug)}/>
+                                                            <Edit onClick={() => handleEdit(place.slug)} />
                                                             <Delete onClick={() => handleDelete(place._id)} />
                                                         </div>
                                                     </div>
@@ -125,13 +127,13 @@ export default function MyProperty() {
                         </div>
                     </Grid>
                 </Grid>
-                <div className="pagination">
-                    <Stack spacing={2}>
-                        {/* <Typography>Page: {page}</Typography> */}
-                        <Pagination count={info.totalPages} page={info.page} onChange={handlePageChange} />
-                    </Stack>
-                </div>
             </Container>
+            <div className="pagination">
+                <Stack spacing={2}>
+                    {/* <Typography>Page: {page}</Typography> */}
+                    <Pagination count={info.totalPages} page={info.page} onChange={handlePageChange} />
+                </Stack>
+            </div>
 
         </div>
     )

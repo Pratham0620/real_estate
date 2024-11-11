@@ -38,6 +38,16 @@ export default function Login() {
             [name]: null,
         }));
     };
+    const handleError = (error) => {
+        foreach(error, (index, item) => {
+            setErrors((prevData) => {
+                return {
+                    ...prevData,
+                    [index]: item[0]
+                }
+            })
+        })
+    }
     let dispatch = useDispatch();
     const handleSubmit = async (e) => {
         e.preventDefault();

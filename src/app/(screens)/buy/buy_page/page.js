@@ -9,17 +9,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { getApi, postApi, validatorMake } from '../../../../helpers/General';
 import { toast } from "react-toastify";
+import { useSearchParams } from "next/navigation";
 
 function valuetext(value) {
     return `${value}`;
 }
-
 export default function Buy() {
+    const searchParams = useSearchParams();
+
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const avail = ['For Sale', 'For Rent', 'None']
     const [category, setCategory] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false);
-    
+
     const isFirstRender = useRef(true);
 
     const [info, setInfo] = useState({
@@ -68,6 +70,12 @@ export default function Buy() {
 
     const [filterData, setFilterData] = useState(getInitialFilterData);
 
+    const firstFetch = () => {
+        filterData.loc = searchParams.get('loc') || null;
+        filterData.placeType = searchParams.get('placeType') ? searchParams.get('placeType').split(',') : [],
+        filterData.availability = searchParams.get('availability') || null;
+    }
+
     const updateURL = () => {
         if (typeof window != "undefined") {
             const searchParams = new URLSearchParams();
@@ -80,7 +88,7 @@ export default function Buy() {
             }
             if (filterData.minSize) searchParams.set('minSize', filterData.minSize);
             if (filterData.maxSize) searchParams.set('maxSize', filterData.maxSize);
-            if(liked) searchParams.set('liked',liked)
+            if (liked) searchParams.set('liked', liked);
 
             const queryString = `?${searchParams.toString()}`;
             window.history.replaceState(null, '', queryString);
@@ -232,20 +240,22 @@ export default function Buy() {
         }
 
         else {
-            if(!isFirstRender.current){
+            if (!isFirstRender.current) {
                 toast.error(resp.message)
             }
         }
 
     }
+
     useEffect(() => {
         getCategory();
         getUserData();
+        firstFetch();
     }, []);
-    
+
     useEffect(() => {
         updateURL();
-    }, [filterData,liked]);
+    }, [filterData, liked]);
 
     useEffect(() => {
         putLike()

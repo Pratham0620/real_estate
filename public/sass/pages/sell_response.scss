@@ -3,19 +3,22 @@
 @import '../helper/base.scss';
 
 .response_container {
-    margin:40px 0px ;
+    margin: 40px 0px;
     overflow-x: hidden;
 
     .response_parent {
         clear: both;
         position: relative;
+
         .sidebar {
             float: left;
             width: 330px;
         }
+
         .all_response {
             float: right;
-            width: calc( 100% - 330px );
+            width: calc(100% - 330px);
+
             .response_item {
                 border: 1px solid rgba(0, 0, 0, 0.2);
                 border-radius: 8px;
@@ -38,6 +41,7 @@
                     }
 
                     .left {
+
                         // padding: 8px 0px;
                         h3 {
                             font-family: DM Sans;
@@ -76,6 +80,8 @@
                         line-height: 23.44px;
                         color: rgba(0, 0, 0, 1);
                         margin-bottom: 6px;
+                        display: flex;
+                        justify-content: space-between;
 
                     }
 
@@ -90,70 +96,83 @@
                 }
             }
         }
+
+    }
+
+    .pagination {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+            background-color: lightgrey;
+            color: purple;
+            font-weight: 550;
+        }
     }
 }
 
 
 
 /* Extra Huge large desktops */
-@media (min-width: 1920px) {
-}
+@media (min-width: 1920px) {}
 
 /* Extra Huge large desktops */
-@media (min-width: 1680px) and (max-width: 1919px) {
-}
+@media (min-width: 1680px) and (max-width: 1919px) {}
 
 /* Extra Huge large desktops */
-@media (min-width: 1600px) and (max-width: 1679px) {
-}
+@media (min-width: 1600px) and (max-width: 1679px) {}
 
 /* Extra large desktops and mac laptops*/
-@media (min-width: 1400px) and (max-width: 1599px) {
-}
+@media (min-width: 1400px) and (max-width: 1599px) {}
 
 /* Landscape tablets and medium desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
     .response_container {
-        margin: 20px 0px 50px 0px ;
+        margin: 20px 0px 50px 0px;
+
         .response_parent {
             .all_response {
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 16px;
                                 margin-bottom: 2px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 12px;
                                     margin-bottom: 0px;
-                                    .MuiSvgIcon-root{
+
+                                    .MuiSvgIcon-root {
                                         height: 18px;
                                         width: 18px;
                                     }
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 14px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 14px;
                         }
@@ -167,49 +186,53 @@
 /* Landscape tablets and ipad */
 @media (min-width: 768px) and (max-width: 991px) {
     .response_container {
-        margin: 20px 0px 50px 0px ;
+        margin: 20px 0px 50px 0px;
+
         .response_parent {
-           
+
             .sidebar {
                 float: none;
                 display: none;
             }
+
             .all_response {
                 float: none;
                 width: 100%;
+
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 18px;
                                 margin-bottom: 8px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 14px;
                                     margin-bottom: 4px;
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 16px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 16px;
                         }
@@ -223,53 +246,58 @@
 /* Landscape phones and portrait tablets */
 @media (min-width: 576px) and (max-width: 767px) {
     .response_container {
-        margin: 20px 0px 50px 0px ;
+        margin: 20px 0px 50px 0px;
+
         .response_parent {
-           
+
             .sidebar {
                 float: none;
                 display: none;
             }
+
             .all_response {
                 float: none;
                 width: 100%;
+
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 16px;
                                 margin-bottom: 2px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 12px;
                                     margin-bottom: 0px;
-                                    .MuiSvgIcon-root{
+
+                                    .MuiSvgIcon-root {
                                         height: 18px;
                                         width: 18px;
                                     }
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 14px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 14px;
                         }
@@ -283,53 +311,58 @@
 /* Landscape phones and portrait tablets */
 @media (min-width: 361px) and (max-width: 575px) {
     .response_container {
-        margin: 14px 0px 40px 0px ;
+        margin: 14px 0px 40px 0px;
+
         .response_parent {
-           
+
             .sidebar {
                 float: none;
                 display: none;
             }
+
             .all_response {
                 float: none;
                 width: 100%;
+
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 16px;
                                 margin-bottom: 2px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 12px;
                                     margin-bottom: 0px;
-                                    .MuiSvgIcon-root{
+
+                                    .MuiSvgIcon-root {
                                         height: 18px;
                                         width: 18px;
                                     }
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 14px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 14px;
                         }
@@ -343,53 +376,58 @@
 /* Smaller phones */
 @media (max-width: 360px) {
     .response_container {
-        margin: 10px 0px 40px 0px ;
+        margin: 10px 0px 40px 0px;
+
         .response_parent {
-           
+
             .sidebar {
                 float: none;
                 display: none;
             }
+
             .all_response {
                 float: none;
                 width: 100%;
+
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 16px;
                                 margin-bottom: 2px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 12px;
                                     margin-bottom: 0px;
-                                    .MuiSvgIcon-root{
+
+                                    .MuiSvgIcon-root {
                                         height: 18px;
                                         width: 18px;
                                     }
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 14px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 14px;
                         }
@@ -403,53 +441,58 @@
 /* Smaller phones */
 @media (max-width: 320px) {
     .response_container {
-        margin: 0px 0px 40px 0px ;
+        margin: 0px 0px 40px 0px;
+
         .response_parent {
-           
+
             .sidebar {
                 float: none;
                 display: none;
             }
+
             .all_response {
                 float: none;
                 width: 100%;
+
                 .response_item {
                     padding: 10px;
-    
+
                     .head {
                         padding-bottom: 8px;
                         cursor: none;
-    
+
                         .left {
+
                             // padding: 8px 0px;
                             h3 {
                                 font-size: 16px;
                                 margin-bottom: 2px;
                             }
-    
+
                             .contact {
                                 p {
                                     font-size: 12px;
                                     margin-bottom: 0px;
-                                    .MuiSvgIcon-root{
+
+                                    .MuiSvgIcon-root {
                                         height: 18px;
                                         width: 18px;
                                     }
                                 }
-    
+
                             }
                         }
                     }
-    
+
                     .bottom {
                         padding-top: 8px;
-    
+
                         .address {
                             font-size: 14px;
                             margin-bottom: 4px;
-    
+
                         }
-    
+
                         h5 {
                             font-size: 14px;
                         }

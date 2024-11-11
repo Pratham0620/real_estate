@@ -60,7 +60,7 @@ export default function ChangePass() {
             }
             else{
                 if (typeof resp.message == 'object') {
-                    handleErrors(resp.message.errors)
+                    handleErrors(resp.message)
                 }
                 else {
                     toast.error(resp.message)
