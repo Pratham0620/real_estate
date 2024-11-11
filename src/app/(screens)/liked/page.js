@@ -51,9 +51,10 @@ export default function Liked() {
         }));
     };
 
-
     const getBuy = async () => {
-        let resp = await getApi('property/likedProperty');
+        let resp = await getApi('property/likedProperty',{
+            page:info.page
+        });
         if (resp && resp.status) {
             let { data } = resp;
             if (data && data.data) {
@@ -119,7 +120,6 @@ export default function Liked() {
     }, [info.page]);
 
     let imagePath = 'http://localhost:4001/'
-    console.log(liked);
     return (
         <div className="liked_container">
             <Container>

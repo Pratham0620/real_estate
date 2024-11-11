@@ -1,84 +1,66 @@
-
-import { Container, Grid } from "@mui/material";
+'use client'
+import { Container, Grid, Pagination, Stack } from "@mui/material";
 import Image from "next/image";
-import sell1 from '../../../../../public/images/sell/sell1.png';
-import sell2 from '../../../../../public/images/sell/sell2.png';
-import sell3 from '../../../../../public/images/sell/sell3.png';
-import sell4 from '../../../../../public/images/sell/sell4.png';
-import sell5 from '../../../../../public/images/sell/sell5.png';
-import sell6 from '../../../../../public/images/sell/sell6.png';
-import sell7 from '../../../../../public/images/sell/sell7.png';
-import sell8 from '../../../../../public/images/sell/sell8.png';
 import '../../../../../public/sass/pages/sell_response.scss';
-import { Call, EmailOutlined } from "@mui/icons-material";
+import { Call, Delete, EmailOutlined } from "@mui/icons-material";
 import Sidebar from "../../../components/sell_sidebar";
+import { getApi,postApi } from '../../../../helpers/General'
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 export default function Response() {
-    const cardData = [
-        {
-            image: sell1,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell2,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell3,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell4,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell5,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell6,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell7,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-        {
-            image: sell8,
-            name: 'Rober Fox',
-            phone: '(629) 555-0129',
-            buyer: '3891 Ranchview Dr. Richardson, California 62639',
-            address: '4140 Parker Rd. Allentown, New Mexico 31134',
-            property_type: 'Town House'
-        },
-    ]
+
+    const [info, setInfo] = useState({
+        buy: [],
+        page: 1,
+        totalPages: 1,
+        totalCount: 1
+    })
+
+    const getResponse = async () => {
+        let resp = await getApi('response', {
+            page: info.page
+        });
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.data) {
+                setInfo((prevData) => ({
+                    ...prevData,
+                    buy: data.data,
+                    totalPages: data.totalPages,
+                    totalCount: data.totalCount
+                }))
+            }
+        }
+    }
+    const handlePageChange = (event, value) => {
+        setInfo((prevData) => ({
+            ...prevData,
+            page: value
+        }));
+    };
+    const handleDelete = async(id)=>{
+        let resp = await getApi( `response/remove/${id}`);
+        if (resp.status) {
+            toast.success(resp.message)
+            getResponse();
+        }
+        else {
+            if (typeof resp.message == 'object') {
+                toast.error(resp.message)
+            }
+            else {
+                toast.error(resp.message)
+            }
+        }
+    }
+
+    useEffect(() => {
+        getResponse();
+    }, [info.page]);
+    console.log(info);
+
+    let imagePath = 'http://localhost:4001/'
     return (
         <div className="response_container">
             <Container>
@@ -86,11 +68,11 @@ export default function Response() {
                     <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
                         <div className="response_parent">
                             <div className="sidebar">
-                                <Sidebar/>
+                                <Sidebar />
                             </div>
                             <div className="all_response">
                                 <Grid container columnSpacing={3} rowSpacing={3}>
-                                    {cardData.map((item, index) => (
+                                    {info.buy.map((item, index) => (
                                         <Grid item xl={6} lg={6} md={6} sm={6} xs={12} key={index}>
                                             <div className="response_item">
                                                 <div className="head">
@@ -98,17 +80,20 @@ export default function Response() {
                                                         <Grid item xl={4.5} lg={4.5} md={4.5} sm={4.5} xs={4.5} >
                                                             <div className="image">
                                                                 <Image
-                                                                    src={item.image}
+                                                                    src={`${imagePath}${item.property_id.image[0]}`}
                                                                     alt="image"
+                                                                    width={500}
+                                                                    height={500}
+                                                                    loading="lazy"
                                                                 />
                                                             </div>
                                                         </Grid>
                                                         <Grid item xl={7.5} lg={7.5} md={7.5} sm={7.5} xs={7.5} >
                                                             <div className="left">
-                                                                <h3>{item.name}</h3>
+                                                                <h3>{`${item.first_name} ${item.last_name}`} </h3>
                                                                 <div className="contact">
-                                                                    <p><Call /><a href={`tel:${item.phone}`}>{item.phone}</a></p>
-                                                                    <p><EmailOutlined />{item.buyer}</p>
+                                                                    <p><Call /><a href={`tel:${item.contact_number}`}>{item.contact_number}</a></p>
+                                                                    <p><EmailOutlined />{item.email}</p>
                                                                 </div>
                                                             </div>
                                                         </Grid>
@@ -116,19 +101,29 @@ export default function Response() {
                                                 </div>
                                                 <div className="bottom">
                                                     <div className="address">
-                                                        {item.address}
+                                                        {item.property_id.address}
+                                                        <Delete cursor='pointer' onClick={()=>{
+                                                            handleDelete(item._id)
+                                                        }}/>
                                                     </div>
-                                                    <h5>{item.property_type}</h5>
+                                                    <h5>{item.property_id.type}</h5>
                                                 </div>
                                             </div>
                                         </Grid>
                                     ))}
                                 </Grid>
+                                
                             </div>
                         </div>
                     </Grid>
                 </Grid>
             </Container>
+            <div className="pagination">
+                <Stack spacing={2}>
+                    {/* <Typography>Page: {page}</Typography> */}
+                    <Pagination count={info.totalPages} page={info.page} onChange={handlePageChange} />
+                </Stack>
+            </div>
         </div>
     )
 }

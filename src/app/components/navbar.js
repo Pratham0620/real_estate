@@ -14,11 +14,10 @@ import { toast } from "react-toastify";
 export default function Navbar() {
     const router = useRouter();
     const path = usePathname();
+    const pathname = usePathname();
     const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword','/auth/otp-verification'];
     const hide = hideAt.includes(path);
-    if (hide) {
-        return null;
-    };
+  
     const [isLogin, setLogin] = useState(false);
     const [resp, setResp] = useState(false);
     const [show, setShow] = useState(false);
@@ -41,6 +40,11 @@ export default function Navbar() {
         setShow(false);
         checkLogin();
     }, [path]);
+
+    
+    if (hide) {
+        return null;
+    };
 
     const handleLogout = async()=>{
         let resp = await postApi('user/logout');
@@ -87,7 +91,7 @@ export default function Navbar() {
                             <div className='middle_container'>
                                 <ul className="nav_list">
                                     {navItems.map((item, index) => (
-                                        <li className={`list_item ${click === index ? 'active' : ''}`} onClick={() => setClick(index)} key={index}>
+                                        <li className={`list_item ${pathname === item.link ? 'active' : ''}`}   key={index}>
                                             <Link href={item.link}>
                                                 {item.name}
                                             </Link>

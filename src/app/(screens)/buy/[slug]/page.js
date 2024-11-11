@@ -216,7 +216,7 @@ export default function Detail() {
                                     </div>
                                     <div className='btn_area'>
                                         <Button variant='contained'>
-                                            <Link href='/buy/buy_fill'>
+                                            <Link href={`/buy/buy_fill?slug=${detail.slug}`} >
                                                 Get In Touch
                                             </Link>
                                         </Button>
