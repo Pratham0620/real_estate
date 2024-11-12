@@ -30,8 +30,8 @@ export default function Detail() {
         let resp = await getApi('property/random');
         if (resp && resp.status) {
             let { data } = resp;
-            if (data && data.data) {
-                setRandom(data.data);
+            if (data && data.random) {
+                setRandom(data.random);
             }
         }
     }
