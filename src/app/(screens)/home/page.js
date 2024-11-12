@@ -1,11 +1,9 @@
 'use client'
-import { ArrowBack, ArrowForward, BathtubTwoTone, ChevronLeft, ChevronRight, FilterNone, Home, HotelOutlined, LocationOnRounded, Search, SearchRounded, Villa } from "@mui/icons-material";
+import { Apartment, ArrowBack, ArrowForward, BathtubTwoTone, ChevronLeft, ChevronRight, FilterNone, Home, HotelOutlined, LocationOnRounded, Search, SearchRounded, Villa } from "@mui/icons-material";
 import { Button, Container, FormControl, Grid, IconButton, Input, InputAdornment, MenuItem, Select, Typography } from "@mui/material";
 import '../../../../public/sass/pages/homepage.scss';
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import propti from '../../../../public/images/home/property.png';
-import big from '../../../../public/images/home/big_picture.png';
 import small from '../../../../public/images/home/small_pic.png'
 import slide1 from '../../../../public/images/home/slide1.png';
 import { getApi, validatorMake } from '../../../helpers/General'
@@ -21,7 +19,7 @@ import { useRouter } from "next/navigation";
 
 export default function Homepage() {
     const router = useRouter();
-
+    const [buy, setBuy] = useState([]);
     const [category, setCategory] = useState([])
     const [property, setProperty] = useState([]);
     const [searchOption, setsearchoption] = useState('')
@@ -29,10 +27,12 @@ export default function Homepage() {
 
     const [banner, setBanner] = useState([]);
     const [feature, setFeature] = useState([]);
-    const [item, setItem] = useState(0);
+    const [item, setItem] = useState('');
+    const [locationProperty, setLocationProperty] = useState([])
     const handleChange = (event,) => {
         setProperty(event.target.value);
     };
+
     const handleFieldChange = (e) => {
         setLocation(e.target.value);
     }
@@ -65,7 +65,7 @@ export default function Homepage() {
             }
         }
     }
-    const handleSubmit = async (e) => {
+    const handleSearchSubmit = async (e) => {
         e.preventDefault();
 
         let data = {
@@ -82,64 +82,46 @@ export default function Homepage() {
             router.push(`/buy/buy_page?loc=${location}&placeType=${property[1]}&availability=${searchOption}`)
         }
     }
+
+    const getTabProperty = async () => {
+        let resp = await getApi('property/random', {
+            size: 6,
+            search: item
+        });
+
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data && data.random) {
+                setBuy(data.random);
+            }
+        }
+    }
+    const getLocationProperty = async () => {
+        let resp = await getApi('property/locationProperty', {
+            size: 2
+        })
+        if (resp && resp.status) {
+            let { data } = resp;
+            if (data) {
+                setLocationProperty(data.data)
+            }
+        }
+    }
+
     useEffect(() => {
         getBanner();
         getFeature();
         getCategory();
+        getLocationProperty()
     }, []);
-    const cardsData = [
-        {
-            imageSrc: propti,
-            title: "Eaton Garth Penthouse",
-            address: "7722 18th Ave, Brooklyn",
-            price: "$395",
-            chips: ["for sale", "for rent", "featured"],
-            features: { bedrooms: 4, bathrooms: 2, area: 400 },
-        },
-        {
-            imageSrc: propti,
-            title: " New Apartment Nice Wiew",
-            address: "42 Avenue O, Brooklyn",
-            price: "$250,000",
-            chips: ["for sale", "featured"],
-            features: { bedrooms: 2, bathrooms: 1, area: 200 },
-        },
-        {
-            imageSrc: propti,
-            title: "Diamond Manor Apartment",
-            address: "7802 20th Ave, Brooklyn",
-            price: "$500",
-            chips: ["for rent"],
-            features: { bedrooms: 4, bathrooms: 1, area: 1000 },
-        },
-        {
-            imageSrc: propti,
-            title: "Eaton Garth Penthouse",
-            address: "7722 18th Ave, Brooklyn",
-            price: "$395",
-            chips: ["for sale", "for rent", "featured"],
-            features: { bedrooms: 4, bathrooms: 2, area: 400 },
-        },
-        {
-            imageSrc: propti,
-            title: " New Apartment Nice Wiew",
-            address: "42 Avenue O, Brooklyn",
-            price: "$250,000",
-            chips: ["for sale", "featured"],
-            features: { bedrooms: 2, bathrooms: 1, area: 200 },
-        },
-        {
-            imageSrc: propti,
-            title: "Diamond Manor Apartment",
-            address: "7802 20th Ave, Brooklyn",
-            price: "$500",
-            chips: ["for rent"],
-            features: { bedrooms: 4, bathrooms: 1, area: 1000 },
-        },
 
-    ];
+    useEffect(() => {
+        getTabProperty();
+    }, [item]);
 
-    console.log(searchOption,location,property)
+    let imagePath = 'http://localhost:4001/'
+    console.log(locationProperty);
+
     return (
         <div className="home_container">
             <div className="search_container">
@@ -153,38 +135,12 @@ export default function Homepage() {
                                 </div>
                                 <Typography variant="h4">{banner.sub_title}</Typography>
                                 <Typography variant="h6">{banner.description}</Typography>
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSearchSubmit}>
                                     <ul className="search_type">
                                         <li onClick={() => { setsearchoption(searchOption == 'For Sale' ? null : 'For Sale') }} className={`typebtn ${searchOption == 'For Sale' ? 'active' : ''}`} >Buy</li>
                                         <li onClick={() => { setsearchoption(searchOption == 'For Rent' ? null : 'For Rent') }} className={`typebtn ${searchOption == 'For Rent' ? 'active' : ''}`}  >Rent</li>
                                     </ul>
                                     <div className="search_bar">
-                                        {/* <div className="left">
-                                            <FormControl fullWidth>
-                                                <Select
-                                                    size="small"
-                                                    labelId="property-label"
-                                                    id="property"
-                                                    value={property[1]}
-                                                    onChange={handleChange}
-                                                    displayEmpty
-                                                    renderValue={(selected) => {
-                                                        if (selected.length === 0) {
-                                                            return <span style={{ color: '#888' }}>Property type</span>;
-                                                        }
-                                                        {console.log(selected)}
-                                                        return <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                            {selected}
-                                                        </div>;;
-                                                    }}
-                                                >
-                                                    {category.map((item, index) => (
-                                                        <MenuItem value={[item._id,item.title]} key={index} >{item.title}</MenuItem>
-                                                    ))}
-                                                </Select>
-                                            </FormControl>
-                                        </div> */}
-
                                         <div className="left">
                                             <FormControl fullWidth>
                                                 <Select
@@ -206,7 +162,7 @@ export default function Homepage() {
                                                     }}
                                                 >
                                                     {category.map((item, index) => (
-                                                        <MenuItem value={[item.title,item._id]} key={index}>
+                                                        <MenuItem value={[item.title, item._id]} key={index}>
                                                             {item.title}
                                                         </MenuItem>
                                                     ))}
@@ -322,51 +278,50 @@ export default function Homepage() {
                                 </Typography>
                                 <div className="properties_tab">
                                     <ul className="list">
-                                        <li className={`list_item ${item == 0 ? 'active' : ''}`} onClick={() => setItem(0)} >All Properties</li>
-                                        <li className={`list_item ${item == 1 ? 'active' : ''}`} onClick={() => setItem(1)} >Villa</li>
-                                        <li className={`list_item ${item == 2 ? 'active' : ''}`} onClick={() => setItem(2)} >Apartment</li>
-                                        <li className={`list_item ${item == 3 ? 'active' : ''}`} onClick={() => setItem(3)} >Office</li>
+                                        <li className={`list_item ${item == '' ? 'active' : ''}`} onClick={() => setItem('')} >All Properties</li>
+                                        <li className={`list_item ${item == 'Villa' ? 'active' : ''}`} onClick={() => setItem('Villa')} >Villa</li>
+                                        <li className={`list_item ${item == 'Apartment' ? 'active' : ''}`} onClick={() => setItem('Apartment')} >Apartment</li>
+                                        <li className={`list_item ${item == 'Office' ? 'active' : ''}`} onClick={() => setItem('Office')} >Office</li>
                                     </ul>
-                                    {item == 0 ? <div className="property_grid">
+                                    <div className="property_grid">
                                         <Grid container spacing={2.5} >
-                                            {cardsData.map((card, index) => (
+                                            {buy.map((card, index) => (
                                                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
-                                                    <Link href={"#"}>
-                                                        <div className="card">
-                                                            <div className="featured_image">
-                                                                <Image src={card.imageSrc} alt={card.title} />
+                                                    <div className="card">
+                                                        <div className="featured_image">
+                                                            <Link href={`/buy/${card.slug}`} passHref>
+                                                                <Image src={`${imagePath}${card.image[0]}`} alt={card.type} width={800} height={800} loading="lazy" />
+                                                            </Link>
+                                                        </div>
+                                                        <ul className="chip_list">
+                                                            <li className="chip">{card.availability}</li>
+                                                        </ul>
+                                                        <div className="details">
+                                                            <Link href={`/buy/${card.slug}`} passHref>
+                                                                <h5 className="title">{card.type}</h5>
+                                                            </Link>
+                                                            <div className="address">
+                                                                <LocationOnRounded />
+                                                                <p>{card.address}</p>
                                                             </div>
-                                                            <ul className="chip_list">
-                                                                {card.chips.map((chip, chipIndex) => (
-                                                                    <li key={chipIndex} className={chip === "featured" ? "chip featured" : "chip"}>{chip}</li>
-                                                                ))}
-                                                            </ul>
-                                                            <div className="details">
-                                                                <h5 className="title">{card.title}</h5>
-                                                                <div className="address">
-                                                                    <LocationOnRounded />
-                                                                    <p>{card.address}</p>
-                                                                </div>
-                                                                <div className='bottom'>
+                                                            <div className='bottom'>
 
-                                                                    <ul className="list_feature">
-                                                                        <li><HotelOutlined /> {card.features.bedrooms}</li>
-                                                                        <li><BathtubTwoTone /> {card.features.bathrooms}</li>
-                                                                        <li><FilterNone /> {card.features.area} sq ft</li>
-                                                                    </ul>
-
-                                                                    <h5 className="price">
-                                                                        {card.chips.includes("for rent") ? (<>{card.price}<span style={{ fontWeight: '100' }}>/month</span></>) : `${card.price}`}
-                                                                    </h5>
-                                                                </div>
+                                                                <ul className="list_feature">
+                                                                    <li><HotelOutlined /> {card.bedrooms}</li>
+                                                                    <li><BathtubTwoTone /> {card.bathrooms}</li>
+                                                                    <li><FilterNone /> {card.area} sq ft</li>
+                                                                </ul>
+                                                                <h5 className="price">
+                                                                    {card.availability.includes("For Rent") ? (<>{card.price}<span style={{ fontWeight: '100' }}>/month</span></>) : `${card.price}`}
+                                                                </h5>
                                                             </div>
                                                         </div>
-                                                    </Link>
+                                                    </div>
                                                 </Grid>
                                             ))}
                                         </Grid>
-                                    </div> : ""}
-                                    {item == 1 ? <div className="property_grid">
+                                    </div>
+                                    {/* {item == 1 ? <div className="property_grid">
                                         <Grid container spacing={2.5} >
                                             {cardsData.map((card, index) => (
                                                 <Grid item xl={4} lg={4} md={4} sm={6} xs={12} key={index}>
@@ -482,7 +437,7 @@ export default function Homepage() {
                                                 </Grid>
                                             ))}
                                         </Grid>
-                                    </div> : ""}
+                                    </div> : ""} */}
                                 </div>
                             </div>
                         </Grid>
@@ -655,22 +610,23 @@ export default function Homepage() {
                                 <Typography variant="h5">Find Properties in this cities</Typography>
                                 <Typography variant="h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Typography>
                                 <Grid container spacing={2}>
-                                    <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                                        <div className="big_picture">
-                                            <div className="big_images">
-                                                <Image
-                                                    src={big}
-                                                    alt="image"
-
-                                                />
+                                    {locationProperty.map((item, index) => (
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={6} key={index}>
+                                            <div className="small_picture">
+                                                <div className="small_images">
+                                                    <Image
+                                                        src={small}
+                                                        alt="image"
+                                                    />
+                                                </div>
+                                                <div className="info">
+                                                    <p className="property">{item.count} Properties</p>
+                                                    <p className="city">{item._id}</p>
+                                                </div>
                                             </div>
-                                            <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
+                                        </Grid>
+                                    ))}
+                                    {/* <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
                                         <div className="small_picture">
                                             <div className="small_images">
 
@@ -681,24 +637,8 @@ export default function Homepage() {
                                                 />
                                             </div>
                                             <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-                                        <div className="small_picture">
-                                            <div className="small_images">
-
-                                                <Image
-                                                    src={small}
-                                                    alt="image"
-
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
+                                                <p className="property">{locationProperty.stateData.count} Properties</p>
+                                                <p className="city">{locationProperty.stateData.state}</p>
                                             </div>
                                         </div>
                                     </Grid>
@@ -732,22 +672,7 @@ export default function Homepage() {
                                                 <p className="city">New York</p>
                                             </div>
                                         </div>
-                                    </Grid>
-                                    <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                                        <div className="big_picture">
-                                            <div className="big_images">
-                                                <Image
-                                                    src={big}
-                                                    alt="image"
-
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
-                                            </div>
-                                        </div>
-                                    </Grid>
+                                    </Grid> */}
                                 </Grid>
                             </div>
                         </Grid>
