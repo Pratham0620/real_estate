@@ -8,55 +8,56 @@ import { Close, LocationCity, LockOutlined, Logout, Menu, Person2Outlined, Sell,
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import pic from '../../../../my-app/public/images/sell/profile.png';
-import {getApi,postApi} from '../../helpers/General';
+import { getApi, postApi } from '../../helpers/General';
 import { toast } from "react-toastify";
 
 export default function Navbar() {
     const router = useRouter();
     const path = usePathname();
     const pathname = usePathname();
-    const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword','/auth/otp-verification'];
+    const hideAt = ['/auth/login', '/auth/reset', '/auth/signup', '/auth/forgotpassword', '/auth/otp-verification'];
     const hide = hideAt.includes(path);
-  
+
     const [isLogin, setLogin] = useState(false);
     const [resp, setResp] = useState(false);
     const [show, setShow] = useState(false);
     const [click, setClick] = useState(null);
 
-    const checkLogin = async() => {
+    const checkLogin = async () => {
         let resp = await getApi('user/checkLogin');
-        if(!resp.status){
+        if (!resp.status) {
             toast.info("User not Logged In");
             setLogin(false);
             router.push('/auth/login');
         }
-        else{
+        else {
             setLogin(true);
         }
     }
-    
+
     useEffect(() => {
         setResp(false);
         setShow(false);
-        checkLogin();
     }, [path]);
 
-    
+    useEffect(() => {
+        checkLogin();
+    },[])
     if (hide) {
         return null;
     };
 
-    const handleLogout = async()=>{
+    const handleLogout = async () => {
         let resp = await postApi('user/logout');
-        if(resp.status){
+        if (resp.status) {
             toast.success(resp.message)
             router.push('/auth/login');
         }
-        else{
+        else {
             toast.error(resp.message)
         }
     }
-    
+
     const navItems = [
         { name: 'Home', link: '/home' },
         { name: 'Buy', link: '/buy/buy_page' },
@@ -91,7 +92,7 @@ export default function Navbar() {
                             <div className='middle_container'>
                                 <ul className="nav_list">
                                     {navItems.map((item, index) => (
-                                        <li className={`list_item ${pathname === item.link ? 'active' : ''}`}   key={index}>
+                                        <li className={`list_item ${pathname === item.link ? 'active' : ''}`} key={index}>
                                             <Link href={item.link}>
                                                 {item.name}
                                             </Link>
@@ -102,17 +103,13 @@ export default function Navbar() {
                             <div className="right_container">
                                 <div className="right">
                                     {isLogin ?
-                                        <Link href='/profile_dashboard/account/profile'>
-                                            <Button className='login'>
-                                                <Typography>Profile</Typography>
-                                            </Button>
-                                        </Link>
+                                        <Button className='login' href='/profile_dashboard/account/profile'>
+                                            <Typography>Profile</Typography>
+                                        </Button>
                                         :
-                                        <Link href='/auth/login'>
-                                            <Button className="login">
-                                                <Typography>Login</Typography>
-                                            </Button>
-                                        </Link>
+                                        <Button className="login" href='/auth/login'>
+                                            <Typography>Login</Typography>
+                                        </Button>
                                     }
                                 </div>
                                 <div className="right_resp">
@@ -121,11 +118,9 @@ export default function Navbar() {
                                             <Typography>Profile</Typography>
                                         </Button>
                                         :
-                                        <Link href='/auth/login'>
-                                            <Button className="login">
-                                                <Typography>Login</Typography>
-                                            </Button>
-                                        </Link>
+                                        <Button className="login" href="/auth/login">
+                                            <Typography>Login</Typography>
+                                        </Button>
                                     }
                                 </div>
                                 <div className={`sidebar_nav ${resp == true ? 'active' : ''}`} >
