@@ -108,6 +108,10 @@ export default function Homepage() {
         }
     }
 
+    const handleLocationClick = (loc)=>{
+        router.push( `/buy/buy_page?loc=${loc}` )
+    }
+
     useEffect(() => {
         getBanner();
         getFeature();
@@ -613,7 +617,7 @@ export default function Homepage() {
                                     {locationProperty.map((item, index) => (
                                         <Grid item xl={3} lg={3} md={3} sm={6} xs={6} key={index}>
                                             <div className="small_picture">
-                                                <div className="small_images">
+                                                <div className="small_images" onClick={()=>handleLocationClick(item._id)}>
                                                     <Image
                                                         src={small}
                                                         alt="image"
@@ -626,53 +630,6 @@ export default function Homepage() {
                                             </div>
                                         </Grid>
                                     ))}
-                                    {/* <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-                                        <div className="small_picture">
-                                            <div className="small_images">
-
-                                                <Image
-                                                    src={small}
-                                                    alt="image"
-
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="property">{locationProperty.stateData.count} Properties</p>
-                                                <p className="city">{locationProperty.stateData.state}</p>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-                                        <div className="small_picture">
-                                            <div className="small_images">
-
-                                                <Image
-                                                    src={small}
-                                                    alt="image"
-
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
-                                            </div>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-                                        <div className="small_picture">
-                                            <div className="small_images">
-                                                <Image
-                                                    src={small}
-                                                    alt="image"
-
-                                                />
-                                            </div>
-                                            <div className="info">
-                                                <p className="property">8 Properties</p>
-                                                <p className="city">New York</p>
-                                            </div>
-                                        </div>
-                                    </Grid> */}
                                 </Grid>
                             </div>
                         </Grid>
