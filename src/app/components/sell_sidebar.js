@@ -48,7 +48,7 @@ export default function Sidebar() {
         getData();
     }, [])
 
-    let imagePath = 'http://localhost:4001/'
+    let imagePath = process.env.url
 
     return (
         <div className="sidebar_parent">

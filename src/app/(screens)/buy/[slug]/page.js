@@ -92,7 +92,7 @@ export default function Detail() {
     };
     const description = `${detail.description}`;
 
-    let imagePath = 'http://localhost:4001/'
+    let imagePath = process.env.url
     return (
         <div className='buy_detail'>
             <Container>

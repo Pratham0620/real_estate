@@ -123,9 +123,8 @@ export default function Homepage() {
         getTabProperty();
     }, [item]);
 
-    let imagePath = 'http://localhost:4001/'
-    console.log(locationProperty);
-
+    let imagePath = process.env.url
+   
     return (
         <div className="home_container">
             <div className="search_container">
