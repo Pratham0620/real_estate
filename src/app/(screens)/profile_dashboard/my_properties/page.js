@@ -69,7 +69,7 @@ export default function MyProperty() {
         getBuy();
     }, [info.page,])
 
-    let imagePath = 'http://localhost:4001/'
+    let imagePath = process.env.url
 
     return (
         <div className="myproperty_container">

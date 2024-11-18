@@ -266,9 +266,7 @@ export default function Buy() {
     }, [filterData, info.page]);
 
 
-    let imagePath = 'http://localhost:4001/'
-
-    console.log('Fetching properties with filters:', liked);
+    let imagePath = process.env.url
 
     return (
         <div className="buy_container">

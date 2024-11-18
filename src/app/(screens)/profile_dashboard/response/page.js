@@ -60,7 +60,7 @@ export default function Response() {
     }, [info.page]);
     console.log(info);
 
-    let imagePath = 'http://localhost:4001/'
+    let imagePath = process.env.url
     return (
         <div className="response_container">
             <Container>

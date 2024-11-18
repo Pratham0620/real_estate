@@ -89,7 +89,7 @@ export default function Profile() {
         { label: "City", value: profileData.city },
         { label: "State", value: profileData.state },
     ];
-    let imagePath = `http://localhost:4001/${profileData.image}`
+    let imagePath = `${process.env.url}${profileData.image}`
 
     return (
         <div className="profile_container">
