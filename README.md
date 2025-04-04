@@ -39,97 +39,70 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 Week-Wise Task Completion Schedule:
 
-July: Frontend Learning and Initial Development
-Week 1 (11th July - 15th July):
+January: Frontend Learning and Initial Development
+Week 1 (11th January - 15th January):
 Learned the basics of React.js and Next.js for building the frontend.
 Set up the project structure and initialized the MERN stack environment.
 Implemented basic layout components: Header, Footer, and Sidebar.
 
-Week 2 (17th July - 22nd July):
+Week 2 (17th January - 22nd January):
 Designed the homepage layout and integrated global styles using Sass.
 Implemented responsive designs for the homepage.
 Explored Next.js routing for seamless navigation between pages.
 
-Week 3 (24th July - 29th July):
+Week 3 (24th January - 29th January):
 Created foundational pages like About, Contact, and Login/Register with placeholders.
 Built the static version of the property listing page.
 Added a search bar and static filters for property listings.
 
-August: Frontend Pages Development and State Management
+February: Frontend Pages Development and State Management
 
-Week 4 (31st July - 5th August):
+Week 4 (31st January - 5th February):
 Learned Redux for managing global state (e.g., user login status, filters).
 Integrated Redux into the project and connected it to the authentication flow.
 Built the "Add Property" page with basic form components.
 
-Week 5 (7th August - 12th August):
+Week 5 (7th February - 12th February):
 Developed additional pages: Property Details, Dashboard, and User Profile.
 Implemented mobile and tablet responsiveness for existing pages.
 Completed the design of 10 pages, ensuring responsiveness and usability.
 
-Week 6 (14th August - 19th August):
+Week 6 (14th February - 19th February):
 Added interactive elements like modals and hover effects.
 Designed filter and sort functionality on the property listing page.
 Polished the visual appeal of the frontend using advanced CSS animations.
 
-Week 7 (21st August - 26th August):
+Week 7 (21st February - 26th February):
 Finalized all 22 pages for the frontend with placeholder data.
 Conducted cross-browser testing to ensure compatibility.
 Started connecting static pages to mock APIs for dynamic content rendering.
 
-September: Backend Development and API Integration
+March: Backend Development and API Integration
 
-Week 8 (28th August - 2nd September):
+Week 8 (28th February - 2nd March):
 Learned the basics of backend development using Node.js and Express.js.
 Set up the MongoDB database and defined schemas using Mongoose.
 Built basic API endpoints for user authentication and property data retrieval.
 
-Week 9 (4th September - 9th September):
+Week 9 (4th March - 9th March):
 Implemented JWT-based authentication for secure user sessions.
 Created CRUD APIs for property management (Add, Edit, Delete, View).
 Used Postman to test and debug API endpoints.
 
-Week 10 (11th September - 16th September):
+Week 10 (11th March - 16th March):
 Developed APIs for advanced filters: location, price range, and property type.
 Optimized database queries for better performance.
 Conducted API testing and ensured proper validation and error handling.
 
-Week 11 (18th September - 23rd September):
+Week 11 (18th March - 23rd March):
 Connected backend APIs to frontend pages using Axios.
 Integrated login, registration, and user profile pages with backend authentication.
 Debugged and resolved integration issues.
 
-October: Full Integration and Finalization
+April: Full Integration and Finalization
 
-Week 12 (25th September - 30th September):
+Week 12 (25th March - 1st April):
 Integrated "Add Property" and "Edit Property" pages with backend APIs.
 Connected the property listing page with dynamic filtering and sorting features.
 Created user-specific dashboards using personalized API calls.
-
-Week 13 (2nd October - 7th October):
-Focused on error handling for API calls across the frontend.
-Enhanced the property details page with additional features like gallery and reviews.
-Tested the frontend-backend integration for all key features.
-
-Week 14 (9th October - 14th October):
-Conducted performance testing to optimize loading times.
-Worked on the deployment pipeline for the website.
-Improved security mechanisms for user data and database interactions.
-
-Week 15 (16th October - 21st October):
-Finalized all frontend designs and backend functionalities.
-Conducted end-to-end testing to ensure a seamless user experience.
-Fixed final bugs and refined the website for deployment.
-
-November: Deployment and Final Testing
-
-Week 16 (23rd October - 4th November):
-Deployed the frontend on Vercel and backend on a cloud service like AWS.
-Conducted user acceptance testing and incorporated feedback from mentors.
-Optimized the website for search engines and accessibility standards.
-
-Week 17 (6th November - 20th November):
-Conducted thorough performance testing and resolved any remaining issues.
-Documented the project, including user manuals and API references.
-Presented the final website to mentors and project stakeholders.
 
